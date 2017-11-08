@@ -7,9 +7,8 @@ function GameEngine() {
   
   var debug = true;
   var map = null;
-  var interval;
+  var gui = null;
   var interpreter = null;
-  var play = false;
   
   //End Properties
   //Start Main
