@@ -5,6 +5,7 @@ function GameEngine() {
   
   var debug = true;
   var map = null;
+  var player = null;
   var gui = null;
   var interpreter = null;
   var play = false; //flag for play/pause functionality
@@ -20,7 +21,49 @@ function GameEngine() {
   }
   
   function moveForward() {
-    
+    if (!player.tile.walls[player.direction]) {
+		player.tile.player = false;
+		map.playerTile = map.getAdjacentTiles(player.tile.index)[player.direction];
+		player.tile = map.playerTile;
+		player.tile.player = true;
+		gui.moveForward();
+	}
+  }
+  
+  function moveBackward() {
+	if (!player.tile.walls[(player.direction + 2 )% 4]) {
+		player.tile.player = false;
+		map.playerTile = map.getAdjacentTiles(player.tile.index)[(player.direction + 2) % 4];
+		player.tile = map.playerTile;
+		player.tile.player = true;
+		gui.moveBackward();
+	}
+  }
+  
+  function turnRight() {
+	player.direction = (player.direction + 1) % 4;
+	gui.turnRight();
+  }
+  
+  function turnLeft() {
+	player.direction = (player.direction - 1) % 4;
+	gui.turnLeft();
+  }
+  
+  function openRight() {
+	return !player.tile.walls[(player.direction + 1) % 4];
+  }
+  
+  function openLeft() {
+	return !player.tile.walls[(player.direction - 1) % 4];
+  }
+  
+  function openRear() {
+	return !player.tile.walls[(player.direction + 2) % 4];
+  }
+  
+  function openFront() {
+	return !player.tile.walls[player.direction];
   }
   
   //End Private Methods
