@@ -1,3 +1,10 @@
+function Tile() {
+	this.index = new Array(2);
+	this.player = false;
+	this.battery = false;
+	this.walls = [false, false, false, false];
+}
+
 function Map(VerticalWalls, HorizontalWalls, Player, Battery) {
 	this.playerTile = null;
 	this.batteryTile = null;
