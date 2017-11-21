@@ -1,3 +1,8 @@
+function player() {
+	this.direction = 0;
+	this.tile = null;
+}
+
 function Tile() {
 	this.index = new Array(2);
 	this.player = false;
