@@ -1,6 +1,23 @@
 function player() {
 	this.direction = 0;
 	this.tile = null;
+
+  //TODO sub these methods into the GameEngine
+  this.front = function () {
+    return this.direction;
+  }
+
+  this.back = function () {
+    return (this.direction + 2) % 4;
+  }
+
+  this.right = function () {
+    return (this.direction + 1) % 4;
+  }
+
+  this.left = function () {
+    return (this.direction + 3) % 4;
+  }
 }
 
 function Tile() {
@@ -11,9 +28,10 @@ function Tile() {
 }
 
 function Map(VerticalWalls, HorizontalWalls, Player, Battery) {
+  this.player = new Player(); //TODO populate this info, incorporate into GameEng private methods
 	this.playerTile = null;
 	this.batteryTile = null;
-	this.tileMap = new Array(3);
+	this.tileMap = new Array(3); //TODO allow dynamic sizing
 	
 	for (var i = 0; i < 3; i++) {
 		this.tileMap[i] = new Array(6);
