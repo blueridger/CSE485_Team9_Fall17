@@ -2,3 +2,29 @@
 body{
   margin:0;
 }
+
+
+/*************** button styling ***************/
+.button{
+  display: inline-block;
+  position: relative;
+  margin: 1em;
+  padding: .5em 2em;
+  text-align: center;
+  text-decoration: none;
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.asu {
+  background-color: #8c1d40;
+  color:#ffc627;
+}
+.asu:hover{
+  background-color: #a1214a;
+  color:#ffcd41;
+}
