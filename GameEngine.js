@@ -1,7 +1,7 @@
-function GameEngine(Debug) {
+function GameEngine() {
   //Start Properties
   
-  debugBool = Debug;
+  this.constructor.debug = true;
 
   var map = null;
   var gui = null;
@@ -19,7 +19,7 @@ function GameEngine(Debug) {
 
   //returns a real map to test with
   function mapGenStub() {
-
+    //TODO @Edward
   }
 
   //constructor for a gui stub
@@ -50,7 +50,7 @@ function GameEngine(Debug) {
   }
 
   function debug(message) {
-    if (debugBool) console.log(message);
+    if (GameEngine.debug) console.log(message);
   }
 
   function setupInterpreter() {
@@ -60,7 +60,7 @@ function GameEngine(Debug) {
     } 
     else 
     {
-      //do nothing???
+      //Check to see if the code has been 
     }
   }
   
