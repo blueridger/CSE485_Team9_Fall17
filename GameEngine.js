@@ -1,7 +1,7 @@
 function GameEngine(Debug) {
   //Start Properties
   
-  this.debugBool = Debug;
+  debugBool = Debug;
 
   var map = null;
   var gui = null;
@@ -50,7 +50,7 @@ function GameEngine(Debug) {
   }
 
   function debug(message) {
-    if (this.debugBool) Console.log(message);
+    if (debugBool) console.log(message);
   }
 
   function setupInterpreter() {
