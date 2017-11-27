@@ -1,5 +1,3 @@
-//import GUI and map gen
-
 function GameEngine(Debug) {
   //Start Properties
   
