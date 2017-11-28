@@ -3,6 +3,8 @@
 
 <html>
 <head>
+	<script src="JS/JSInter/acorn.js"></script>
+	<script src="JS/JSInter/interpreter.js"></script>
 <script src="Blockly/blockly_compressed.js"></script>
 	<script src="Blockly/javascript_compressed.js"></script>
 	<script src="Blockly/blocks_compressed.js"></script>
@@ -15,6 +17,7 @@
 <body>
 
 <div id="blocklyDiv" style="height: 480px; width: 500px;"></div>
+<button id="stopButton" onclick="GAME_ENGINE.step();">Step</button>
 <xml id="toolbox" style="display: none">
   <category name="Logic">
     <block type="check_right"></block>	
@@ -37,9 +40,9 @@
 
 <script>
   var GAME_ENGINE = new GameEngine();
-  </script>
+</script>
 
-<!--
+
 <script type="application/javascript">
   GAME_ENGINE = new GameEngine(true);
 
@@ -77,14 +80,14 @@
   
   var workspaceBlocks = document.getElementById("workspaceBlocks");
   
-  /*GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+  GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
     demoWorkspace.addChangeListener(function(event) {
       if (!(event instanceof Blockly.Events.Ui)) {
         // Something changed. Parser needs to be reloaded.
         GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
       }
-    });*/
-  </script> -->
+    });
+  </script>
   </body>
   </html>
   

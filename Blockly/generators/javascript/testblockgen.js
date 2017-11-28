@@ -22,7 +22,7 @@ Blockly.JavaScript['check_front'] = function(block) {
 Blockly.JavaScript['check_back'] = function(block) {
   // Search the text for a substring.
   
-  code = "openBack()";
+  code = "openRear()";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
@@ -44,7 +44,7 @@ Blockly.JavaScript['back_statement'] = function(block) {
 Blockly.JavaScript['forward_statement'] = function(block) {
   // Search the text for a substring.
   
-  code = "moreForward();\n";
+  code = "moveForward();\n";
   return code;//[code, Blockly.JavaScript.ORDER_MEMBER];
 };
 

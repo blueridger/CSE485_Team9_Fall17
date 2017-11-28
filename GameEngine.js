@@ -182,7 +182,7 @@ function GameEngine() {
   }
   
   function turnRight() {
-    debug("GameEng.step() called.");
+    debug("GameEng.turnRight() called.");
 	  player.direction = (player.direction + 1) % 4;
 	  gui.turnRight();
   }
@@ -239,7 +239,7 @@ function GameEngine() {
         // In a timeout to allow the outputArea.value to reset first.
         setTimeout(function() {
           highlightPause = true;
-          this.step();
+          this;
         }, 1);
         return;
       }
