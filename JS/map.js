@@ -7,7 +7,7 @@ function player() {
     return this.direction;
   }
 
-  this.rear = function () {
+  this.back = function () {
     return (this.direction + 2) % 4;
   }
 
