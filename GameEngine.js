@@ -10,7 +10,7 @@ function GameEngine() {
   
   //End Properties
   //Start Main
-  //map = mapGenSTUB();
+  map = mapGenSTUB();
   debug("Map Generated");
   gui = new guiMOCK(this);
   debug("GUI object created");
@@ -19,7 +19,13 @@ function GameEngine() {
 
   //returns a real map to test with
   function mapGenStub() {
-    //TODO @Edward
+    var vWalls = [true, true, false, false, true, false, true, true, false, false, false, false, true, true, true, false, true, false, false, false, true];
+	var hWalls = [true, false, false, true, true, true, true, true, true, false, false, true, true, true, false, true, true, false, false, true, true, false, true, true];
+	var playerPos = [0, 0];
+	var playerDir = 1;
+	var batteryPos = [1, 5];
+    var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos);
+    return map;
   }
 
   //constructor for a gui stub
@@ -158,59 +164,55 @@ function GameEngine() {
   }
   
   function moveForward() {
-    if (!player.tile.walls[player.direction]) {
-		  player.tile.player = false;
-		  map.playerTile = map.getAdjacentTiles(player.tile.index)[player.direction];
-		  player.tile = map.playerTile;
-		  player.tile.player = true;
-		  gui.moveForward();
-    } else {
-      //TODO implement crash case, see Class Diagrams for gui function parameters
+    if (map.movePlayerForward()) {
+      gui.moveForward(true);
+    } 
+    else {
+      gui.moveForward(false);
+      //TODO implement crash case
     }
   }
   
   function moveBackward() {
-	  if (!player.tile.walls[(player.direction + 2 )% 4]) {
-		  player.tile.player = false;
-		  map.playerTile = map.getAdjacentTiles(player.tile.index)[(player.direction + 2) % 4];
-		  player.tile = map.playerTile;
-		  player.tile.player = true;
-      gui.moveBackward();
-    } else {
-      //TODO implement crash case, see Class Diagrams for gui function parameters
+    if (map.movePlayerBackward()) {
+      gui.moveBackward(true);
+    } 
+    else {
+      gui.moveBackward(false);
+	  //TODO implement crash case
     }
   }
   
   function turnRight() {
     debug("GameEng.turnRight() called.");
-	  player.direction = (player.direction + 1) % 4;
-	  gui.turnRight();
+    map.turnPlayerRight();
+    gui.turnRight();
   }
   
   function turnLeft() {
     debug("GameEng.turnLeft() called.");
-	  player.direction = (player.direction - 1) % 4;
-	  gui.turnLeft();
+    map.turnPlayerLeft();
+    gui.turnLeft();
   }
   
   function openRight() {
     debug("GameEng.openRight() called.");
-	  return !player.tile.walls[(player.direction + 1) % 4];
+    return map.openRight();
   }
   
   function openLeft() {
     debug("GameEng.openLeft() called.");
-	  return !player.tile.walls[(player.direction - 1) % 4];
+    return map.openLeft();
   }
   
   function openRear() {
     debug("GameEng.openRear() called.");
-	  return !player.tile.walls[(player.direction + 2) % 4];
+    return map.openRear();
   }
   
   function openFront() {
     debug("GameEng.openFront() called.");
-	  return !player.tile.walls[player.direction];
+    return map.openFront();
   }
   
   //End Private Methods
