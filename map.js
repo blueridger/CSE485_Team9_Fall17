@@ -1,83 +1,164 @@
-function player() {
-	this.direction = 0;
-	this.tile = null;
+function Player(initialDirection) {
+  var direction = initialDirection;
 
-  //TODO sub these methods into the GameEngine
-  this.front = function () {
-    return this.direction;
-  }
-
-  this.rear = function () {
-    return (this.direction + 2) % 4;
-  }
-
-  this.right = function () {
-    return (this.direction + 1) % 4;
-  }
-
-  this.left = function () {
-    return (this.direction + 3) % 4;
-  }
+  this.setDirection = function(newDirection) {
+    direction = newDirection;
+  };
+  
+  this.front = function() {
+    return direction;
+  };
+  
+  this.rear = function() {
+    return (direction + 2) % 4;
+  };
+  
+  this.right = function() {
+    return (direction + 1) % 4;
+  };
+  
+  this.left = function() {
+    return (direction + 3) % 4;
+  };
 }
 
-function Tile() {
-	this.index = new Array(2);
-	this.player = false;
-	this.battery = false;
-	this.walls = [false, false, false, false];
+function Tile(tileIndex) {
+  var index = tileIndex.slice(0, 2);
+  var player = false;
+  var battery = false;
+  var walls = [false, false, false, false];
+  this.getIndex = function() {
+    return index;
+  };
+  
+  this.containsPlayer = function() {
+    return player;
+  };
+  
+  this.containsBattery = function() {
+    return battery;
+  };
+  
+  this.getWalls = function() {
+    return walls;
+  };
+  
+  this.setPlayer = function(hasPlayer) {
+    player = hasPlayer;
+  };
+  
+  this.setBattery = function(hasBattery) {
+    player = hasBattery;
+  };
+  
+  this.setWall = function(wallIndex, hasWall) {
+    walls[wallIndex] = hasWall;
+  };
 }
 
-function Map(VerticalWalls, HorizontalWalls, Player, Battery) {
-  this.player = new Player(); //TODO populate this info, incorporate into GameEng private methods
-	this.playerTile = null;
-	this.batteryTile = null;
-	this.tileMap = new Array(3); //TODO allow dynamic sizing
+function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition) {
+  var player;
+  var playerTile;
+  var batteryTile;
+  var tileMap = new Array(3); //TODO allow dynamic sizing
 	
-	for (var i = 0; i < 3; i++) {
-		this.tileMap[i] = new Array(6);
-	}
+  for (var i = 0; i < 3; i++) {
+    tileMap[i] = new Array(6);
+  }
 	
-	for (var i = 0; i < 3; i++) {
-		for (var j = 0; j < 6; j++) {
-			this.tileMap[i][j] = new Tile();
-			this.tileMap[i][j].index = [i, j];
-		}
-	}
+  for (var i = 0; i < 3; i++) {
+    for (var j = 0; j < 6; j++) {
+      tileMap[i][j] = new Tile([i, j]);
+    }
+  }
 	
-	for(var i = 0; i < VerticalWalls.length; i++) {
-		if(VerticalWalls[i]) {
-			if(i%7>0) {
-				this.tileMap[parseInt((i-parseInt(i/7)-1)/6)][(i-parseInt(i/7)-1)%6].walls[1] = true;
-			}
-			if((i+1)%7>0) {
-				this.tileMap[parseInt((i-parseInt(i/7))/6)][(i-parseInt(i/7))%6].walls[3] = true;
-			}
-		}
-	}
+  for(var i = 0; i < verticalWalls.length; i++) {
+    if(verticalWalls[i]) {
+      if(i%7>0) {
+        tileMap[parseInt((i-parseInt(i/7, 10)-1)/6, 10)][(i-parseInt(i/7, 10)-1)%6].setWall(1, true);
+      }
+      if((i+1)%7>0) {
+        tileMap[parseInt((i-parseInt(i/7, 10))/6, 10)][(i-parseInt(i/7, 10))%6].setWall(3, true);
+      }
+    }
+  }
 	
-	for(var i = 0; i < HorizontalWalls.length; i++) {
-		if(HorizontalWalls[i]) {
-			if(i%4>0) {
-				this.tileMap[parseInt((6*((i-parseInt(i/4)-1)%3)+parseInt((i-parseInt(i/4)-1)/3))/6)][(6*((i-parseInt(i/4)-1)%3)+parseInt((i-parseInt(i/4)-1)/3))%6].walls[2] = true;
-			}
-			if((i+1)%4>0) {
-				this.tileMap[parseInt((6*((i-parseInt(i/4))%3)+parseInt((i-parseInt(i/4))/3))/6)][(6*((i-parseInt(i/4))%3)+parseInt((i-parseInt(i/4))/3))%6].walls[0] = true;
-			}
-		}
-	}
+  for(var i = 0; i < horizontalWalls.length; i++) {
+    if(horizontalWalls[i]) {
+      if(i%4>0) {
+        tileMap[parseInt((6*((i-parseInt(i/4, 10)-1)%3)+parseInt((i-parseInt(i/4, 10)-1)/3, 10))/6, 10)][(6*((i-parseInt(i/4, 10)-1)%3)+parseInt((i-parseInt(i/4, 10)-1)/3, 10))%6].setWall(2, true);
+      }
+      if((i+1)%4>0) {
+        tileMap[parseInt((6*((i-parseInt(i/4, 10))%3)+parseInt((i-parseInt(i/4, 10))/3, 10))/6, 10)][(6*((i-parseInt(i/4, 10))%3)+parseInt((i-parseInt(i/4, 10))/3, 10))%6].setWall(0, true);
+      }
+    }
+  }
+  
+  playerTile = tileMap[playerPosition[0]][playerPosition[1]];
+  batteryTile = tileMap[batteryPosition[0]][batteryPosition[1]];
+  player = new Player(playerDirection, playerTile);
 	
-	this.playerTile = this.tileMap[Player[0]][Player[1]];
-	this.batteryTile = this.tileMap[Battery[0]][Battery[1]];
+  playerTile.setPlayer(true);
+  batteryTile.setBattery(true);
+  
+  this.getTile = function(index) {
+    return tileMap[index[0]][index[1]];
+  };
 	
-	this.tileMap[playerTile[0]][playerTile[1]].player = true;
-	this.tileMap[batteryTile[0]][batteryTile[1]].battery = true;
-	
-	this.getTileAdjacentTiles = function(index) {
-		var tiles = new Array(4);
-		tiles[0] = this.tileMap[index[0] - 1][index[1]];
-		tiles[1] = this.tileMap[index[0]][index[1] + 1];
-		tiles[2] = this.tileMap[index[0] + 1][index[1]];
-		tiles[3] = this.tileMap[index[0]][index[1] - 1];
-		return tiles;
-	}
+  this.getAdjacentTiles = function(index) {
+    var tiles = new Array(4);
+    tiles[0] = tileMap[index[0] - 1][index[1]];
+    tiles[1] = tileMap[index[0]][index[1] + 1];
+    tiles[2] = tileMap[index[0] + 1][index[1]];
+    tiles[3] = tileMap[index[0]][index[1] - 1];
+    return tiles;
+  };
+  
+  this.movePlayerForward = function() {
+    if (!playerTile.getWalls()[player.front()]) {
+      playerTile.setPlayer(false);
+      playerTile = this.getAdjacentTiles(playerTile.getIndex())[player.front()];
+      playerTile.setPlayer(true);
+      return true;
+    } 
+    else {
+      return false;
+    }
+  };
+  
+  this.movePlayerBackward = function() {
+    if (!playerTile.getWalls()[player.rear()]) {
+      playerTile.setPlayer(false);
+      playerTile = this.getAdjacentTiles(playerTile.getIndex())[player.rear()];
+      playerTile.setPlayer(true);
+      return true;
+    } 
+    else {
+      return false;
+    }
+  };
+  
+  this.turnPlayerRight = function() {
+    player.setDirection(player.right());
+  };
+  
+  this.turnPlayerLeft = function() {
+    player.setDirection(player.left());
+  };
+  
+  this.openFront = function() {
+    return !playerTile.getWalls()[player.front()];
+  };
+  
+  this.openRear = function() {
+    return !playerTile.getWalls()[player.rear()];
+  };
+  
+  this.openRight = function() {
+    return !playerTile.getWalls()[player.right()];
+  };
+  
+  this.openLeft = function() {
+    return !playerTile.getWalls()[player.left()];
+  };
 }
