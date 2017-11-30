@@ -10,7 +10,7 @@ function GameEngine() {
   
   //End Properties
   //Start Main
-  map = mapGenSTUB();
+  map = mapGenStub();
   debug("Map Generated");
   gui = new guiMOCK(this);
   debug("GUI object created");
@@ -92,56 +92,56 @@ function GameEngine() {
     var wrapper;
     wrapper = function(id) 
     {
-      moveForward();
+      return moveForward();
     };
     interpreter.setProperty(scope, 'moveForward',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      moveBackward();
+      return moveBackward();
     };
     interpreter.setProperty(scope, 'moveBackward',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      turnRight();
+      return turnRight();
     };
     interpreter.setProperty(scope, 'turnRight',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      turnLeft();
+      return turnLeft();
     };
     interpreter.setProperty(scope, 'turnLeft',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      openRight();
+      return openRight();
     };
     interpreter.setProperty(scope, 'openRight',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      openLeft();
+      return openLeft();
     };
     interpreter.setProperty(scope, 'openLeft',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      openRear();
+      return openRear();
     };
     interpreter.setProperty(scope, 'openRear',
     interpreter.createNativeFunction(wrapper));
 		
     wrapper = function(id) 
     {
-      openFront();
+      return openFront();
     };
     interpreter.setProperty(scope, 'openFront',
     interpreter.createNativeFunction(wrapper));
@@ -164,7 +164,10 @@ function GameEngine() {
   }
   
   function moveForward() {
-    if (map.movePlayerForward()) {
+    debug("GameEng.moveForward() called.");
+    var canMove = map.movePlayerForward();
+    debug("canMove = " + canMove);
+    if (canMove) {
       gui.moveForward(true);
     } 
     else {
@@ -174,7 +177,10 @@ function GameEngine() {
   }
   
   function moveBackward() {
-    if (map.movePlayerBackward()) {
+     debug("GameEng.moveBackward() called.");
+     var canMove = map.movePlayerBackward();
+     debug("canMove = " + canMove);
+    if (canMove) {
       gui.moveBackward(true);
     } 
     else {
@@ -197,7 +203,9 @@ function GameEngine() {
   
   function openRight() {
     debug("GameEng.openRight() called.");
-    return map.openRight();
+    var isOpen = map.openRight();
+    debug("isOpen = " + isOpen);
+    return isOpen;
   }
   
   function openLeft() {
@@ -236,6 +244,7 @@ function GameEngine() {
         // Clear the program output.
         resetStepUi();
         interpreter = new Interpreter(latestCode, initApi);
+        debug(interpreter.ast);
 
         // And then show generated code in an alert.
         // In a timeout to allow the outputArea.value to reset first.
@@ -253,13 +262,15 @@ function GameEngine() {
           if (!hasMoreCode) {
             // Program complete, no more code to execute.
             //outputArea.value += '\n\n<< Program complete >>';
-
+            debug("no more code");
             interpreter = null;
             resetStepUi();
 
-            // Cool down, to discourage accidentally restarting the program.
-
             return;
+          }
+          else
+          {
+            debug("more code");
           }
         }
         // Keep executing until a highlight statement is reached,
