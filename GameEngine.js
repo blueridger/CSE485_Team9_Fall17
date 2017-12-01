@@ -33,19 +33,15 @@ function GameEngine() {
     var gameEng = GameEngine;
 
     this.moveForward = function (isSuccess) {
-      setTimeout(gameEng.callback, 2000);
     }
 
     this.moveBackward = function (isSuccess) {
-      setTimeout(gameEng.callback, 2000);
     }
 
     this.turnRight = function () {
-      setTimeout(gameEng.callback, 2000);
     }
 
     this.turnLeft = function () {
-      setTimeout(gameEng.callback, 2000);
     }
 
     this.killBattery = function () { };
@@ -225,15 +221,11 @@ function GameEngine() {
   
   //End Private Methods
   //Start Privileged Methods
-  
-  this.callback = function () {
-    debug("GameEng.callback() called.");
-    if (play) this.step();
-  }
 
   //return boolean true if level won
   this.step = function () {
     debug("GameEng.step() called.");
+	setInterval(callback, 2000);
     //setupInterpreter();
     /*if (!interpreter.step()) {
       //restart interpreter from the beginning
@@ -278,11 +270,16 @@ function GameEngine() {
       } while (hasMoreCode && !highlightPause);
   }
   
+  this.callback = function () {
+    debug("GameEng.callback() called.");
+    if (play) step();
+  }
+  
   //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
     play = true;
-    this.step();
+    step();
   }
 
   //return void
