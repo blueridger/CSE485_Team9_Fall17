@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/maze_runner.css" />
     <title>CSE 110 Maze Runner</title>
-
-	<script src="../Blockly/blockly_compressed.js"></script>
-	<script src="../Blockly/javascript_compressed.js"></script>
-	<script src="../Blockly/blocks_compressed.js"></script>
-	<script src="../Blockly/blocks/testBlockJSON.js"></script>
+    <script type="text/javascript" src="js/Game.js"></script>
+	   <script src="../Blockly/blockly_compressed.js"></script>
+	    <script src="../Blockly/javascript_compressed.js"></script>
+	    <script src="../Blockly/blocks_compressed.js"></script>
+      <script src="../Blockly/blocks/testBlockJSON.js"></script>
 	<script src="../Blockly/generators/javascript/testblockgen.js"></script>
 	<script src="../Blockly/msg/js/en.js"></script>
 	<!--<script src="C:/Users/Philip/JSInter/interpreter.js"></script>
 	<script src="C:/Users/Philip/JSInter/acorn.js"></script>-->
 
   </head>
-  <body>
+  <body onload="startGame()" onkeydown="changePosition(event)">
     <header id="header">
       <div class="header_inner">
         <h1 class="header_title">Maze Runner</h1>
@@ -103,6 +103,7 @@
 	    demoWorkspace.addChangeListener(myUpdateFunction);
       </script>
 
+      <div id="GameArea"> </div>
 
       <footer>
       </footer>
