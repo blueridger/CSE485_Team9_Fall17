@@ -1,8 +1,17 @@
+
+
 var gamePieces = {
 	robot: null,
     walls: [],
 	battery: [],
 	myScore: 0
+}
+
+var robotImages = {
+	north: "ship_north.png",
+	south: "ship_south.png",
+	east: "ship_east.png",
+	west: "ship_west.png"
 }
 
 var gameSettings = {
@@ -19,7 +28,6 @@ function startGame() {
 	var startrow = 2;
 
 
-
     gamePieces.robot = new component(width, height, "red", width*startcol, height*startrow);
     gamePieces.robot.facing = 'right';
     myGameArea.start();
@@ -31,12 +39,14 @@ var myGameArea = {
         this.canvas.width = gameSettings.width;
         this.canvas.height = gameSettings.height;
         this.context = this.canvas.getContext("2d");
-				var gArea = document.getElementById("GameArea");
-        gArea.appendChild(this.canvas);
-        this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 5);
 
-        },
+		var gArea = document.getElementById("GameArea");
+		alert(gArea.width);
+        gArea.appendChild(this.canvas);
+				updateGameArea();
+        //this.interval = setInterval(updateGameArea, 10);
+    },
+
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -61,15 +71,35 @@ var drawGrid = function(){
 	ctx.stroke();
 }
 
+var drawMap = function(map){
+	var ctx = myGameArea.context;
+	var height = myGameArea.canvas.height;
+	var width = myGameArea.canvas.width;
+	ctx.beginPath();
+
+	
+	for (var x = 0; x <= height; x += height/gameSettings.rows) {
+		for (var y = 0; y <= width; y += width/gameSettings.columns) {
+	        ctx.moveTo(y,0);
+	        ctx.lineTo(y,height);
+	    }
+      ctx.moveTo(0,x);
+      ctx.lineTo(width,x);
+  }
+
+	ctx.strokeStyle = "#e2e2e2";
+	ctx.stroke();
+}
+
 var component = function(width, height, color, x, y, type){
-	this.type = type;
+		this.type = type;
     this.score = 0;
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
 
-	this.update = function() {
+    this.update = function() {
         ctx = myGameArea.context;
         if (this.type == "text") {
             ctx.font = this.width + " " + this.height;
@@ -77,36 +107,54 @@ var component = function(width, height, color, x, y, type){
             ctx.fillText(this.text, this.x, this.y);
         } else {
             var img = new Image();
-            img.src = "images/pacman.gif";
-            ctx.drawImage(img,this.x, this.y,this.width, this.height)
+			img.onload = function(){
+				ctx.drawImage(img,gamePieces.robot.x, gamePieces.robot.y,width, height);
+			}
+			
+			switch(gamePieces.robot.facing){
+				case "right":
+					img.src = "images/" + robotImages.east;
+					break;
+				case "left":
+					img.src = "images/" + robotImages.west;
+					break;
+				case "up":
+					img.src = "images/" + robotImages.north;
+					break;
+				case "down":
+					img.src = "images/" + robotImages.south;
+					break;
+			}
+			
         }
     }
 
-	this.newPos = function() {
-        this.hitWall();
+    this.newPos = function() {
+         this.hitWall();
     }
+
     this.hitWall = function() {
         var bottom = myGameArea.canvas.height - this.height;
         if (this.y > bottom) {
-			alert("Hit Bottom");
+            alert("Hit Bottom");
             this.y = bottom;
         }
 
-		var top = 0;
-		if (this.y < top) {
-			alert("Hit Top y: " + this.y + " top: " + top);
+		    var top = 0;
+		    if (this.y < top) {
+            alert("Hit Top");
             this.y = 0;
         }
 
-		var right = myGameArea.canvas.width - this.width;
+        var right = myGameArea.canvas.width - this.width;
         if (this.x > right) {
-			alert("Hit right x: " + this.x + " right: " + right);
+            alert("Hit Right");
             this.x = right;
         }
 
-		var left = 0;
-		if (this.x < left) {
-			alert("Hit Left");
+        var left = 0;
+        if (this.x < left) {
+            alert("Hit Left");
             this.x = 0;
         }
     }
@@ -131,13 +179,14 @@ var component = function(width, height, color, x, y, type){
 
 function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+
     for (i = 0; i < gamePieces.walls.length; i += 1) {
         if (gamePieces.robot.crashWith(gamePieces.walls[i])) {
             return;
         }
     }
+
     myGameArea.clear();
-    myGameArea.frameNo += 1;
     /*if (myGameArea.frameNo == 1 || everyinterval(150)) {
         x = myGameArea.canvas.width;
         minHeight = 20;
@@ -148,13 +197,13 @@ function updateGameArea() {
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         gamePieces.walls.push(new component(10, height, "green", x, 0));
         gamePieces.walls.push(new component(10, x - height - gap, "green", x, height + gap));
-    }*/
+    }
     for (i = 0; i < gamePieces.walls.length; i += 1) {
         gamePieces.walls[i].x += -1;
         gamePieces.walls[i].update();
-    }
+    }*/
 
-	drawGrid();
+    drawGrid();
     gamePieces.robot.newPos();
     gamePieces.robot.update();
 }
@@ -271,27 +320,28 @@ var pMethods = {
 
 function moveForward()
 {
-	pMethods.moveForward();
+
+	setTimeout(pMethods.moveForward(),500);
+	updateGameArea();
+
 }
 
-function moveBackword()
+function moveBackward()
 {
-	pMethods.moveBackword();
+	setTimeout(pMethods.moveBackword(),500);
+	updateGameArea();
 }
 
 function turnLeft()
 {
 	pMethods.turnLeft();
+	updateGameArea();
 }
 
 function turnRight()
 {
 	pMethods.turnRight();
-}
-
-function everyinterval(n) {
-    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
-    return false;
+	updateGameArea();
 }
 
 function changePosition(event)

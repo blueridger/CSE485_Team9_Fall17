@@ -1,32 +1,64 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="css/maze_runner.css" />
-    <title>CSE 110 Maze Runner</title>
-    <script type="text/javascript" src="js/Game.js"></script>
-	   <script src="../Blockly/blockly_compressed.js"></script>
-	    <script src="../Blockly/javascript_compressed.js"></script>
-	    <script src="../Blockly/blocks_compressed.js"></script>
-      <script src="../Blockly/blocks/testBlockJSON.js"></script>
-	<script src="../Blockly/generators/javascript/testblockgen.js"></script>
-	<script src="../Blockly/msg/js/en.js"></script>
-	<!--<script src="C:/Users/Philip/JSInter/interpreter.js"></script>
-	<script src="C:/Users/Philip/JSInter/acorn.js"></script>-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CSE 110 Maze Runner</title>
+	  
+		<!-- all css links here -->
+		<link type="text/css" rel="stylesheet" href="css/maze_runner.css" />
+		
+		<!-- All Scripts Here -->
+		<script type="text/javascript" src="js/Game.js"></script>
+		<script src="../Blockly/blockly_compressed.js"></script>
+		<script src="../Blockly/javascript_compressed.js"></script>
+		<script src="../Blockly/blocks_compressed.js"></script>
+		<script src="../Blockly/blocks/testBlockJSON.js"></script>
+		<script src="../Blockly/generators/javascript/testblockgen.js"></script>
+		<script src="../Blockly/msg/js/en.js"></script>
+		<!--<script src="C:/Users/Philip/JSInter/interpreter.js"></script>
+		<script src="C:/Users/Philip/JSInter/acorn.js"></script>-->
 
-  </head>
-  <body onload="startGame()" onkeydown="changePosition(event)">
-    <header id="header">
-      <div class="header_inner">
-        <h1 class="header_title">Maze Runner</h1>
-      </div>
-    </header>
-    <main>
-	  <div id="blocklyDiv" style="height: 480px; width: 500px;"></div>
-      <textarea id="printer"></textarea>
-      <a class="button asu" onclick="myFunction()">Click me</a>
+	</head>
+	<body onload="startGame()" onkeydown="changePosition(event)">
+		<header>
+			<h1>Maze Runner</h1>
+		</header>
+		
+		<div id="mr-scores">
+			<ul>
+				<li><strong>High Score: </strong><span id="mr-highScore">0</span></li>
+				<li><strong>Game Score: </strong><span id="mr-gameScore">0</span></li>
+				<li><strong>Level Score: </strong><span id="mr-levelScore">0</span></li>
+				<li><strong>Level: </strong><span id="mr-levelNumber">1</span></li>
+			</ul>
+		</div>
+		
+		
+		<div id="mr-game-container">
+			<div id="mr-gameArea">
+				<div id="GameArea"> </div>
+			</div>
+			<div id="mr-controls">
+				<strong>While battery not found.. do:</strong>
+				<div id="blocklyDiv" style="height: 500px; width: 100%;"></div>
+			</div>
+		</div>
+	
+	
+		<nav id="mr-navigation">
+			<ul>
+				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="myFunction()">Play / Pause</a></li>
+				<li><a href="#" class="mr-button" id="mr-step">Step</a></li>
+				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetLevel">Reset Level</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetGame">Reset Game</a></li>
+			</ul>
+		</nav>
+	
+	
+	  <!-- blockly code -->
 	  <xml id="toolbox" style="display: none">
         <category name="Logic">
 	      <block type="check_right"></block>
@@ -102,11 +134,6 @@
 	    }
 	    demoWorkspace.addChangeListener(myUpdateFunction);
       </script>
-
-      <div id="GameArea"> </div>
-
-      <footer>
-      </footer>
-    </main>
+	  <textarea id="printer"></textarea>
   </body>
 </html>

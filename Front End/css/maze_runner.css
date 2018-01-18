@@ -1,30 +1,77 @@
 /*************** global design ***************/
 body{
-  margin:0;
+	margin:0; 
+	padding:0;
+}
+
+#mr-game-container{
+	display:flex; 
+	max-height:500px; 
+	overflow:hidden;
+}
+
+#mr-gameArea{
+	width:60%; 
+	height:500px; 
+	background-color:#eaeaea;
+}
+
+#mr-controls{
+	width:35%;
+}
+
+#mr-navigation{
+	margin-top:.5em; 
+	padding:.25em;
+}
+
+ul{
+	list-style:none; 
+	display:table; 
+	table-layout:fixed; 
+	width:55%;
+}
+
+	ul li{
+		display: table-cell;
+	}
+
+/*************** Header design ***************/
+
+header{
+	padding:.5em; 
+	background-color:#eaeaea;
+}
+
+	header .mr-levelText{
+		float:right; 
+		display:inline-block;	
+	}
+
+
+/*************** text styling ***************/
+
+#mr-scores h3{
+	display:inline-block; 
+	padding: .5em 1.2em;
 }
 
 
-/*************** button styling ***************/
-.button{
-  display: inline-block;
-  position: relative;
-  margin: 1em;
-  padding: .5em 2em;
-  text-align: center;
-  text-decoration: none;
+/*************** button / link styling ***************/
 
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-
-  cursor: pointer;
+      
+#mr-navigation ul .mr-button{
+	padding:.5em 2em;
+	text-wrap:none;
+	background-color:#8c1d40; 
+	color:white;
+	border-radius:4px;
+	text-decoration:none;
 }
 
-.asu {
-  background-color: #8c1d40;
-  color:#ffc627;
-}
-.asu:hover{
-  background-color: #a1214a;
-  color:#ffcd41;
+
+/*************** Game styling ***************/
+
+canvas{
+  background-color: black;
 }
