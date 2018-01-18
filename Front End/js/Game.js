@@ -4,7 +4,8 @@ var gamePieces = {
 	robot: null,
     walls: [],
 	battery: [],
-	myScore: 0
+	myScore: 0,
+	gameArea: null
 }
 
 var robotImages = {
@@ -15,36 +16,50 @@ var robotImages = {
 }
 
 var gameSettings = {
-	columns: 6,
+	columns: 12,
 	rows: 6,
-	width: 540,
-	height: 540
+	width: 500,
+	height: 500
+}
+
+function getGameDimensions(elem)
+{
+	var tmpWidth = elem.clientWidth;
+	
+	for(var i = tmpWidth; i > tmpWidth-gameSettings.columns; i--)
+	{
+		if(i%gameSettings.columns == 0)
+		{
+			tmpWidth = i;
+		}
+	}
+	
+	gameSettings.width = tmpWidth;
 }
 
 function startGame() {
+	gamePieces.gameArea = document.getElementById("GameArea");
+	
+	getGameDimensions(gamePieces.gameArea);
 	var width = gameSettings.width/gameSettings.columns;
 	var height = gameSettings.height/gameSettings.rows;
 	var startcol = 2;
 	var startrow = 2;
 
-
-    gamePieces.robot = new component(width, height, "red", width*startcol, height*startrow);
+    gamePieces.robot = new component(width, height, width*startcol, height*startrow, "robot");
     gamePieces.robot.facing = 'right';
-    myGameArea.start();
+    gameArea.start();
 }
 
-var myGameArea = {
+var gameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = gameSettings.width;
         this.canvas.height = gameSettings.height;
         this.context = this.canvas.getContext("2d");
 
-		var gArea = document.getElementById("GameArea");
-		alert(gArea.width);
-        gArea.appendChild(this.canvas);
-				updateGameArea();
-        //this.interval = setInterval(updateGameArea, 10);
+        gamePieces.gameArea.appendChild(this.canvas);
+		updateGameArea();
     },
 
     clear : function() {
@@ -53,10 +68,12 @@ var myGameArea = {
 }
 
 var drawGrid = function(){
-	var ctx = myGameArea.context;
-	var height = myGameArea.canvas.height;
-	var width = myGameArea.canvas.width;
+	var ctx = gameArea.context;
+	var height = gameArea.canvas.height;
+	var width = gameArea.canvas.width;
+	
 	ctx.beginPath();
+	
 	for (var x = 0; x <= height; x += height/gameSettings.rows) {
         ctx.moveTo(0,x);
         ctx.lineTo(width,x);
@@ -72,9 +89,9 @@ var drawGrid = function(){
 }
 
 var drawMap = function(map){
-	var ctx = myGameArea.context;
-	var height = myGameArea.canvas.height;
-	var width = myGameArea.canvas.width;
+	var ctx = gameArea.context;
+	var height = gameArea.canvas.height;
+	var width = gameArea.canvas.width;
 	ctx.beginPath();
 
 	
@@ -83,16 +100,17 @@ var drawMap = function(map){
 	        ctx.moveTo(y,0);
 	        ctx.lineTo(y,height);
 	    }
-      ctx.moveTo(0,x);
-      ctx.lineTo(width,x);
-  }
+		
+		ctx.moveTo(0,x);
+		ctx.lineTo(width,x);
+	}
 
 	ctx.strokeStyle = "#e2e2e2";
 	ctx.stroke();
 }
 
-var component = function(width, height, color, x, y, type){
-		this.type = type;
+var  component = function(width, height, x, y, type){
+	this.type = type;
     this.score = 0;
     this.width = width;
     this.height = height;
@@ -100,13 +118,12 @@ var component = function(width, height, color, x, y, type){
     this.y = y;
 
     this.update = function() {
-        ctx = myGameArea.context;
-        if (this.type == "text") {
-            ctx.font = this.width + " " + this.height;
-            ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
-        } else {
+        ctx = gameArea.context;
+        if (this.type == "wall") {
+            //TODO: wall script
+        } else if (this.type == "robot"){
             var img = new Image();
+			
 			img.onload = function(){
 				ctx.drawImage(img,gamePieces.robot.x, gamePieces.robot.y,width, height);
 			}
@@ -129,12 +146,9 @@ var component = function(width, height, color, x, y, type){
         }
     }
 
-    this.newPos = function() {
-         this.hitWall();
-    }
 
     this.hitWall = function() {
-        var bottom = myGameArea.canvas.height - this.height;
+        var bottom = gameArea.canvas.height - this.height;
         if (this.y > bottom) {
             alert("Hit Bottom");
             this.y = bottom;
@@ -146,7 +160,7 @@ var component = function(width, height, color, x, y, type){
             this.y = 0;
         }
 
-        var right = myGameArea.canvas.width - this.width;
+        var right = gameArea.canvas.width - this.width;
         if (this.x > right) {
             alert("Hit Right");
             this.x = right;
@@ -186,9 +200,9 @@ function updateGameArea() {
         }
     }
 
-    myGameArea.clear();
-    /*if (myGameArea.frameNo == 1 || everyinterval(150)) {
-        x = myGameArea.canvas.width;
+    gameArea.clear();
+    /*if (gameArea.frameNo == 1 || everyinterval(150)) {
+        x = gameArea.canvas.width;
         minHeight = 20;
         maxHeight = 200;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
@@ -204,7 +218,7 @@ function updateGameArea() {
     }*/
 
     drawGrid();
-    gamePieces.robot.newPos();
+    gamePieces.robot.hitWall();
     gamePieces.robot.update();
 }
 
