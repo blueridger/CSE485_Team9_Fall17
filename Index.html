@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="Front End/css/maze_runner.css" />
     <title>CSE 110 Maze Runner</title>
-    <script src="Front End/js/Game.js"></script>
+    <script src="JS/Game.js"></script>
 	  <script src="JS/JSInter/acorn.js"></script>
     <script src="JS/JSInter/interpreter.js"></script>
     <script src="Blockly/blockly_compressed.js"></script>
@@ -26,9 +26,40 @@
         <h1 class="header_title">Maze Runner</h1>
       </div>
     </header>
-    <main>
-	  <div id="blocklyDiv" style="height: 480px; width: 500px;"></div>
-      <a class="button asu" onclick="myFunction()">Click me</a>
+		
+		<div id="mr-scores">
+			<ul>
+				<li><strong>High Score: </strong><span id="mr-highScore">0</span></li>
+				<li><strong>Game Score: </strong><span id="mr-gameScore">0</span></li>
+				<li><strong>Level Score: </strong><span id="mr-levelScore">0</span></li>
+				<li><strong>Level: </strong><span id="mr-levelNumber">1</span></li>
+			</ul>
+		</div>
+		
+		
+		<div id="mr-game-container">
+			<div id="mr-gameArea">
+				<div id="GameArea"> </div>
+			</div>
+			<div id="mr-controls">
+				<strong>While battery not found.. do:</strong>
+				<div id="blocklyDiv" style="height: 500px; width: 100%;"></div>
+			</div>
+		</div>
+	
+	
+		<nav id="mr-navigation">
+			<ul>
+				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.play();">Play / Pause</a></li>
+				<li><a href="#" class="mr-button" id="mr-step">Step</a></li>
+				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetLevel">Reset Level</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetGame">Reset Game</a></li>
+			</ul>
+		</nav>
+	
+	
+	  <!-- blockly code -->
 	  <xml id="toolbox" style="display: none">
       <category name="Logic">
         <block type="check_right"></block>	
