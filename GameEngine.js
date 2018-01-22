@@ -12,7 +12,7 @@ function GameEngine() {
   //Start Main
   map = mapGenStub();
   debug("Map Generated");
-  gui = new GUI(this, map);
+  gui = new GUI(map);
   debug("GUI object created");
   //End Main
   //Start Private Methods
