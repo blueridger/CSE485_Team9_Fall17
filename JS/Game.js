@@ -30,7 +30,6 @@ function GUI(){
 	};
 	
 	this.setup = function(map) {
-		alert(map.playerPos);
 		gElems.gameArea = document.getElementById("GameArea");
 	
 		getGameDimensions(gElems.gameArea);
