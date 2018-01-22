@@ -6,7 +6,7 @@ function GameEngine() {
   var map = null;
   var gui = null;
   var interpreter = null;
-  var play = false; //flag for play/pause functionality
+  var playFlag = false; //flag for play/pause functionality
   
   //End Properties
   //Start Main
@@ -223,7 +223,7 @@ function GameEngine() {
   //Start Privileged Methods
 
   //return boolean true if level won
-  this.step = function () {
+  function step() {
     debug("GameEng.step() called.");
 	setInterval(callback, 2000);
     //setupInterpreter();
@@ -269,23 +269,23 @@ function GameEngine() {
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause);
   }
-  
-  this.callback = function () {
+  this.step = function() { step(); }
+  function callback() {
     debug("GameEng.callback() called.");
-    if (play) step();
+    if (playFlag) step();
   }
   
   //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
-    play = true;
+    playFlag = true;
     step();
   }
 
   //return void
   this.pause = function () {
     debug("GameEng.pause() called.");
-    play = false;
+    playFlag = false;
   }
 
   //return void
