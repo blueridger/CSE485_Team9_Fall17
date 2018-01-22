@@ -6,13 +6,13 @@ function GameEngine() {
   var map = null;
   var gui = null;
   var interpreter = null;
-  var play = false; //flag for play/pause functionality
+  var playInterval = null;
   
   //End Properties
   //Start Main
   map = mapGenStub();
   debug("Map Generated");
-  gui = new guiMOCK(this);
+  gui = new GUI();
   debug("GUI object created");
   //End Main
   //Start Private Methods
@@ -223,9 +223,9 @@ function GameEngine() {
   //Start Privileged Methods
 
   //return boolean true if level won
-  this.step = function () {
+  function step(play) {
     debug("GameEng.step() called.");
-	setInterval(callback, 2000);
+	if (play) playInterval = setInterval(callback, 2000);
     //setupInterpreter();
     /*if (!interpreter.step()) {
       //restart interpreter from the beginning
@@ -269,23 +269,22 @@ function GameEngine() {
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause);
   }
-  
-  this.callback = function () {
+  this.step = function() { step(false); }
+  function callback() {
     debug("GameEng.callback() called.");
-    if (play) step();
+    step(true);
   }
   
   //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
-    play = true;
-    step();
+    step(true);
   }
 
   //return void
   this.pause = function () {
     debug("GameEng.pause() called.");
-    play = false;
+	clearInterval(playInterval);
   }
 
   //return void
@@ -294,4 +293,5 @@ function GameEngine() {
 
   }
   //End Privileged Methods
+  gui.setup(map);
 }

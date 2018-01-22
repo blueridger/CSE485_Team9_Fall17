@@ -1,1 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="Front End/css/maze_runner.css" />
+    <title>CSE 110 Maze Runner</title>
+    <script src="Front End/js/Game.js"></script>
+	  <script src="JS/JSInter/acorn.js"></script>
+    <script src="JS/JSInter/interpreter.js"></script>
+    <script src="Blockly/blockly_compressed.js"></script>
+    <script src="Blockly/javascript_compressed.js"></script>
+    <script src="Blockly/blocks_compressed.js"></script>
+    <script src="Blockly/blocks/testBlockJSON.js"></script>
+    <script src="Blockly/generators/javascript/testblockgen.js"></script>
+    <script src="Blockly/msg/js/en.js"></script>
+    <script src="map.js"></script>
+    <script src="GameEngine.js"></script>
+	
 
+  </head>
+  <body>
+    <header id="header">
+      <div class="header_inner">
+        <h1 class="header_title">Maze Runner</h1>
+      </div>
+    </header>
+    <main>
+	  <div id="blocklyDiv" style="height: 480px; width: 500px;"></div>
+      <a class="button asu" onclick="myFunction()">Click me</a>
+	  <xml id="toolbox" style="display: none">
+      <category name="Logic">
+        <block type="check_right"></block>	
+        <block type="check_left"></block>
+        <block type="check_front"></block>
+        <block type="check_back"></block>
+        <block type="outer_if"></block>
+      </category>
+      <category name="Statements">
+        <block type="back_statement"></block>
+        <block type="forward_statement"></block>
+        <block type="left_statement"></block>
+        <block type="right_statement"></block>
+      </category>
+    </xml>
+
+
+    <script type="application/javascript">
+      GAME_ENGINE = new GameEngine(true);
+
+      var toolbox = document.getElementById("toolbox");
+      var options = 
+      { 
+        toolbox : toolbox, 
+        collapse : true, 
+        comments : true, 
+        disable : true, 
+        maxBlocks : Infinity, 
+        trashcan : true, 
+        horizontalLayout : false, 
+        toolboxPosition : 'bottom', 
+        css : true, 
+        media : 'https://blockly-demo.appspot.com/static/media/', 
+        rtl : false, 
+        scrollbars : true, 
+        sounds : true, 
+        oneBasedIndex : true, 
+        grid : 
+        {
+          spacing : 20, 
+          length : 1, 
+          colour : '#888', 
+          snap : true
+        }
+      };
+  
+      var demoWorkspace = Blockly.inject('blocklyDiv',
+        {
+          media: 'Blockly/media/',
+          toolbox: document.getElementById('toolbox')
+        });
+  
+      //var workspaceBlocks = document.getElementById("workspaceBlocks");
+  
+      GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+        demoWorkspace.addChangeListener(function(event) {
+          if (!(event instanceof Blockly.Events.Ui)) {
+            // Something changed. Parser needs to be reloaded.
+            GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+          }
+        });
+      </script>
+
+      <div id="GameArea"> </div>
+
+      <footer>
+      </footer>
+    </main>
+  </body>
+</html>
