@@ -12,7 +12,7 @@ function GameEngine() {
   //Start Main
   map = mapGenStub();
   debug("Map Generated");
-  gui = new GUI(map);
+  gui = new GUI();
   debug("GUI object created");
   //End Main
   //Start Private Methods
@@ -293,4 +293,5 @@ function GameEngine() {
 
   }
   //End Privileged Methods
+  gui.setup(map);
 }
