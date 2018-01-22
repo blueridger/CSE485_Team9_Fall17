@@ -7,14 +7,17 @@
     <link type="text/css" rel="stylesheet" href="css/maze_runner.css" />
     <title>CSE 110 Maze Runner</title>
     <script type="text/javascript" src="js/Game.js"></script>
-	   <script src="../Blockly/blockly_compressed.js"></script>
-	    <script src="../Blockly/javascript_compressed.js"></script>
-	    <script src="../Blockly/blocks_compressed.js"></script>
-      <script src="../Blockly/blocks/testBlockJSON.js"></script>
-	<script src="../Blockly/generators/javascript/testblockgen.js"></script>
-	<script src="../Blockly/msg/js/en.js"></script>
-	<!--<script src="C:/Users/Philip/JSInter/interpreter.js"></script>
-	<script src="C:/Users/Philip/JSInter/acorn.js"></script>-->
+	  <script src="JS/JSInter/acorn.js"></script>
+    <script src="JS/JSInter/interpreter.js"></script>
+    <script src="Blockly/blockly_compressed.js"></script>
+    <script src="Blockly/javascript_compressed.js"></script>
+    <script src="Blockly/blocks_compressed.js"></script>
+    <script src="Blockly/blocks/testBlockJSON.js"></script>
+    <script src="Blockly/generators/javascript/testblockgen.js"></script>
+    <script src="Blockly/msg/js/en.js"></script>
+    <script src="map.js"></script>
+    <script src="GameEngine.js"></script>
+	
 
   </head>
   <body onload="startGame()" onkeydown="changePosition(event)">
@@ -25,82 +28,71 @@
     </header>
     <main>
 	  <div id="blocklyDiv" style="height: 480px; width: 500px;"></div>
-      <textarea id="printer"></textarea>
       <a class="button asu" onclick="myFunction()">Click me</a>
 	  <xml id="toolbox" style="display: none">
-        <category name="Logic">
-	      <block type="check_right"></block>
-	      <block type="check_left"></block>
-	      <block type="check_front"></block>
-	      <block type="check_back"></block>
-	      <block type="outer_if"></block>
-        </category>
-        <category name="Statements">
-          <block type="back_statement"></block>
-	      <block type="forward_statement"></block>
-	      <block type="left_statement"></block>
-	      <block type="right_statement"></block>
-        </category>
-        <xml id="workspaceBlocks" style="display:none">
-          <variables></variables>
-          <block type="start_here" id="I:(at^IFXz[N(4viLOXj" x="10" y="10" disabled="true"></block>
-        </xml>
-      </xml>
-      <script>
-	    var toolbox = document.getElementById("toolbox");
+      <category name="Logic">
+        <block type="check_right"></block>	
+        <block type="check_left"></block>
+        <block type="check_front"></block>
+        <block type="check_back"></block>
+        <block type="outer_if"></block>
+      </category>
+      <category name="Statements">
+        <block type="back_statement"></block>
+        <block type="forward_statement"></block>
+        <block type="left_statement"></block>
+        <block type="right_statement"></block>
+      </category>
+    </xml>
+    <script>
+      var GAME_ENGINE = new GameEngine();
+    </script>
 
-        var options = {
-	      toolbox : toolbox,
-	      collapse : true,
-	      comments : true,
-	      disable : true,
-	      maxBlocks : Infinity,
-	      trashcan : true,
-	      horizontalLayout : false,
-	      toolboxPosition : 'start',
-	      css : true,
-	      media : 'https://blockly-demo.appspot.com/static/media/',
-	      rtl : false,
-	      scrollbars : true,
-	      sounds : true,
-	      oneBasedIndex : true,
-	      grid : {
-		    spacing : 20,
-		    length : 1,
-		    colour : '#888',
-		    snap : true
-	       }
-        };
 
-        /* Inject your workspace */
-        var demoWorkspace = Blockly.inject('blocklyDiv', options);
+    <script type="application/javascript">
+      GAME_ENGINE = new GameEngine(true);
 
-        /* Load Workspace Blocks from XML to workspace. Remove all code below if no blocks to load */
-
-        /* TODO: Change workspace blocks XML ID if necessary. Can export workspace blocks XML from Workspace Factory. */
-        var workspaceBlocks = document.getElementById("workspaceBlocks");
-
-        /* Load blocks to workspace. */
-        Blockly.Xml.domToWorkspace(demoWorkspace, workspaceBlocks);
-
-	    function myUpdateFunction(event)
-	    {
-		  var code1 = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-		  document.getElementById('printer').value = code1;
-	    }
-
-	    function myFunction()
-	    {
-		  var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
-		  document.getElementById('printer').value = code;
-
-		  try {
-		  eval(code);
-		  } catch (e) {
-		  alert(e);
-		  }
-	    }
-	    demoWorkspace.addChangeListener(myUpdateFunction);
+      var toolbox = document.getElementById("toolbox");
+      var options = 
+      { 
+        toolbox : toolbox, 
+        collapse : true, 
+        comments : true, 
+        disable : true, 
+        maxBlocks : Infinity, 
+        trashcan : true, 
+        horizontalLayout : false, 
+        toolboxPosition : 'bottom', 
+        css : true, 
+        media : 'https://blockly-demo.appspot.com/static/media/', 
+        rtl : false, 
+        scrollbars : true, 
+        sounds : true, 
+        oneBasedIndex : true, 
+        grid : 
+        {
+          spacing : 20, 
+          length : 1, 
+          colour : '#888', 
+          snap : true
+        }
+      };
+  
+      var demoWorkspace = Blockly.inject('blocklyDiv',
+        {
+          media: 'Blockly/media/',
+          toolbox: document.getElementById('toolbox')
+        });
+  
+      var workspaceBlocks = document.getElementById("workspaceBlocks");
+  
+      GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+        demoWorkspace.addChangeListener(function(event) {
+          if (!(event instanceof Blockly.Events.Ui)) {
+            // Something changed. Parser needs to be reloaded.
+            GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+          }
+        });
       </script>
 
       <div id="GameArea"> </div>
