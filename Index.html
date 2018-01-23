@@ -50,11 +50,12 @@
 	
 		<nav id="mr-navigation">
 			<ul>
-				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.play();">Play / Pause</a></li>
-				<li><a href="#" class="mr-button" id="mr-step">Step</a></li>
+				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.play();">Play</a></li>
+				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.pause();">Pause</a></li>
+				<li><a href="#" class="mr-button" id="mr-step" onclick="GAME_ENGINE.step();">Step</a></li>
 				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetLevel">Reset Level</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetGame">Reset Game</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetGame" onclick="alert('TODO');">Reset Game</a></li>
 			</ul>
 		</nav>
 	

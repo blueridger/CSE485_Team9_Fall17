@@ -1,46 +1,44 @@
-function CallGUI(){
-	setup();
-}
-
 function GUI(){
+	//Private vars
+	var robot = null;
+	var map	= null;
+	var score = 0;
+	var gameAreaDiv = null;
 	var gameArea = null;
 	
-	//All Game Variables
-	var gElems = {
-		robot: null,
-		walls: [],
-		battery: [],
-		myScore: 0,
-		gameArea: null
-	};
-
-	//Used for the time being to update position
 	var robotImages = {
 		north: "ship_north.png",
 		south: "ship_south.png",
 		east: "ship_east.png",
 		west: "ship_west.png"
 	};
-
-	var gameSettings = {
+	
+	//defines defaults to use.
+	var settings = {
 		columns: 12,
 		rows: 6,
 		width: 500,
 		height: 500
 	};
 	
-	this.setup = function(map) {
-		gElems.gameArea = document.getElementById("GameArea");
+	//Public vars
 	
-		getGameDimensions(gElems.gameArea);
-		var width = gameSettings.width/gameSettings.columns;
-		var height = gameSettings.height/gameSettings.rows;
+	
+	
+	//Public methods
+	this.setup = function(map) {
+		gameAreaDiv = document.getElementById("GameArea");
+		getGameDimensions(gameAreaDiv);
+		
+		var width = settings.width/settings.columns;
+		var height = settings.height/settings.rows;
 		var startcol = 2;
 		var startrow = 2;
 
-		gElems.robot = new component(width, height, width*startcol, height*startrow, "robot");
-		gElems.robot.facing = 'right';
+		robot = new robotComponent(width, height, width*startcol, height*startrow,'right');
+		
 		gameArea.start();
+		
 		this.updateGameArea();
 	}
 	
@@ -48,33 +46,130 @@ function GUI(){
 		gameArea.clear();
 
 		drawGrid();
-		gElems.robot.hitWall();
-		gElems.robot.update();
+		robot.hitWall();
+		robot.update();
 	}
 
-	var getGameDimensions = function(elem) {
-		var tmpWidth = elem.clientWidth;
-	
-		for(var i = tmpWidth; i > tmpWidth-gameSettings.columns; i--)
+	this.moveForward = function(event){
+		var moveAmtX = settings.width/settings.columns;
+		var moveAmtY = settings.height/settings.rows;
+
+		switch(robot.facing)
 		{
-			if(i%gameSettings.columns == 0)
-			{
-				tmpWidth = i;
-			}
+		  //left
+		  case 'left':
+			robot.x = robot.x-moveAmtX;
+			break;
+
+		  //up
+		  case 'up':
+			robot.y = robot.y-moveAmtY;
+			break;
+
+		  //right
+		  case 'right':
+			robot.x = robot.x+moveAmtX;
+			break;
+
+		  //down
+		  case 'down':
+			robot.y = robot.y+moveAmtY;
+			break;
 		}
-	
-		gameSettings.width = tmpWidth;
+		this.updateGameArea();
 	}
 
+	this.moveBackward = function(event){
+		var moveAmtX = settings.width/settings.columns;
+		var moveAmtY = settings.height/settings.rows;
 
+		switch(robot.facing)
+		{
+		  //left
+		  case 'left':
+			robot.x = robot.x + moveAmtX;
+			break;
+
+		  //up
+		  case 'up':
+			robot.y = robot.y + moveAmtY;
+			break;
+
+		  //right
+		  case 'right':
+			robot.x = robot.x - moveAmtX;
+			break;
+
+		  //down
+		  case 'down':
+			robot.y = robot.y - moveAmtY;
+			break;
+		}
+		this.updateGameArea();
+	  }
+
+	this.turnLeft = function(){
+		switch(robot.facing)
+		{
+		  //left
+		  case 'left':
+			robot.facing = 'down';
+			break;
+
+		  //up
+		  case 'up':
+			robot.facing = 'left';
+			break;
+
+		  //right
+		  case 'right':
+			robot.facing = 'up';
+			break;
+
+		  //down
+		  case 'down':
+			robot.facing = 'right';
+			break;
+		}
+	  }
+
+	this.turnRight = function(){
+		switch(robot.facing)
+		{
+		  //left
+		  case 'left':
+			robot.facing = 'up';
+			break;
+
+		  //up
+		  case 'up':
+			robot.facing = 'right';
+			break;
+
+		  //right
+		  case 'right':
+			robot.facing = 'down';
+			break;
+
+		  //down
+		  case 'down':
+			robot.facing = 'left';
+			break;
+		}
+	}
+	
+	
+	
+	
+	//Private methods
 	gameArea = {
 		canvas : document.createElement("canvas"),
 		start : function() {
-			this.canvas.width = gameSettings.width;
-			this.canvas.height = gameSettings.height;
+			this.canvas.width = settings.width;
+			this.canvas.height = settings.height;
 			this.context = this.canvas.getContext("2d");
 
-			gElems.gameArea.appendChild(this.canvas);
+			gameAreaDiv.appendChild(this.canvas);
 			
 		},
 
@@ -82,83 +177,36 @@ function GUI(){
 			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		}
 	}
-
-	function drawGrid(){
-		var ctx = gameArea.context;
-		var height = gameArea.canvas.height;
-		var width = gameArea.canvas.width;
 	
-		ctx.beginPath();
 	
-		for (var x = 0; x <= height; x += height/gameSettings.rows) {
-			ctx.moveTo(0,x);
-			ctx.lineTo(width,x);
-		}
-
-		for (var y = 0; y <= width; y += width/gameSettings.columns) {
-			ctx.moveTo(y,0);
-			ctx.lineTo(y,height);
-		}
-
-		ctx.strokeStyle = "#e2e2e2";
-		ctx.stroke();
-	}
-
-	function drawMap(map){
-		var ctx = gameArea.context;
-		var height = gameArea.canvas.height;
-		var width = gameArea.canvas.width;
-		ctx.beginPath();
-
-	
-		for (var x = 0; x <= height; x += height/gameSettings.rows) {
-			for (var y = 0; y <= width; y += width/gameSettings.columns) {
-				ctx.moveTo(y,0);
-				ctx.lineTo(y,height);
-			}
-		
-			ctx.moveTo(0,x);
-			ctx.lineTo(width,x);
-		}
-
-		ctx.strokeStyle = "#e2e2e2";
-		ctx.stroke();
-	}
-
-	var component = function(width, height, x, y, type){
-		this.type = type;
-		this.score = 0;
+	var robotComponent = function(width, height, x, y, facing){
 		this.width = width;
 		this.height = height;
 		this.x = x;
 		this.y = y;
+		this.facing = facing;
 
 		this.update = function() {
 			ctx = gameArea.context;
-			if (this.type == "wall") {
-				//TODO: wall script
-			} else if (this.type == "robot"){
-				var img = new Image();
+			var img = new Image();
 			
-				img.onload = function(){
-					ctx.drawImage(img,gElems.robot.x, gElems.robot.y,width, height);
-				}
+			img.onload = function(){
+				ctx.drawImage(img,robot.x, robot.y,width, height);
+			}
 			
-				switch(gElems.robot.facing){
-					case "right":
-						img.src = "images/" + robotImages.east;
-						break;
-					case "left":
-						img.src = "images/" + robotImages.west;
-						break;
-					case "up":
-						img.src = "images/" + robotImages.north;
-						break;
-					case "down":
-						img.src = "images/" + robotImages.south;
-						break;
-				}
-			
+			switch(robot.facing){
+				case "right":
+					img.src = "images/" + robotImages.east;
+					break;
+				case "left":
+					img.src = "images/" + robotImages.west;
+					break;
+				case "up":
+					img.src = "images/" + robotImages.north;
+					break;
+				case "down":
+					img.src = "images/" + robotImages.south;
+					break;
 			}
 		}
 
@@ -204,145 +252,60 @@ function GUI(){
 			return crash;
 		}
 	}
-
-
-	this.moveForward = function(event){
-		var moveAmtX = gameSettings.width/gameSettings.columns;
-		var moveAmtY = gameSettings.height/gameSettings.rows;
-
-		switch(gElems.robot.facing)
+	
+	function getGameDimensions(elem) {
+		var tmpWidth = elem.clientWidth;
+	
+		for(var i = tmpWidth; i > tmpWidth-settings.columns; i--)
 		{
-		  //left
-		  case 'left':
-			gElems.robot.x = gElems.robot.x-moveAmtX;
-			break;
-
-		  //up
-		  case 'up':
-			gElems.robot.y = gElems.robot.y-moveAmtY;
-			break;
-
-		  //right
-		  case 'right':
-			gElems.robot.x = gElems.robot.x+moveAmtX;
-			break;
-
-		  //down
-		  case 'down':
-			gElems.robot.y = gElems.robot.y+moveAmtY;
-			break;
+			if(i%settings.columns == 0)
+			{
+				tmpWidth = i;
+			}
 		}
-		this.updateGameArea();
+	
+		settings.width = tmpWidth;
 	}
+	
+	function drawMap(map){
+		var ctx = gameArea.context;
+		var height = gameArea.canvas.height;
+		var width = gameArea.canvas.width;
+		ctx.beginPath();
 
-	this.moveBackward = function(event){
-		var moveAmtX = gameSettings.width/gameSettings.columns;
-		var moveAmtY = gameSettings.height/gameSettings.rows;
-
-		switch(gElems.robot.facing)
-		{
-		  //left
-		  case 'left':
-			gElems.robot.x = gElems.robot.x+moveAmtX;
-			break;
-
-		  //up
-		  case 'up':
-			gElems.robot.y = gElems.robot.y+moveAmtY;
-			break;
-
-		  //right
-		  case 'right':
-			gElems.robot.x = gElems.robot.x-moveAmtX;
-			break;
-
-		  //down
-		  case 'down':
-			gElems.robot.y = gElems.robot.y-moveAmtY;
-			break;
+	
+		for (var x = 0; x <= height; x += height/settings.rows) {
+			for (var y = 0; y <= width; y += width/settings.columns) {
+				ctx.moveTo(y,0);
+				ctx.lineTo(y,height);
+			}
+		
+			ctx.moveTo(0,x);
+			ctx.lineTo(width,x);
 		}
-		this.updateGameArea();
-	  }
 
-	this.turnLeft = function(){
-		switch(gElems.robot.facing)
-		{
-		  //left
-		  case 'left':
-			gElems.robot.facing = 'down';
-			break;
-
-		  //up
-		  case 'up':
-			gElems.robot.facing = 'left';
-			break;
-
-		  //right
-		  case 'right':
-			gElems.robot.facing = 'up';
-			break;
-
-		  //down
-		  case 'down':
-			gElems.robot.facing = 'right';
-			break;
-		}
-	  }
-
-	this.turnRight = function(){
-		switch(gElems.robot.facing)
-		{
-		  //left
-		  case 'left':
-			gElems.robot.facing = 'up';
-			break;
-
-		  //up
-		  case 'up':
-			gElems.robot.facing = 'right';
-			break;
-
-		  //right
-		  case 'right':
-			gElems.robot.facing = 'down';
-			break;
-
-		  //down
-		  case 'down':
-			gElems.robot.facing = 'left';
-			break;
-		}
+		ctx.strokeStyle = "#e2e2e2";
+		ctx.stroke();
 	}
+	
+	function drawGrid(){
+		var ctx = gameArea.context;
+		var height = gameArea.canvas.height;
+		var width = gameArea.canvas.width;
+	
+		ctx.beginPath();
+	
+		for (var x = 0; x <= height; x += height/settings.rows) {
+			ctx.moveTo(0,x);
+			ctx.lineTo(width,x);
+		}
 
-};
+		for (var y = 0; y <= width; y += width/settings.columns) {
+			ctx.moveTo(y,0);
+			ctx.lineTo(y,height);
+		}
 
-
-/*function changePosition(event)
-{
-	var x = event.keyCode;
-	var moveAmtX = gameSettings.width/gameSettings.columns;
-	var moveAmtY = gameSettings.height/gameSettings.rows;
-
-	switch(x)
-	{
-		//left
-		case 37:
-			gElems.robot.x = gElems.robot.x-moveAmtX;
-			break;
-
-		//up
-		case 38:
-			gElems.robot.y = gElems.robot.y-moveAmtY;
-			break;
-
-		//right
-		case 39:
-			gElems.robot.x = gElems.robot.x+moveAmtX;
-			break;
-
-		//down
-		case 40:
-			gElems.robot.y = gElems.robot.y+moveAmtY;
-			break;
+		ctx.strokeStyle = "#e2e2e2";
+		ctx.stroke();
 	}
-}*/
+}

@@ -24,13 +24,13 @@ body{
 
 #mr-navigation{
 	margin-top:.5em; 
-	padding:.25em;
+	padding:.15em;
 }
 
 ul{
 	list-style:none; 
 	display:table; 
-	table-layout:fixed; 
+	/*table-layout:fixed; */
 	width:55%;
 }
 
