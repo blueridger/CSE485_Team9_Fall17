@@ -225,7 +225,6 @@ function GameEngine() {
   //return boolean true if level won
   function step(play) {
     debug("GameEng.step() called.");
-	if (play) playInterval = setInterval(callback, 2000);
     //setupInterpreter();
     /*if (!interpreter.step()) {
       //restart interpreter from the beginning
@@ -252,6 +251,7 @@ function GameEngine() {
           var hasMoreCode = interpreter.step();
         } finally {
           if (!hasMoreCode) {
+			clearInterval(playInterval);
             // Program complete, no more code to execute.
             //outputArea.value += '\n\n<< Program complete >>';
             debug("no more code");
@@ -269,16 +269,13 @@ function GameEngine() {
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause);
   }
-  this.step = function() { step(false); }
-  function callback() {
-    debug("GameEng.callback() called.");
-    step(true);
-  }
+  this.step = function() { step(); }
   
   //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
-    step(true);
+	playInterval = setInterval(step, 2000);
+    step();
   }
 
   //return void
