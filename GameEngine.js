@@ -251,7 +251,6 @@ function GameEngine() {
           var hasMoreCode = interpreter.step();
         } finally {
           if (!hasMoreCode) {
-			clearInterval(playInterval);
             // Program complete, no more code to execute.
             //outputArea.value += '\n\n<< Program complete >>';
             debug("no more code");
