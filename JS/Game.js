@@ -50,7 +50,10 @@ function GUI(){
 		robot.update();
 	}
 
-	this.moveForward = function(event){
+	//TODO
+	//If isSuccess is true, move robot
+	//If false, crash animation
+	this.moveForward = function(isSuccess){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height/settings.rows;
 
@@ -79,7 +82,10 @@ function GUI(){
 		this.updateGameArea();
 	}
 
-	this.moveBackward = function(event){
+	//TODO
+	//If isSuccess is true, move robot
+	//If false, crash animation
+	this.moveBackward = function(isSuccess){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height/settings.rows;
 
