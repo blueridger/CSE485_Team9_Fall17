@@ -1,10 +1,10 @@
 function GUI(){
 	//Private vars
 	var robot = null;
-	var map	= null;
 	var score = 0;
 	var gameAreaDiv = null;
 	var gameArea = null;
+	var gameMap = null;
 	
 	var robotImages = {
 		north: "ship_north.png",
@@ -15,8 +15,8 @@ function GUI(){
 	
 	//defines defaults to use.
 	var settings = {
-		columns: 12,
-		rows: 6,
+		columns: 6,
+		rows: 3,
 		width: 500,
 		height: 500
 	};
@@ -29,6 +29,7 @@ function GUI(){
 	this.setup = function(map) {
 		gameAreaDiv = document.getElementById("GameArea");
 		getGameDimensions(gameAreaDiv);
+		gameMap = map;
 		
 		var width = settings.width/settings.columns;
 		var height = settings.height/settings.rows;
@@ -46,7 +47,7 @@ function GUI(){
 		gameArea.clear();
 
 		drawGrid();
-		robot.hitWall();
+		drawMap();
 		robot.update();
 	}
 
@@ -137,6 +138,7 @@ function GUI(){
 			robot.facing = 'right';
 			break;
 		}
+		this.updateGameArea();
 	  }
 
 	this.turnRight = function(){
@@ -162,6 +164,7 @@ function GUI(){
 			robot.facing = 'left';
 			break;
 		}
+		this.updateGameArea();
 	}
 	
 	
@@ -242,21 +245,6 @@ function GUI(){
 			}
 		}
 
-		this.crashWith = function(otherobj) {
-			var myleft = this.x;
-			var myright = this.x + (this.width);
-			var mytop = this.y;
-			var mybottom = this.y + (this.height);
-			var otherleft = otherobj.x;
-			var otherright = otherobj.x + (otherobj.width);
-			var othertop = otherobj.y;
-			var otherbottom = otherobj.y + (otherobj.height);
-			var crash = true;
-			if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-				crash = false;
-			}
-			return crash;
-		}
 	}
 	
 	function getGameDimensions(elem) {
@@ -273,24 +261,60 @@ function GUI(){
 		settings.width = tmpWidth;
 	}
 	
-	function drawMap(map){
+	function drawMap(){
 		var ctx = gameArea.context;
 		var height = gameArea.canvas.height;
 		var width = gameArea.canvas.width;
 		ctx.beginPath();
 
 	
-		for (var x = 0; x <= height; x += height/settings.rows) {
-			for (var y = 0; y <= width; y += width/settings.columns) {
-				ctx.moveTo(y,0);
-				ctx.lineTo(y,height);
+		for (var x = 0; x < width; x += width/settings.columns) {
+			for (var y = 0; y < height; y += height/settings.rows) {
+				
+				var row = y/(height/settings.rows);
+				var col = x/(width/settings.columns);
+				//alert(row + " " + col);
+				var walls = gameMap.getTile([row,col]).getWalls();
+				
+				//north
+				if(walls[0]){
+					var yLineTo = (y + height/settings.rows);
+					var xLineTo = (x + width/settings.columns);
+					
+					ctx.moveTo(x,y);
+					ctx.lineTo(xLineTo,y);
+				}
+				
+				//east
+				if(walls[1]){
+					var yLineTo = (y + height/settings.rows);
+					var xLineTo = (x + width/settings.columns);
+					
+					ctx.moveTo(xLineTo,y);
+					ctx.lineTo(xLineTo,yLineTo);
+				}
+				
+				//south
+				if(walls[2]){
+					var yLineTo = (y + height/settings.rows);
+					var xLineTo = (x + width/settings.columns);
+					
+					ctx.moveTo(x,yLineTo);
+					ctx.lineTo(xLineTo,yLineTo);
+				}
+				
+				//west
+				if(walls[3]){
+					var yLineTo = (y + height/settings.rows);
+					var xLineTo = (x + width/settings.columns);
+					
+					ctx.moveTo(x,y);
+					ctx.lineTo(x,yLineTo);
+				}
 			}
-		
-			ctx.moveTo(0,x);
-			ctx.lineTo(width,x);
 		}
 
-		ctx.strokeStyle = "#e2e2e2";
+		ctx.strokeStyle = "#ff0000";
 		ctx.stroke();
 	}
 	
@@ -301,17 +325,17 @@ function GUI(){
 	
 		ctx.beginPath();
 	
-		for (var x = 0; x <= height; x += height/settings.rows) {
-			ctx.moveTo(0,x);
-			ctx.lineTo(width,x);
+		for (var y = 0; y <= height; y += height/settings.rows) {
+			ctx.moveTo(0,y);
+			ctx.lineTo(width,y);
 		}
 
-		for (var y = 0; y <= width; y += width/settings.columns) {
-			ctx.moveTo(y,0);
-			ctx.lineTo(y,height);
+		for (var x = 0; x <= width; x += width/settings.columns) {
+			ctx.moveTo(x,0);
+			ctx.lineTo(x,height);
 		}
 
-		ctx.strokeStyle = "#e2e2e2";
+		ctx.strokeStyle = "#393939";
 		ctx.stroke();
 	}
 }
