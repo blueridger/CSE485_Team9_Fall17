@@ -76,4 +76,5 @@ header{
 
 canvas{
   background-color: black;
+  border:2px solid #ff0000;
 }

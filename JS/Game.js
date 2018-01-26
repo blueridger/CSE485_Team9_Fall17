@@ -18,7 +18,7 @@ function GUI(){
 		columns: 6,
 		rows: 3,
 		width: 500,
-		height: 500
+		height: 495
 	};
 	
 	//Public vars
