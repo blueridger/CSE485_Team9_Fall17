@@ -168,7 +168,6 @@ function GameEngine() {
     } 
     else {
       gui.moveForward(false);
-      //TODO implement crash case
     }
   }
   
@@ -181,7 +180,6 @@ function GameEngine() {
     } 
     else {
       gui.moveBackward(false);
-	  //TODO implement crash case
     }
   }
   
