@@ -57,17 +57,21 @@ function Tile(tileIndex) {
 }
 
 function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition) {
+  var originalPosition = playerPosition;
+  var originalDirection = playerDirection;
   var player;
   var playerTile;
   var batteryTile;
-  var tileMap = new Array(3); //TODO allow dynamic sizing
+  var maxX = 6;
+  var maxY = 3;
+  var tileMap = new Array(maxY); //TODO allow dynamic sizing
 	
-  for (var i = 0; i < 3; i++) {
-    tileMap[i] = new Array(6);
+  for (var i = 0; i < maxY; i++) {
+    tileMap[i] = new Array(maxX);
   }
 	
-  for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < 6; j++) {
+  for (var i = 0; i < maxY; i++) {
+    for (var j = 0; j < maxX; j++) {
       tileMap[i][j] = new Tile([i, j]);
     }
   }
@@ -101,21 +105,26 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
   playerTile.setPlayer(true);
   batteryTile.setBattery(true);
   
-  this.getTile = function(index) {
+  this.getTile = function(index) { return getTile(index); };
+  function getTile(index) {
+    if (index[0] < 0 || index[1] < 0 || index[0] >= maxY || index[1] >= maxX) return null;
     return tileMap[index[0]][index[1]];
   };
 	
   this.getAdjacentTiles = function(index) {
     var tiles = new Array(4);
-    tiles[0] = tileMap[index[0] - 1][index[1]];
-    tiles[1] = tileMap[index[0]][index[1] + 1];
-    tiles[2] = tileMap[index[0] + 1][index[1]];
-    tiles[3] = tileMap[index[0]][index[1] - 1];
+    tiles[0] = getTile([index[0] - 1, index[1]]);
+    tiles[1] = getTile([index[0], index[1] + 1]);
+    tiles[2] = getTile([index[0] + 1, index[1]]);
+    tiles[3] = getTile([index[0], index[1] - 1]);
     return tiles;
   };
   
   this.movePlayerForward = function() {
+    console.log(playerTile.getWalls());
+    console.log(playerTile.getIndex());
     if (!playerTile.getWalls()[player.front()]) {
+      debug("No wall in front. Moving.");
       playerTile.setPlayer(false);
       playerTile = this.getAdjacentTiles(playerTile.getIndex())[player.front()];
       playerTile.setPlayer(true);
@@ -160,5 +169,12 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
   
   this.openLeft = function() {
     return !playerTile.getWalls()[player.left()];
+  };
+  
+  this.resetLevel = function() {
+    playerTile.setPlayer(false);
+    playerTile = tileMap[originalPosition[0]][originalPosition[1]];
+    playerTile.setPlayer(true);
+    player.setDirection(originalDirection);
   };
 }

@@ -1,3 +1,7 @@
+function debug(message) {
+    if (GameEngine.debug) console.log(message);
+  }
+
 function GameEngine() {
   //Start Properties
   
@@ -28,32 +32,6 @@ function GameEngine() {
     return map;
   }
 
-  //constructor for a gui stub
-  function guiMOCK(GameEngine) {
-    var gameEng = GameEngine;
-
-    this.moveForward = function (isSuccess) {
-    }
-
-    this.moveBackward = function (isSuccess) {
-    }
-
-    this.turnRight = function () {
-    }
-
-    this.turnLeft = function () {
-    }
-
-    this.killBattery = function () { };
-    this.resetPosition = function () { };
-    this.resetInstructions = function () { };
-    this.setup = function () { };
-
-  }
-
-  function debug(message) {
-    if (GameEngine.debug) console.log(message);
-  }
   
   this.generateCodeAndLoadIntoInterpreter = function() 
   {
@@ -158,7 +136,7 @@ function GameEngine() {
       gui.moveForward(true);
     } 
     else {
-      gui.moveForward(false);
+      //gui.moveForward(false);
     }
   }
   
@@ -170,7 +148,7 @@ function GameEngine() {
       gui.moveBackward(true);
     } 
     else {
-      gui.moveBackward(false);
+      //gui.moveBackward(false);
     }
   }
   
@@ -214,10 +192,6 @@ function GameEngine() {
   //return boolean true if level won
   function step(play) {
     debug("GameEng.step() called.");
-    //setupInterpreter();
-    /*if (!interpreter.step()) {
-      //restart interpreter from the beginning
-    }*/
     
     if (!interpreter) {
         // First statement of this code.
@@ -281,7 +255,8 @@ function GameEngine() {
   //return void
   this.resetLevel = function () {
     debug("GameEng.resetLevel() called.");
-
+    map.resetLevel();
+    gui.setup(map);
   }
   //End Privileged Methods
   gui.setup(map);
