@@ -19,6 +19,8 @@ function GUI(){
 		rows: 3,
 		width: 500,
 		height: 495
+		robotStart: [0,0],
+		batteryStart : [0,0]
 	};
 	
 	//Public vars
