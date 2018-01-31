@@ -2,7 +2,7 @@ Blockly.JavaScript['check_right'] = function(block) {
   // Search the text for a substring.
   
   code = "openRight()";
-  code += "highlightBlock('" + block.id + "');\n";
+  //code += "highlightBlock('" + block.id + "');\n";
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -34,6 +34,11 @@ Blockly.JavaScript['outer_if'] = function(block) {
   
   var code = '';
   code += "highlightBlock('" + block.id + "');\n";
+  inputBlock = block.getInputTargetBlock("Condition");
+  if(inputBlock != null)
+  {
+    code += "highlightBlock('" + inputBlock.id + "');\n";
+  }
   code += 'if ' + value_condition + ' {\n' + statements_name + '}\n';
   
   return code;//[code, Blockly.JavaScript.ORDER_NONE];
