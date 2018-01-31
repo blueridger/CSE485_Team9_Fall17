@@ -54,17 +54,6 @@ function GameEngine() {
   function debug(message) {
     if (GameEngine.debug) console.log(message);
   }
-
-  function setupInterpreter() {
-    if (interpreter == null) 
-    {
-      
-    } 
-    else 
-    {
-      //Check to see if the code has been 
-    }
-  }
   
   this.generateCodeAndLoadIntoInterpreter = function() 
   {
@@ -73,6 +62,8 @@ function GameEngine() {
     Blockly.JavaScript.addReservedWords('highlightBlock');
     latestCode = Blockly.JavaScript.workspaceToCode(demoWorkspace);
     resetStepUi(true);
+    //BlocklyUtility.resetStepUi(true);
+    //resetStepUi(true);
     debug("new code: " + latestCode);
   }
   
@@ -231,20 +222,25 @@ function GameEngine() {
     if (!interpreter) {
         // First statement of this code.
         // Clear the program output.
-        resetStepUi();
+        //this.blocklyWorker.resetStepUi();
+        resetStepUi(true);
         interpreter = new Interpreter(latestCode, initApi);
         debug(interpreter.ast);
 
         // And then show generated code in an alert.
         // In a timeout to allow the outputArea.value to reset first.
+        //var thisPointer = this;
         setTimeout(function() {
           highlightPause = true;
-          this;
+          //this;
+          GAME_ENGINE.step();
         }, 1);
         return;
       }
       highlightPause = false;
+      
       do {
+        
         try {
           var hasMoreCode = interpreter.step();
         } finally {
@@ -253,7 +249,8 @@ function GameEngine() {
             //outputArea.value += '\n\n<< Program complete >>';
             debug("no more code");
             interpreter = null;
-            resetStepUi();
+            //this.blocklyWorker.resetStepUi();
+            resetStepUi(true)
 
             return;
           }
