@@ -223,10 +223,6 @@ function GameEngine() {
   //return boolean true if level won
   function step(play) {
     debug("GameEng.step() called.");
-    //setupInterpreter();
-    /*if (!interpreter.step()) {
-      //restart interpreter from the beginning
-    }*/
     
     if (!interpreter) {
         // First statement of this code.
