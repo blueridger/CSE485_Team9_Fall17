@@ -48,7 +48,7 @@ function Tile(tileIndex) {
   };
   
   this.setBattery = function(hasBattery) {
-    player = hasBattery;
+    battery = hasBattery;
   };
   
   this.setWall = function(wallIndex, hasWall) {
