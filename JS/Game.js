@@ -63,29 +63,33 @@ function GUI(){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height/settings.rows;
 
-		switch(robot.facing)
-		{
-		  //left
-		  case 'left':
-			robot.x = robot.x-moveAmtX;
-			break;
-
-		  //up
-		  case 'up':
-			robot.y = robot.y-moveAmtY;
-			break;
-
-		  //right
-		  case 'right':
-			robot.x = robot.x+moveAmtX;
-			break;
-
-		  //down
-		  case 'down':
-			robot.y = robot.y+moveAmtY;
-			break;
+		if (!isSuccess) {
+		    alert("Hit Wall");
 		}
-		this.updateGameArea();
+		else {
+		    switch (robot.facing) {
+		        //left
+		        case 'left':
+		            robot.x = robot.x - moveAmtX;
+		            break;
+
+		            //up
+		        case 'up':
+		            robot.y = robot.y - moveAmtY;
+		            break;
+
+		            //right
+		        case 'right':
+		            robot.x = robot.x + moveAmtX;
+		            break;
+
+		            //down
+		        case 'down':
+		            robot.y = robot.y + moveAmtY;
+		            break;
+		    }
+		    this.updateGameArea();
+		}
 	}
 
 	//TODO
@@ -95,29 +99,33 @@ function GUI(){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height/settings.rows;
 
-		switch(robot.facing)
-		{
-		  //left
-		  case 'left':
-			robot.x = robot.x + moveAmtX;
-			break;
-
-		  //up
-		  case 'up':
-			robot.y = robot.y + moveAmtY;
-			break;
-
-		  //right
-		  case 'right':
-			robot.x = robot.x - moveAmtX;
-			break;
-
-		  //down
-		  case 'down':
-			robot.y = robot.y - moveAmtY;
-			break;
+		if (!isSuccess) {
+		    alert("Hit Wall");
 		}
-		this.updateGameArea();
+		else {
+		    switch (robot.facing) {
+		        //left
+		        case 'left':
+		            robot.x = robot.x + moveAmtX;
+		            break;
+
+		            //up
+		        case 'up':
+		            robot.y = robot.y + moveAmtY;
+		            break;
+
+		            //right
+		        case 'right':
+		            robot.x = robot.x - moveAmtX;
+		            break;
+
+		            //down
+		        case 'down':
+		            robot.y = robot.y - moveAmtY;
+		            break;
+		    }
+		    this.updateGameArea();
+		}
 	  }
 
 	this.turnLeft = function(){
