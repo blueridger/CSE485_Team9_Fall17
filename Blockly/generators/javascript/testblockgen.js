@@ -2,6 +2,7 @@ Blockly.JavaScript['check_right'] = function(block) {
   // Search the text for a substring.
   
   code = "openRight()";
+  code += "highlightBlock('" + block.id + "');\n";
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -30,7 +31,11 @@ Blockly.JavaScript['outer_if'] = function(block) {
   var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_name = Blockly.JavaScript.statementToCode(block, 'Name');
   // TODO: Assemble JavaScript into code variable.
-  var code = 'if ' + value_condition + ' {\n' + statements_name + '}\n';
+  
+  var code = '';
+  code += "highlightBlock('" + block.id + "');\n";
+  code += 'if ' + value_condition + ' {\n' + statements_name + '}\n';
+  
   return code;//[code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -38,20 +43,23 @@ Blockly.JavaScript['back_statement'] = function(block) {
   // Search the text for a substring.
   
   code = "moveBackward();\n";
+  code += "highlightBlock('" + block.id + "');\n";
   return code;//[code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 Blockly.JavaScript['forward_statement'] = function(block) {
   // Search the text for a substring.
   
-  code = "moveForward();\nhighlightBlock(" + block.id + ")\n";
+  code = "moveForward();\n";
+  code += "highlightBlock('" + block.id + "');\n";
   return code;//[code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 Blockly.JavaScript['left_statement'] = function(block) {
   // Search the text for a substring.
   
-  code = "turnLeft();\nhighlightBlock(" + block.id + ")\n";
+  code = "turnLeft();\n";
+  code += "highlightBlock('" + block.id + "');\n";
   return code;//[code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
@@ -59,6 +67,7 @@ Blockly.JavaScript['right_statement'] = function(block) {
   // Search the text for a substring.
   
   code = "turnRight();\n";
+  code += "highlightBlock('" + block.id + "');\n";
   return code;//[code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
