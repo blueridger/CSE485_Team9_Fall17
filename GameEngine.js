@@ -228,7 +228,7 @@ function GameEngine() {
             //this.blocklyWorker.resetStepUi();
             resetStepUi(true)
 
-            return;
+            return step();
           }
           else
           {
@@ -239,16 +239,15 @@ function GameEngine() {
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause);
   }
-  this.step = function() { 
-    pause();
+  this.step = function() {
     step(); 
   }
   
   //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
-    if (playInterval = null) {
-      playInterval = setInterval(step, 2000);
+    if (playInterval == null) {
+      playInterval = setInterval(step, 1000);
       step();
     }
   }
@@ -257,7 +256,8 @@ function GameEngine() {
   this.pause = function() { return pause(); };
   function pause() {
     debug("GameEng.pause() called.");
-	clearInterval(playInterval);
+    clearInterval(playInterval);
+    playInterval = null;
   };
 
   //return void
