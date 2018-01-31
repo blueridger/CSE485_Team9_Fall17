@@ -136,7 +136,8 @@ function GameEngine() {
       gui.moveForward(true);
     } 
     else {
-      //gui.moveForward(false);
+      pause();
+      gui.moveForward(false);
     }
   }
   
@@ -148,7 +149,8 @@ function GameEngine() {
       gui.moveBackward(true);
     } 
     else {
-      //gui.moveBackward(false);
+      pause();
+      gui.moveBackward(false);
     }
   }
   
@@ -237,24 +239,31 @@ function GameEngine() {
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause);
   }
-  this.step = function() { step(); }
+  this.step = function() { 
+    pause();
+    step(); 
+  }
   
   //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
-	playInterval = setInterval(step, 2000);
-    step();
+    if (playInterval = null) {
+      playInterval = setInterval(step, 2000);
+      step();
+    }
   }
 
   //return void
-  this.pause = function () {
+  this.pause = function() { return pause(); };
+  function pause() {
     debug("GameEng.pause() called.");
 	clearInterval(playInterval);
-  }
+  };
 
   //return void
   this.resetLevel = function () {
     debug("GameEng.resetLevel() called.");
+    pause();
     map.resetLevel();
     gui.setup(map);
   }
