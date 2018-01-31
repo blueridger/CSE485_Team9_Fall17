@@ -18,7 +18,7 @@ function GUI(){
 		columns: 6,
 		rows: 3,
 		width: 500,
-		height: 495
+		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0]
 	};

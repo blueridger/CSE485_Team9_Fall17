@@ -206,7 +206,7 @@ function GameEngine() {
         //var thisPointer = this;
         setTimeout(function() {
           highlightPause = true;
-          //this;
+          this;
           GAME_ENGINE.step();
         }, 1);
         return;
