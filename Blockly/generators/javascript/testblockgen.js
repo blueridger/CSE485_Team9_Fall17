@@ -44,14 +44,14 @@ Blockly.JavaScript['back_statement'] = function(block) {
 Blockly.JavaScript['forward_statement'] = function(block) {
   // Search the text for a substring.
   
-  code = "moveForward();\n";
+  code = "moveForward();\nhighlightBlock(" + block.id + ")\n";
   return code;//[code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 Blockly.JavaScript['left_statement'] = function(block) {
   // Search the text for a substring.
   
-  code = "turnLeft();\n";
+  code = "turnLeft();\nhighlightBlock(" + block.id + ")\n";
   return code;//[code, Blockly.JavaScript.ORDER_MEMBER];
 };
 

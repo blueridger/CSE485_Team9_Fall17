@@ -36,7 +36,7 @@ function GameEngine() {
   this.generateCodeAndLoadIntoInterpreter = function() 
   {
     // Generate JavaScript code and parse it.
-    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+    //Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
     Blockly.JavaScript.addReservedWords('highlightBlock');
     latestCode = Blockly.JavaScript.workspaceToCode(demoWorkspace);
     resetStepUi(true);

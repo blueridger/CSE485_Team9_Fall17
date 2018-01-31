@@ -1,8 +1,11 @@
 function ChangeHandler()
 {
+  var MAX_LEVEL_OF_NESTING = 2;
+  
+  
   this.handleChanges = function (event, workspace)
   {
-    MAX_LEVEL_OF_NESTING = 2;
+    
     if
     (
       //(event instanceof Blockly.Events.BlockChange) ||
