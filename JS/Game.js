@@ -285,13 +285,11 @@ function GUI(){
 
 	function getInitialValues(map)
 	{
-	    var height = gameArea.canvas.height;
-	    var width = gameArea.canvas.width;
-	    for (var x = 0; x < width; x += width / settings.columns) {
-	        for (var y = 0; y < height; y += height / settings.rows) {
+	    for (var x = 0; x < 6; x++) {
+	        for (var y = 0; y < 3; y++) {
 
-	            var row = y / (height / settings.rows);
-	            var col = x / (width / settings.columns);
+	            var row = y;
+	            var col = x;
 	            //alert(row + " " + col);
 	            var tile = gameMap.getTile([row, col]);
 
