@@ -1,6 +1,7 @@
 function GUI(){
 	//Private vars
-	var robot = null;
+    var robot = null;
+    var battery = null;
 	var score = 0;
 	var gameAreaDiv = null;
 	var gameArea = null;
@@ -18,7 +19,7 @@ function GUI(){
 		columns: 6,
 		rows: 3,
 		width: 500,
-		height: 495
+		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0]
 	};
@@ -32,13 +33,13 @@ function GUI(){
 		gameAreaDiv = document.getElementById("GameArea");
 		getGameDimensions(gameAreaDiv);
 		gameMap = map;
-		
+		getInitialValues(gameMap);
+
 		var width = settings.width/settings.columns;
 		var height = settings.height/settings.rows;
-		var startcol = 2;
-		var startrow = 2;
 
-		robot = new robotComponent(width, height, width*startcol, height*startrow,'right');
+		battery = new batteryComponent(width, height, width * settings.batteryStart[1], height * settings.batteryStart[0]);
+		robot = new robotComponent(width, height, width * settings.robotStart[1], height * settings.robotStart[0], 'right');
 		
 		gameArea.start();
 		
@@ -50,7 +51,9 @@ function GUI(){
 
 		drawGrid();
 		drawMap();
+		battery.update();
 		robot.update();
+        
 	}
 
 	//TODO
@@ -248,6 +251,23 @@ function GUI(){
 		}
 
 	}
+
+	var batteryComponent = function (width, height, x, y) {
+	    this.width = width;
+	    this.height = height;
+	    this.x = x;
+	    this.y = y;
+
+	    this.update = function () {
+	        ctx = gameArea.context;
+	        var img = new Image();
+
+	        img.onload = function () {
+	            ctx.drawImage(img, battery.x, battery.y, width, height);
+	        }
+	        img.src = "images/tmpBattery.png";
+	    }
+	}
 	
 	function getGameDimensions(elem) {
 		var tmpWidth = elem.clientWidth;
@@ -261,6 +281,30 @@ function GUI(){
 		}
 	
 		settings.width = tmpWidth;
+	}
+
+	function getInitialValues(map)
+	{
+	    var height = gameArea.canvas.height;
+	    var width = gameArea.canvas.width;
+	    for (var x = 0; x < width; x += width / settings.columns) {
+	        for (var y = 0; y < height; y += height / settings.rows) {
+
+	            var row = y / (height / settings.rows);
+	            var col = x / (width / settings.columns);
+	            //alert(row + " " + col);
+	            var tile = gameMap.getTile([row, col]);
+
+	            if(tile.containsPlayer())
+	            {
+	                settings.robotStart = [row,col];
+	            }
+	            
+	            if (tile.containsBattery()) {
+	                settings.batteryStart = [row, col];
+	            }
+	        }
+	    }
 	}
 	
 	function drawMap(){
