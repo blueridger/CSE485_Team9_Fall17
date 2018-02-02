@@ -13,6 +13,7 @@ function GUI(){
 		east: "ship_east.png",
 		west: "ship_west.png"
 	};
+
 	
 	//defines defaults to use.
 	var settings = {
@@ -53,7 +54,6 @@ function GUI(){
 		drawMap();
 		battery.update();
 		robot.update();
-        
 	}
 
 	//TODO
@@ -231,33 +231,6 @@ function GUI(){
 					break;
 			}
 		}
-
-		this.hitWall = function() {
-			var bottom = gameArea.canvas.height - this.height;
-			if (this.y > bottom) {
-				//alert("Hit Bottom");
-				this.y = bottom;
-			}
-
-			var top = 0;
-			if (this.y < top) {
-				//alert("Hit Top");
-				this.y = 0;
-			}
-
-			var right = gameArea.canvas.width - this.width;
-			if (this.x > right) {
-				//alert("Hit Right");
-				this.x = right;
-			}
-
-			var left = 0;
-			if (this.x < left) {
-				//alert("Hit Left");
-				this.x = 0;
-			}
-		}
-
 	}
 
 	var batteryComponent = function (width, height, x, y) {
@@ -289,16 +262,17 @@ function GUI(){
 		}
 	
 		settings.width = tmpWidth;
+		settings.height = (tmpWidth / settings.columns) * settings.rows;
 	}
 
 	function getInitialValues(map)
 	{
-	    for (var x = 0; x < 6; x++) {
-	        for (var y = 0; y < 3; y++) {
+	    for (var x = 0; x < settings.columns; x++) {
+	        for (var y = 0; y < settings.rows; y++) {
 
 	            var row = y;
 	            var col = x;
-	            //alert(row + " " + col);
+	            
 	            var tile = gameMap.getTile([row, col]);
 
 	            if(tile.containsPlayer())
