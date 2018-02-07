@@ -45,6 +45,7 @@ function GameEngine() {
     debug("new code: " + latestCode);
   }
   
+  //nullifies the interpreter without generating new code
   this.removeInterpreter = function()
   {
     interpreter = null;

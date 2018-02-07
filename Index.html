@@ -120,6 +120,7 @@
           if (!(event instanceof Blockly.Events.Ui)) {
             // Something changed. Parser needs to be reloaded.
             GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+            GAME_ENGINE.removeInterpreter();
           }
         });
       </script>
