@@ -45,13 +45,19 @@ function GameEngine() {
     debug("new code: " + latestCode);
   }
   
+  this.removeInterpreter = function()
+  {
+    interpreter = null;
+    demoWorkspace.highlightBlock(null);
+  }
+  
   function resetStepUi(clearOutput) 
   {
     demoWorkspace.highlightBlock(null);
     highlightPause = false;
   }	
   
-  //API to link the interpretter sandbox to the actual code
+  //API to link the interpreter sandbox to the actual code
   function initApi(interpreter, scope)
   {
     var wrapper;

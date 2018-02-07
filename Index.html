@@ -54,7 +54,7 @@
 				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.pause();">Pause</a></li>
 				<li><a href="#" class="mr-button" id="mr-step" onclick="GAME_ENGINE.step();">Step</a></li>
 				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel(); GAME_ENGINE.removeInterpreter();">Reset Level</a></li>
 				<li><a href="#" class="mr-button" id="mr-resetGame" onclick="alert('TODO');">Reset Game</a></li>
 			</ul>
 		</nav>
