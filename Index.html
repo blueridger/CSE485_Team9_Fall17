@@ -129,7 +129,7 @@
         media : 'https://blockly-demo.appspot.com/static/media/', 
         rtl : false, 
         scrollbars : true, 
-        sounds : true, 
+        sounds : false, 
         oneBasedIndex : true, 
         grid : 
         {
@@ -140,40 +140,40 @@
         }
       };
       
-      
-
-    
-  
+      //inject the blockly canvas into the blocklyDiv
       var demoWorkspace = Blockly.inject('blocklyDiv',
         {
           media: 'Blockly/media/',
           toolbox: document.getElementById('toolbox')
-        });
+        }
+      );
         
-      /* TODO: Change workspace blocks XML ID if necessary. Can export workspace blocks XML from Workspace Factory. */
-    var workspaceBlocks = document.getElementById("workspaceBlocks"); 
+      //variable defining the default blocks to load on start up.
+      var workspaceBlocks = document.getElementById("workspaceBlocks"); 
 
-    /* Load blocks to workspace. */
-    Blockly.Xml.domToWorkspace(demoWorkspace, workspaceBlocks);
-  
-      //var workspaceBlocks = document.getElementById("workspaceBlocks");
-  
+      /* Load blocks to workspace. */
+      Blockly.Xml.domToWorkspace(demoWorkspace, workspaceBlocks);
+      
+      //generate the code for the first time
       GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
       
       var handler = new ChangeHandler();
       
-        demoWorkspace.addChangeListener(function(event) {
-          if (!(event instanceof Blockly.Events.Ui)) {
+      demoWorkspace.addChangeListener(function(event) 
+        {
+          if (!(event instanceof Blockly.Events.Ui)) 
+          {
             // Something changed. Parser needs to be reloaded.
             
             //console.log("Number of blocks: " + GAME_ENGINE.blocklyChangeHandler.getBlockCount(demoWorkspace));
-            
+          
             GAME_ENGINE.blocklyChangeHandler.handleChanges(event, demoWorkspace);
-            
+          
             GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
             GAME_ENGINE.removeInterpreter();
           }
-        });
+        }
+      );
       </script>
 
       <div id="GameArea"> </div>

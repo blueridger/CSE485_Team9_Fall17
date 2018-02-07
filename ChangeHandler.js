@@ -4,8 +4,6 @@ function ChangeHandler()
   
   this.getBlockCount = function(workspace)
   {
-    //TODO
-    
     return workspace.getAllBlocks().length;
   }
   
