@@ -1,4 +1,4 @@
-Blockly.JavaScript['check_right'] = function(block) {
+Blockly.JavaScript['open_right'] = function(block) {
   // Search the text for a substring.
   
   code = "openRight()";
@@ -6,24 +6,55 @@ Blockly.JavaScript['check_right'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.JavaScript['check_left'] = function(block) {
+Blockly.JavaScript['open_left'] = function(block) {
   // Search the text for a substring.
   
   code = "openLeft()";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-Blockly.JavaScript['check_front'] = function(block) {
+Blockly.JavaScript['open_front'] = function(block) {
   // Search the text for a substring.
   
   code = "openFront()";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-Blockly.JavaScript['check_back'] = function(block) {
+Blockly.JavaScript['open_back'] = function(block) {
   // Search the text for a substring.
   
   code = "openRear()";
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+
+///wall generators
+Blockly.JavaScript['wall_right'] = function(block) {
+  // Search the text for a substring.
+  
+  code = "!openRight()";
+  //code += "highlightBlock('" + block.id + "');\n";
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['wall_left'] = function(block) {
+  // Search the text for a substring.
+  
+  code = "!openLeft()";
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+Blockly.JavaScript['wall_front'] = function(block) {
+  // Search the text for a substring.
+  
+  code = "!openFront()";
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+Blockly.JavaScript['wall_back'] = function(block) {
+  // Search the text for a substring.
+  
+  code = "!openRear()";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
@@ -74,11 +105,4 @@ Blockly.JavaScript['right_statement'] = function(block) {
   code = "turnRight();\n";
   code += "highlightBlock('" + block.id + "');\n";
   return code;//[code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
-};
-
-Blockly.JavaScript['start_here'] = function(block) {
-  // Search the text for a substring.
-  
-  code = "//starting point\n";
-  return code;
 };

@@ -2,16 +2,18 @@ function ChangeHandler()
 {
   var MAX_LEVEL_OF_NESTING = 2;
   
+  this.getBlockCount = function(workspace)
+  {
+    //TODO
+    
+    return workspace.getAllBlocks().length;
+  }
   
   this.handleChanges = function (event, workspace)
   {
     
     if
-    (
-      //(event instanceof Blockly.Events.BlockChange) ||
-      //(event instanceof Blockly.Events.BlockCreate) ||
-      (event instanceof Blockly.Events.BlockMove)
-    )
+    ((event instanceof Blockly.Events.BlockMove))
     {
       currentBlock = workspace.getBlockById(event.blockId);
       if(currentBlock != null && currentBlock.type == "outer_if")//block exists

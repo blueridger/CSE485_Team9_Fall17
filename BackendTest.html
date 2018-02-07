@@ -55,7 +55,7 @@
 				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.pause();">Pause</a></li>
 				<li><a href="#" class="mr-button" id="mr-step" onclick="GAME_ENGINE.step();">Step</a></li>
 				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</a></li>
+				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel(); GAME_ENGINE.removeInterpreter();">Reset Level</a></li>
 				<li><a href="#" class="mr-button" id="mr-resetGame" onclick="alert('TODO');">Reset Game</a></li>
 			</ul>
 		</nav>
@@ -64,11 +64,15 @@
 	  <!-- blockly code -->
 	  <xml id="toolbox" style="display: none">
       <category name="Logic">
-        <block type="check_right"></block>	
-        <block type="check_left"></block>
-        <block type="check_front"></block>
-        <block type="check_back"></block>
+        <block type="open_right"></block>	
+        <block type="open_left"></block>
+        <block type="open_front"></block>
+        <block type="open_back"></block>
         <block type="outer_if"></block>
+        <block type="wall_right"></block>	
+        <block type="wall_left"></block>
+        <block type="wall_front"></block>
+        <block type="wall_back"></block>
       </category>
       <category name="Statements">
         <block type="back_statement"></block>
@@ -78,6 +82,34 @@
       </category>
     </xml>
 
+    <!---DEFULAT BLOCKS---->
+    <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
+      <variables></variables>
+      <block type="outer_if" id="!5.J#s[UIoH)?ERLqgdk" x="38" y="13">
+        <value name="Condition">
+          <block type="open_front" id="]=w0r1dlM_u*en;*$|?{">
+          </block>
+        </value>
+        <statement name="Name">
+          <block type="forward_statement" id="JeqO%A=C`q-iteljzcye">
+            <next>
+              <block type="right_statement" id="JeqO%A=C`q-iteljzcyf">
+                <next>
+                  <block type="right_statement" id="JeqO%A=C`q-iteljzcyh">
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+          
+        </statement>
+        <next>
+          <block type="left_statement" id="JeqO%A=C`q-iteljzcyg">
+        
+          </block>
+        </next>
+      </block>
+    </xml>
 
     <script type="application/javascript">
       GAME_ENGINE = new GameEngine(true);
@@ -107,12 +139,22 @@
           snap : true
         }
       };
+      
+      
+
+    
   
       var demoWorkspace = Blockly.inject('blocklyDiv',
         {
           media: 'Blockly/media/',
           toolbox: document.getElementById('toolbox')
         });
+        
+      /* TODO: Change workspace blocks XML ID if necessary. Can export workspace blocks XML from Workspace Factory. */
+    var workspaceBlocks = document.getElementById("workspaceBlocks"); 
+
+    /* Load blocks to workspace. */
+    Blockly.Xml.domToWorkspace(demoWorkspace, workspaceBlocks);
   
       //var workspaceBlocks = document.getElementById("workspaceBlocks");
   
@@ -124,15 +166,14 @@
           if (!(event instanceof Blockly.Events.Ui)) {
             // Something changed. Parser needs to be reloaded.
             
+            console.log("Number of blocks: " + GAME_ENGINE.blocklyChangeHandler.getBlockCount(demoWorkspace));
             
-            handler.handleChanges(event, demoWorkspace);
+            GAME_ENGINE.blocklyChangeHandler.handleChanges(event, demoWorkspace);
             
             GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+            GAME_ENGINE.removeInterpreter();
           }
         });
-        
-        
-        
       </script>
 
       <div id="GameArea"> </div>

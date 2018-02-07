@@ -38,32 +38,6 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": ""
 },
 {
-  "type": "inner_if",
-  "message0": "Condition %1 Statements %2",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "Condition",
-      "check": "Boolean"
-    },
-    {
-      "type": "input_statement",
-      "name": "Name",
-      "check": [
-        "back_statement",
-        "left_statement",
-        "right_statement",
-        "forward_statement"
-      ]
-    }
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": 0,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
   "type": "back_statement",
   "message0": "Go Back",
   "previousStatement": null,
@@ -100,40 +74,64 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": ""
 },
 {
-  "type": "start_here",
-  "message0": "Start Here",
-  "nextStatement": null,
-  "colour": 60,
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "check_left",
-  "message0": "Check Left",
+  "type": "open_left",
+  "message0": "Open Left",
   "output": null,
   "colour": 0,
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "check_right",
-  "message0": "Check Right",
+  "type": "open_right",
+  "message0": "Open Right",
   "output": null,
   "colour": 0,
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "check_front",
-  "message0": "Check Front",
+  "type": "open_front",
+  "message0": "Open Front",
   "output": null,
   "colour": 0,
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "check_back",
-  "message0": "Check Back",
+  "type": "open_back",
+  "message0": "Open Back",
+  "output": null,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "wall_left",
+  "message0": "Wall Left",
+  "output": null,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "wall_right",
+  "message0": "Wall Right",
+  "output": null,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "wall_front",
+  "message0": "Wall Front",
+  "output": null,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "wall_back",
+  "message0": "Wall Back",
   "output": null,
   "colour": 0,
   "tooltip": "",
