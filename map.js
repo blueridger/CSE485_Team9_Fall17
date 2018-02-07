@@ -56,12 +56,14 @@ function Tile(tileIndex) {
   };
 }
 
-function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition) {
+function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition, batterySize) {
   var originalPosition = playerPosition;
   var originalDirection = playerDirection;
   var player;
   var playerTile;
   var batteryTile;
+  var batteryMaxLife = batterySize;
+  var batteryLife = batteryMaxLife;
   var maxX = 6;
   var maxY = 3;
   var tileMap = new Array(maxY); //TODO allow dynamic sizing
@@ -109,7 +111,7 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
   function getTile(index) {
     if (index[0] < 0 || index[1] < 0 || index[0] >= maxY || index[1] >= maxX) return null;
     return tileMap[index[0]][index[1]];
-  };
+  }
 	
   this.getAdjacentTiles = function(index) {
     var tiles = new Array(4);
@@ -118,11 +120,10 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
     tiles[2] = getTile([index[0] + 1, index[1]]);
     tiles[3] = getTile([index[0], index[1] - 1]);
     return tiles;
-  };
+  }
   
   this.movePlayerForward = function() {
-    console.log(playerTile.getWalls());
-    console.log(playerTile.getIndex());
+    batteryLife--;
     if (!playerTile.getWalls()[player.front()]) {
       debug("No wall in front. Moving.");
       playerTile.setPlayer(false);
@@ -133,9 +134,10 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
     else {
       return false;
     }
-  };
+  }
   
   this.movePlayerBackward = function() {
+    batteryLife--;
     if (!playerTile.getWalls()[player.rear()]) {
       playerTile.setPlayer(false);
       playerTile = this.getAdjacentTiles(playerTile.getIndex())[player.rear()];
@@ -145,36 +147,51 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
     else {
       return false;
     }
-  };
+  }
   
   this.turnPlayerRight = function() {
+    batteryLife--;
     player.setDirection(player.right());
-  };
+  }
   
   this.turnPlayerLeft = function() {
+    batteryLife--;
     player.setDirection(player.left());
-  };
+  }
   
   this.openFront = function() {
+    batteryLife--;
     return !playerTile.getWalls()[player.front()];
-  };
+  }
   
   this.openRear = function() {
+    batteryLife--;
     return !playerTile.getWalls()[player.rear()];
-  };
+  }
   
   this.openRight = function() {
+    batteryLife--;
     return !playerTile.getWalls()[player.right()];
-  };
+  }
   
   this.openLeft = function() {
+    batteryLife--;
     return !playerTile.getWalls()[player.left()];
-  };
+  }
   
   this.resetLevel = function() {
     playerTile.setPlayer(false);
     playerTile = tileMap[originalPosition[0]][originalPosition[1]];
     playerTile.setPlayer(true);
     player.setDirection(originalDirection);
-  };
+    batteryLife = batteryMaxLife;
+  }
+  
+  this.isWin = function() {
+    return batteryTile == playerTile;
+  }
+  
+  this.isDead = function() {
+    return batteryLife > 0;
+  }
 }

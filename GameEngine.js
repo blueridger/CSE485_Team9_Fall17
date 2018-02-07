@@ -11,9 +11,12 @@ function GameEngine() {
   var gui = null;
   var interpreter = null;
   var playInterval = null;
+  var score = 0;
+  this.blocklyChangeHandler = null;
   
   //End Properties
   //Start Main
+  blocklyChangeHandler = new ChangeHandler();
   map = mapGenStub();
   debug("Map Generated");
   gui = new GUI();
@@ -28,7 +31,8 @@ function GameEngine() {
 	var playerPos = [0, 0];
 	var playerDir = 1;
 	var batteryPos = [1, 5];
-    var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos);
+  var batterySize = 5;
+    var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos, batterySize);
     return map;
   }
 
@@ -145,6 +149,7 @@ function GameEngine() {
     else {
       pause();
       gui.moveForward(false);
+      resetLevel();
     }
   }
   
@@ -158,6 +163,7 @@ function GameEngine() {
     else {
       pause();
       gui.moveBackward(false);
+      resetLevel();
     }
   }
   
@@ -193,6 +199,22 @@ function GameEngine() {
   function openFront() {
     debug("GameEng.openFront() called.");
     return map.openFront();
+  }
+  
+  function checkGameState() {
+    //Update GUI
+    if (map.isWin()) {
+      score = getScore();
+      //GUI Display + show score
+      //Get new Map and reset
+    } else if (map.isDead()) {
+      //GUI Display + show score
+      resetLevel(); //After a delay??
+    }
+  }
+  
+  function getScore() {
+    return blocklyChangeHandler.getBlockCount();
   }
   
   //End Private Methods
@@ -245,12 +267,12 @@ function GameEngine() {
         // Keep executing until a highlight statement is reached,
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause);
+      checkGameState();
   }
   this.step = function() {
     step(); 
   }
   
-  //return boolean true if level won
   this.play = function () {
     debug("GameEng.play() called.");
     if (playInterval == null) {
@@ -267,8 +289,8 @@ function GameEngine() {
     playInterval = null;
   };
 
-  //return void
-  this.resetLevel = function () {
+  this.resetLevel = resetLevel;
+  function resetLevel() {
     debug("GameEng.resetLevel() called.");
     pause();
     map.resetLevel();
