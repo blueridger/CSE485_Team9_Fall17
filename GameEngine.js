@@ -12,11 +12,11 @@ function GameEngine() {
   var interpreter = null;
   var playInterval = null;
   var score = 0;
-  this.blocklyChangeHandler = null;
+  var blocklyChangeHandler = new ChangeHandler();
   
   //End Properties
   //Start Main
-  this.blocklyChangeHandler = new ChangeHandler();
+  this.blocklyChangeHandler = blocklyChangeHandler;
   map = mapGenStub();
   debug("Map Generated");
   gui = new GUI();
@@ -30,7 +30,7 @@ function GameEngine() {
 	var hWalls = [true, false, false, true, true, true, true, true, true, false, false, true, true, true, false, true, true, false, false, true, true, false, true, true];
 	var playerPos = [0, 0];
 	var playerDir = 1;
-	var batteryPos = [1, 5];
+	var batteryPos = [1, 1];
   var batterySize = 5;
     var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos, batterySize);
     return map;
@@ -202,12 +202,14 @@ function GameEngine() {
   }
   
   function checkGameState() {
-    //Update GUI
     if (map.isWin()) {
+      pause();
       score = getScore();
       //GUI Display + show score
-      //Get new Map and reset
+      //Get new Map
+      resetLevel();
     } else if (map.isDead()) {
+      pause();
       //GUI Display + show score
       resetLevel(); //After a delay??
     }
@@ -276,7 +278,7 @@ function GameEngine() {
   this.play = function () {
     debug("GameEng.play() called.");
     if (playInterval == null) {
-      playInterval = setInterval(step, 1000);
+      playInterval = setInterval(step, 500);
       step();
     }
   }
