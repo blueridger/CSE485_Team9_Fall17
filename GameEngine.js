@@ -50,11 +50,12 @@ function GameEngine() {
   }
   
   //nullifies the interpreter without generating new code
-  this.removeInterpreter = function()
+  function removeInterpreter()
   {
     interpreter = null;
     demoWorkspace.highlightBlock(null);
   }
+  this.removeInterpreter = removeInterpreter;
   
   function resetStepUi(clearOutput) 
   {
@@ -297,6 +298,7 @@ function GameEngine() {
     pause();
     map.resetLevel();
     gui.setup(map);
+    removeInterpreter();
   }
   //End Privileged Methods
   gui.setup(map);
