@@ -214,7 +214,7 @@ function GameEngine() {
   }
   
   function getScore() {
-    return blocklyChangeHandler.getBlockCount();
+    return blocklyChangeHandler.getBlockCount(demoWorkspace);
   }
   
   //End Private Methods
