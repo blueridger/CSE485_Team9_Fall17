@@ -16,7 +16,7 @@ function GameEngine() {
   
   //End Properties
   //Start Main
-  blocklyChangeHandler = new ChangeHandler();
+  this.blocklyChangeHandler = new ChangeHandler();
   map = mapGenStub();
   debug("Map Generated");
   gui = new GUI();
