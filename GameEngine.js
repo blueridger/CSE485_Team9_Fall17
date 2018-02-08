@@ -5,7 +5,7 @@ function debug(message) {
 function GameEngine() {
   //Start Properties
   
-  this.constructor.debug = false;
+  this.constructor.debug = true;
 
   var map = null;
   var gui = null;
