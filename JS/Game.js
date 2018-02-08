@@ -6,6 +6,7 @@ function GUI(){
 	var gameAreaDiv = null;
 	var gameArea = null;
 	var gameMap = null;
+	var debug = true;
 	
 	var robotImages = {
 		north: "ship_north.png",
@@ -36,6 +37,8 @@ function GUI(){
 		gameMap = map;
 		getInitialValues(gameMap);
 
+		this.debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
+
 		var width = settings.width/settings.columns;
 		var height = settings.height/settings.rows;
 
@@ -47,13 +50,28 @@ function GUI(){
 		this.updateGameArea();
 	}
 	
-	this.updateGameArea = function() {
-		gameArea.clear();
+	this.updateGameArea = function () {
+	    this.debug("x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
 
+        //Clears the game area so it can be re-written
+	    gameArea.clear();
+
+	    //Redrwas each element of the game area
+	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1])
+	    {
+	        displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
+	        //alert("You Won!!!");
+	    }
 		drawGrid();
 		drawMap();
 		battery.update();
 		robot.update();
+	}
+
+
+	this.debug = function(message)
+	{
+	    if (debug) console.log("GUI: " + message);
 	}
 
 	//TODO
@@ -64,7 +82,7 @@ function GUI(){
 		var moveAmtY = settings.height/settings.rows;
 
 		if (!isSuccess) {
-		    alert("Hit Wall");
+		    //alert("Hit Wall");
 		}
 		else {
 		    switch (robot.facing) {
@@ -88,6 +106,8 @@ function GUI(){
 		            robot.y = robot.y + moveAmtY;
 		            break;
 		    }
+		    robot.row = robot.y / moveAmtY;
+		    robot.col = robot.x / moveAmtX;
 		    this.updateGameArea();
 		}
 	}
@@ -97,7 +117,8 @@ function GUI(){
 	//If false, crash animation
 	this.moveBackward = function(isSuccess){
 		var moveAmtX = settings.width/settings.columns;
-		var moveAmtY = settings.height/settings.rows;
+		var moveAmtY = settings.height / settings.rows;
+
 
 		if (!isSuccess) {
 		    alert("Hit Wall");
@@ -108,7 +129,6 @@ function GUI(){
 		        case 'left':
 		            robot.x = robot.x + moveAmtX;
 		            break;
-
 		            //up
 		        case 'up':
 		            robot.y = robot.y + moveAmtY;
@@ -124,6 +144,10 @@ function GUI(){
 		            robot.y = robot.y - moveAmtY;
 		            break;
 		    }
+
+		    robot.row = robot.y / moveAmtY;
+		    robot.col = robot.x / moveAmtX;
+
 		    this.updateGameArea();
 		}
 	  }
@@ -181,8 +205,6 @@ function GUI(){
 	}
 	
 	
-	
-	
 	//Private methods
 	gameArea = {
 		canvas : document.createElement("canvas"),
@@ -207,6 +229,11 @@ function GUI(){
 		this.x = x;
 		this.y = y;
 		this.facing = facing;
+		this.row = y/height;
+		this.col = x/width;
+
+		var row = y / (height / settings.rows);
+		var col = x / (width / settings.columns);
 
 		this.update = function() {
 			ctx = gameArea.context;
@@ -342,6 +369,30 @@ function GUI(){
 
 		ctx.strokeStyle = "#ff0000";
 		ctx.stroke();
+	}
+
+	function displaySimpleModal(title,message)
+	{
+	    var modalDiv = '<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+
+	    modalDiv += '  <div class="modal-dialog" role="document">';
+	    modalDiv += '    <div class="modal-content">';
+	    modalDiv += '      <div class="modal-header">';
+	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ title +'</h5>';
+	    modalDiv += '        <button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+	    modalDiv += '          <span aria-hidden="true">&times;</span>';
+	    modalDiv += '        </button>';
+	    modalDiv += '      </div>';
+	    modalDiv += '      <div class="modal-body">';
+	    modalDiv += message;
+	    modalDiv += '      </div>';
+	    modalDiv += '      <div class="modal-footer">';
+	    modalDiv += '        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+	    modalDiv += '      </div>';
+	    modalDiv += '    </div>';
+	    modalDiv += '  </div>';
+	    modalDiv += '</div>';
+	    $(modalDiv).modal();
 	}
 	
 	function drawGrid(){

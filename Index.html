@@ -1,13 +1,21 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="Front End/css/maze_runner.css" />
+
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
     <title>CSE 110 Maze Runner</title>
     <script src="JS/Game.js"></script>
-	  <script src="JS/JSInter/acorn.js"></script>
+	<script src="JS/JSInter/acorn.js"></script>
     <script src="JS/JSInter/interpreter.js"></script>
     <script src="Blockly/blockly_compressed.js"></script>
     <script src="Blockly/javascript_compressed.js"></script>
@@ -51,12 +59,12 @@
 	
 		<nav id="mr-navigation">
 			<ul>
-				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.play();">Play</a></li>
-				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.pause();">Pause</a></li>
-				<li><a href="#" class="mr-button" id="mr-step" onclick="GAME_ENGINE.step();">Step</a></li>
-				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetGame" onclick="alert('TODO');">Reset Game</a></li>
+				<li><button class="btn btn-primary" id="mr-playPause" onclick="GAME_ENGINE.play();">Play</button></li>
+				<li><button class="btn btn-primary" id="mr-playPause" onclick="GAME_ENGINE.pause();">Pause</button></li>
+				<li><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
+				<li><button class="btn btn-link" id="mr-help">help</button></li>
+				<li><button class="btn btn-primary" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</button></li>
+				<li><button class="btn btn-primary" id="mr-resetGame" onclick="alert('TODO');">Reset Game</button></li>
 			</ul>
 		</nav>
 	

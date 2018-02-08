@@ -59,17 +59,11 @@ header{
 }
 
 
-/*************** button / link styling ***************/
-
-      
-#mr-navigation ul .mr-button{
-	padding:.5em 2em;
-	text-wrap:none;
-	background-color:#8c1d40; 
-	color:white;
-	border-radius:4px;
-	text-decoration:none;
+/*************** modal styling ***************/
+.modal-content{
+    background-color:#fff;
 }
+      
 
 
 /*************** Game styling ***************/
