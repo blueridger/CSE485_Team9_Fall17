@@ -39,13 +39,12 @@ function GameEngine() {
   
   this.generateCodeAndLoadIntoInterpreter = function() 
   {
-    // Generate JavaScript code and parse it.
-    //Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+    // To make sure no other blockly functions have the name highlightBlock
     Blockly.JavaScript.addReservedWords('highlightBlock');
+    
+    //generate the runnable code from the blocks
     latestCode = Blockly.JavaScript.workspaceToCode(demoWorkspace);
     resetStepUi(true);
-    //BlocklyUtility.resetStepUi(true);
-    //resetStepUi(true);
     debug("new code: " + latestCode);
   }
   
@@ -57,6 +56,7 @@ function GameEngine() {
   }
   this.removeInterpreter = removeInterpreter;
   
+  //unhighlights the current block and sets a flag that the step() funtion should stop executing
   function resetStepUi(clearOutput) 
   {
     demoWorkspace.highlightBlock(null);
@@ -64,6 +64,7 @@ function GameEngine() {
   }	
   
   //API to link the interpreter sandbox to the actual code
+  //Must remain in GameEngine.js
   function initApi(interpreter, scope)
   {
     var wrapper;
@@ -134,6 +135,7 @@ function GameEngine() {
   }
   
   //function to highlight blocks
+  //send a flag to the step() function to pause
   function highlightBlock(id) 
   {
     demoWorkspace.highlightBlock(id);
