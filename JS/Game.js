@@ -38,7 +38,12 @@ function GUI(){
 		getInitialValues(gameMap);
 
 		this.debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
-
+    
+    if(typeof arrangeButtons === "function")
+    {
+    arrangeButtons(true);
+    }
+    
 		var width = settings.width/settings.columns;
 		var height = settings.height/settings.rows;
 
