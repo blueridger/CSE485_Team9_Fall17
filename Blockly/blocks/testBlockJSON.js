@@ -11,7 +11,7 @@ Blockly.defineBlocksWithJsonArray([{
 },
 {
   "type": "outer_if",
-  "message0": "Condition %1 Statements %2",
+  "message0": "If %1 Then %2",
   "args0": [
     {
       "type": "input_value",
