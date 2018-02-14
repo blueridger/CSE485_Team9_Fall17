@@ -299,6 +299,7 @@ function GameEngine() {
   function pause() {
     debug("GameEng.pause() called.");
     clearTimeout(playTimeout);
+    isPlaying = false;
   }
   this.pause = pause;
 
