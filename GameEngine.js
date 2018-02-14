@@ -10,9 +10,11 @@ function GameEngine() {
   var map = null;
   var gui = null;
   var interpreter = null;
-  var playInterval = null;
+  var playTimeout = null;
   var score = 0;
   var blocklyChangeHandler = new ChangeHandler();
+  var playSpeed = 500;
+  var isPlaying = false;
   
   //End Properties
   //Start Main
@@ -205,6 +207,7 @@ function GameEngine() {
   }
   
   function checkGameState() {
+    debug("GameEng.checkGameState called.");
     if (map.isWin()) {
       pause();
       score = getScore();
@@ -227,80 +230,89 @@ function GameEngine() {
 
   //return boolean true if level won
   function step(play) {
-    debug("GameEng.step() called.");
+    debug("GameEng.step() called privately.");
     
     if (!interpreter) {
-        // First statement of this code.
-        // Clear the program output.
-        //this.blocklyWorker.resetStepUi();
-        resetStepUi(true);
-        interpreter = new Interpreter(latestCode, initApi);
-        debug(interpreter.ast);
+      // First statement of this code.
+      // Clear the program output.
+      //this.blocklyWorker.resetStepUi();
+      resetStepUi(true);
+      interpreter = new Interpreter(latestCode, initApi);
+      debug(interpreter.ast);
 
-        // And then show generated code in an alert.
-        // In a timeout to allow the outputArea.value to reset first.
-        //var thisPointer = this;
-        setTimeout(function() {
-          highlightPause = true;
-          this;
-          GAME_ENGINE.step();
-        }, 1);
-        return;
-      }
-      highlightPause = false;
+      // And then show generated code in an alert.
+      // In a timeout to allow the outputArea.value to reset first.
+      //var thisPointer = this;
+      setTimeout(function() {
+        highlightPause = true;
+        this;
+        GAME_ENGINE.step();
+      }, 1);
+      return;
+    }
+    highlightPause = false;
+    
+    do {
       
-      do {
-        
-        try {
-          var hasMoreCode = interpreter.step();
-        } finally {
-          if (!hasMoreCode) {
-            // Program complete, no more code to execute.
-            //outputArea.value += '\n\n<< Program complete >>';
-            debug("no more code");
-            interpreter = null;
-            //this.blocklyWorker.resetStepUi();
-            resetStepUi(true)
-
-            return step();
-          }
-          else
-          {
-            debug("more code");
-          }
+      try {
+        var hasMoreCode = interpreter.step();
+      } finally {
+        if (!hasMoreCode) {
+          // Program complete, no more code to execute.
+          //outputArea.value += '\n\n<< Program complete >>';
+          debug("no more code");
+          interpreter = null;
+          //this.blocklyWorker.resetStepUi();
+          resetStepUi(true)
+          step();
         }
-        // Keep executing until a highlight statement is reached,
-        // or the code completes or errors.
-      } while (hasMoreCode && !highlightPause);
+        else
+        {
+          debug("more code");
+        }
+      }
+      // Keep executing until a highlight statement is reached,
+      // or the code completes or errors.
+    } while (hasMoreCode && !highlightPause);
+    if (highlightPause) {
       checkGameState();
+      if (isPlaying) {
+        playTimeout = setTimeout(step, playSpeed);
+      }
+    }
+    
   }
   this.step = function() {
-    step(); 
+    debug("GameEng.step() called publicly.");
+    step();
   }
   
-  this.play = function () {
+  this.play = function() {
     debug("GameEng.play() called.");
-    if (playInterval == null) {
-      playInterval = setInterval(step, 500);
+    if (!isPlaying) {
+      isPlaying = true;
       step();
     }
   }
 
   //return void
-  this.pause = function() { return pause(); };
   function pause() {
     debug("GameEng.pause() called.");
-    clearInterval(playInterval);
-    playInterval = null;
-  };
+    clearTimeout(playTimeout);
+  }
+  this.pause = pause;
 
-  this.resetLevel = resetLevel;
   function resetLevel() {
     debug("GameEng.resetLevel() called.");
     pause();
     map.resetLevel();
     gui.setup(map);
     removeInterpreter();
+  }
+  this.resetLevel = resetLevel;
+  
+  this.setPlaySpeed = function(speed) {
+    playSpeed = speed;
   }
   //End Privileged Methods
   gui.setup(map);
