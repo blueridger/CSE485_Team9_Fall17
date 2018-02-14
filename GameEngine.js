@@ -293,6 +293,11 @@ function GameEngine() {
       isPlaying = true;
       step();
     }
+    
+    document.getElementById('mr-play').style.display = 'none'; 
+    document.getElementById('mr-step').style.display = 'none'; 
+    document.getElementById('myRange').style.display = 'table-cell'; 
+    document.getElementById('mr-pause').style.display = 'table-cell';
   }
 
   //return void
@@ -300,6 +305,11 @@ function GameEngine() {
     debug("GameEng.pause() called.");
     clearTimeout(playTimeout);
     isPlaying = false;
+    
+    document.getElementById('mr-play').style.display = 'table-cell'; 
+    document.getElementById('mr-step').style.display = 'table-cell'; 
+    document.getElementById('myRange').style.display = 'none'; 
+    document.getElementById('mr-pause').style.display = 'none';
   }
   this.pause = pause;
 
