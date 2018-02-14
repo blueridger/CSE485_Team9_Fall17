@@ -13,7 +13,7 @@ function GameEngine() {
   var playTimeout = null;
   var score = 0;
   var blocklyChangeHandler = new ChangeHandler();
-  var playSpeed = 500;
+  var playSpeed = 1000;
   var isPlaying = false;
   
   //End Properties
