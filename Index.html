@@ -118,11 +118,16 @@
         </next>
       </block>
     </xml>
+    <!--END DEFAULT BLOCKS-->
 
     <script type="application/javascript">
+      
       GAME_ENGINE = new GameEngine(true);
-
+      
+      //load the tool box description from the above XML
       var toolbox = document.getElementById("toolbox");
+      
+      //define the blockly options
       var options = 
       { 
         toolbox : toolbox, 
@@ -165,19 +170,18 @@
       //generate the code for the first time
       GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
       
-      var handler = new ChangeHandler();
-      
+      //Change listener for the workspace
       demoWorkspace.addChangeListener(function(event) 
         {
           if (!(event instanceof Blockly.Events.Ui)) 
           {
-            // Something changed. Parser needs to be reloaded.
-            
-            //console.log("Number of blocks: " + GAME_ENGINE.blocklyChangeHandler.getBlockCount(demoWorkspace));
-          
+            //pass it to another object to handle changes
             GAME_ENGINE.blocklyChangeHandler.handleChanges(event, demoWorkspace);
-          
+            
+            //generate code from the recently changed blockly workspace
             GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+            
+            //dump the current instance of the interpreter. This guarantees that code execution will start that the beginning
             GAME_ENGINE.removeInterpreter();
           }
         }

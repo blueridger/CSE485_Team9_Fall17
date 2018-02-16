@@ -1,13 +1,21 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="Front End/css/maze_runner.css" />
+
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
     <title>CSE 110 Maze Runner</title>
     <script src="JS/Game.js"></script>
-	  <script src="JS/JSInter/acorn.js"></script>
+    <script src="JS/JSInter/acorn.js"></script>
     <script src="JS/JSInter/interpreter.js"></script>
     <script src="Blockly/blockly_compressed.js"></script>
     <script src="Blockly/javascript_compressed.js"></script>
@@ -51,12 +59,13 @@
 	
 		<nav id="mr-navigation">
 			<ul>
-				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.play();">Play</a></li>
-				<li><a href="#" class="mr-button" id="mr-playPause"  onclick="GAME_ENGINE.pause();">Pause</a></li>
-				<li><a href="#" class="mr-button" id="mr-step" onclick="GAME_ENGINE.step();">Step</a></li>
-				<li><a href="#" class="mr-link" id="mr-help">help</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel(); GAME_ENGINE.removeInterpreter();">Reset Level</a></li>
-				<li><a href="#" class="mr-button" id="mr-resetGame" onclick="alert('TODO');">Reset Game</a></li>
+				<li><button class="btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play(); arrangeButtons(false);">Play</button></li>
+				<li><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
+				<li><button class="btn btn-primary" id="mr-pause" style="display:none" onclick="GAME_ENGINE.pause(); arrangeButtons(true)">Pause</button></li>
+        <li><input type="range" min="1" max="4" value="2" style="display:none;" id="myRange"></li>
+				<li><button class="btn btn-link" id="mr-help">help</button></li>
+				<li><button class="btn btn-primary" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</button></li>
+				<li><button class="btn btn-primary" id="mr-resetGame" onclick="alert('TODO');">Reset Game</button></li>
 			</ul>
 		</nav>
 	
@@ -110,11 +119,16 @@
         </next>
       </block>
     </xml>
+    <!--END DEFAULT BLOCKS-->
 
     <script type="application/javascript">
+      
       GAME_ENGINE = new GameEngine(true);
-
+      
+      //load the tool box description from the above XML
       var toolbox = document.getElementById("toolbox");
+      
+      //define the blockly options
       var options = 
       { 
         toolbox : toolbox, 
@@ -129,7 +143,7 @@
         media : 'https://blockly-demo.appspot.com/static/media/', 
         rtl : false, 
         scrollbars : true, 
-        sounds : true, 
+        sounds : false, 
         oneBasedIndex : true, 
         grid : 
         {
@@ -140,40 +154,85 @@
         }
       };
       
-      
-
-    
-  
+      //inject the blockly canvas into the blocklyDiv
       var demoWorkspace = Blockly.inject('blocklyDiv',
         {
           media: 'Blockly/media/',
           toolbox: document.getElementById('toolbox')
-        });
+        }
+      );
         
-      /* TODO: Change workspace blocks XML ID if necessary. Can export workspace blocks XML from Workspace Factory. */
-    var workspaceBlocks = document.getElementById("workspaceBlocks"); 
+      //variable defining the default blocks to load on start up.
+      var workspaceBlocks = document.getElementById("workspaceBlocks"); 
 
-    /* Load blocks to workspace. */
-    Blockly.Xml.domToWorkspace(demoWorkspace, workspaceBlocks);
-  
-      //var workspaceBlocks = document.getElementById("workspaceBlocks");
-  
+      /* Load blocks to workspace. */
+      Blockly.Xml.domToWorkspace(workspaceBlocks , demoWorkspace);
+      
+      //generate the code for the first time
       GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
       
-      var handler = new ChangeHandler();
-      
-        demoWorkspace.addChangeListener(function(event) {
-          if (!(event instanceof Blockly.Events.Ui)) {
-            // Something changed. Parser needs to be reloaded.
-            
-            //console.log("Number of blocks: " + GAME_ENGINE.blocklyChangeHandler.getBlockCount(demoWorkspace));
-            
+      //Change listener for the workspace
+      demoWorkspace.addChangeListener(function(event) 
+        {
+          if (!(event instanceof Blockly.Events.Ui)) 
+          {
+            //pass it to another object to handle changes
             GAME_ENGINE.blocklyChangeHandler.handleChanges(event, demoWorkspace);
             
+            //generate code from the recently changed blockly workspace
             GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
+            
+            //dump the current instance of the interpreter. This guarantees that code execution will start that the beginning
             GAME_ENGINE.removeInterpreter();
           }
-        });
+        }
+      );
+      
+      var slider = document.getElementById("myRange");
+      
+      var SPEED_1 = 2000;
+      var SPEED_2 = 1000;
+      var SPEED_3 = 500;
+      var SPEED_4 = 150;
+      
+      // Update the current slider value (each time you drag the slider handle)
+      slider.oninput = function() {
+        console.log(this.value);
+        if(this.value == 1)
+        {
+          GAME_ENGINE.setPlaySpeed(SPEED_1);
+        }
+        else if (this.value == 3)
+        {
+          GAME_ENGINE.setPlaySpeed(SPEED_3);
+        }
+        else if(this.value == 4)
+        {
+          GAME_ENGINE.setPlaySpeed(SPEED_4);
+        }
+        else
+        {
+          GAME_ENGINE.setPlaySpeed(SPEED_2);
+        }
+      }
+      
+      function arrangeButtons(showPlayAndStep)
+      {
+        if(showPlayAndStep == true)
+        {
+          document.getElementById('mr-play').style.display = 'table-cell'; 
+          document.getElementById('mr-step').style.display = 'table-cell'; 
+          document.getElementById('myRange').style.display = 'none'; 
+          document.getElementById('mr-pause').style.display = 'none';
+        }
+        else
+        {
+          document.getElementById('mr-play').style.display = 'none'; 
+          document.getElementById('mr-step').style.display = 'none'; 
+          document.getElementById('myRange').style.display = 'table-cell'; 
+          document.getElementById('mr-pause').style.display = 'table-cell';
+        }
+      }
       </script>
 
       <div id="GameArea"> </div>

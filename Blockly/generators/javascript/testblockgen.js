@@ -64,7 +64,7 @@ Blockly.JavaScript['outer_if'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
   
   var code = '';
-  code += "highlightBlock('" + block.id + "');\n";
+  //code += "highlightBlock('" + block.id + "');\n";
   inputBlock = block.getInputTargetBlock("Condition");
   if(inputBlock != null)
   {
