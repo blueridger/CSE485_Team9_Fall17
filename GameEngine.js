@@ -17,6 +17,7 @@ function GameEngine() {
   var blocklyChangeHandler = new ChangeHandler(this);
   var playSpeed = 1000;
   var isPlaying = false;
+  var scoreLineCountSubtractionBase = 0;
   
   //End Properties
   //Start Main
@@ -236,7 +237,8 @@ function GameEngine() {
   }
   
   function getLevelScore() {
-    return blocklyChangeHandler.getBlockCount(demoWorkspace) * Math.pow(2, Math.max(level - lastLevelModified, 0));
+    var base = Math.max(scoreLineCountSubtractionBase - blocklyChangeHandler.getBlockCount(demoWorkspace), 1);
+    return base * Math.pow(2, Math.max(level - lastLevelModified, 0));
   }
   
   //End Private Methods
