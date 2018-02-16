@@ -12,14 +12,16 @@ function GameEngine() {
   var interpreter = null;
   var playTimeout = null;
   var score = 0;
-  var blocklyChangeHandler = new ChangeHandler();
+  var level = 1;
+  var lastLevelModified = level;
+  var blocklyChangeHandler = new ChangeHandler(this);
   var playSpeed = 1000;
   var isPlaying = false;
   
   //End Properties
   //Start Main
   this.blocklyChangeHandler = blocklyChangeHandler;
-  map = mapGenStub();
+  map = GenerateMap(6,3);
   debug("Map Generated");
   gui = new GUI();
   debug("GUI object created");
@@ -36,6 +38,10 @@ function GameEngine() {
 	var batterySize = 5;
     var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos, batterySize);
     return map;
+  }
+  
+  function getMap() {
+    return GenerateMap(6,3);
   }
 
   
@@ -154,6 +160,7 @@ function GameEngine() {
     else {
       pause();
       gui.moveForward(false);
+      gui.loseGame(false);
       resetLevel();
     }
   }
@@ -168,6 +175,7 @@ function GameEngine() {
     else {
       pause();
       gui.moveBackward(false);
+      gui.loseGame(false);
       resetLevel();
     }
   }
@@ -210,19 +218,25 @@ function GameEngine() {
     debug("GameEng.checkGameState called.");
     if (map.isWin()) {
       pause();
-      score = getScore();
-      //GUI Display + show score
-      //Get new Map
+      var levelScore = getLevelScore();
+      score += levelScore;
+      level++;
+      gui.winGame(levelScore, score, level);
+      gui.setLevelScore(getLevelScore());
+      map = getMap();
       resetLevel();
+      return true;
     } else if (map.isDead()) {
       pause();
-      //GUI Display + show score
+      gui.loseGame(true);
       resetLevel(); //After a delay??
+      return true;
     }
+    return false;
   }
   
-  function getScore() {
-    return blocklyChangeHandler.getBlockCount(demoWorkspace);
+  function getLevelScore() {
+    return blocklyChangeHandler.getBlockCount(demoWorkspace) * Math.pow(2, Math.max(level - lastLevelModified, 0));
   }
   
   //End Private Methods
@@ -273,12 +287,9 @@ function GameEngine() {
       }
       // Keep executing until a highlight statement is reached,
       // or the code completes or errors.
-    } while (hasMoreCode && !highlightPause);
-    if (highlightPause) {
-      checkGameState();
-      if (isPlaying) {
-        playTimeout = setTimeout(step, playSpeed);
-      }
+    } while (hasMoreCode && !highlightPause && interpreter);
+    if (highlightPause && !checkGameState() && isPlaying) {
+      playTimeout = setTimeout(step, playSpeed);
     }
     
   }
@@ -314,6 +325,13 @@ function GameEngine() {
   
   this.setPlaySpeed = function(speed) {
     playSpeed = speed;
+  }
+  
+  this.instructionsModified = function() {
+    debug("GameEng.instructionsModified() called.");
+    lastLevelModified = level;
+    gui.setLevelScore(getLevelScore());
+    resetLevel();
   }
   //End Privileged Methods
   gui.setup(map);

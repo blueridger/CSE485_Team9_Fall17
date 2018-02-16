@@ -1,5 +1,6 @@
-function ChangeHandler()
+function ChangeHandler(gameEng)
 {
+  var gameEngine = gameEng;
   var MAX_LEVEL_OF_NESTING = 2;
   
   this.getBlockCount = function(workspace)
@@ -9,7 +10,7 @@ function ChangeHandler()
   
   this.handleChanges = function (event, workspace)
   {
-    
+    gameEng.instructionsModified();
     if
     ((event instanceof Blockly.Events.BlockMove))
     {

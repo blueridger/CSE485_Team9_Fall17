@@ -98,7 +98,7 @@ function GenerateMap(width, height) {
 	randomNum = Math.floor(Math.random() * numTiles);
 	playerPosition = [parseInt(randomNum / width, 10), randomNum % width];
 	batteryPosition = playerPosition;
-	while(batteryPosition === playerPosition) {
+	while(batteryPosition[0] == playerPosition[0] && batteryPosition[1] == playerPosition[1]) {
 		randomNum = Math.floor(Math.random() * numTiles);
 		batteryPosition = [parseInt(randomNum / width, 10), randomNum % width];
 	}

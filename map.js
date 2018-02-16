@@ -57,6 +57,12 @@ function Tile(tileIndex) {
 }
 
 function Map(width, height, verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition, batterySize) {
+  
+  this.constructor.NORTH = 0;
+  this.constructor.EAST = 1;
+  this.constructor.SOUTH = 2;
+  this.constructor.WEST = 3;
+  
   var originalPosition = playerPosition;
   var originalDirection = playerDirection;
   var player;
@@ -107,6 +113,8 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   playerTile.setPlayer(true);
   batteryTile.setBattery(true);
   
+  this.getDirection = function() { return player.front(); };
+  
   this.getTile = function(index) { return getTile(index); };
   function getTile(index) {
     if (index[0] < 0 || index[1] < 0 || index[0] >= maxY || index[1] >= maxX) return null;
@@ -115,10 +123,10 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
 	
   this.getAdjacentTiles = function(index) {
     var tiles = new Array(4);
-    tiles[0] = getTile([index[0] - 1, index[1]]);
-    tiles[1] = getTile([index[0], index[1] + 1]);
-    tiles[2] = getTile([index[0] + 1, index[1]]);
-    tiles[3] = getTile([index[0], index[1] - 1]);
+    tiles[Map.NORTH] = getTile([index[0] - 1, index[1]]);
+    tiles[Map.EAST] = getTile([index[0], index[1] + 1]);
+    tiles[Map.SOUTH] = getTile([index[0] + 1, index[1]]);
+    tiles[Map.WEST] = getTile([index[0], index[1] - 1]);
     return tiles;
   }
   
