@@ -332,6 +332,8 @@ function GUI(){
     default:
         settings.robotDirection = 'left';
     }
+    settings.columns = map.getWidth();
+    settings.rows = map.getHeight();
 	    for (var x = 0; x < settings.columns; x++) {
 	        for (var y = 0; y < settings.rows; y++) {
 

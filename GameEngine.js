@@ -17,12 +17,12 @@ function GameEngine() {
   var blocklyChangeHandler = new ChangeHandler(this);
   var playSpeed = 1000;
   var isPlaying = false;
-  var scoreLineCountSubtractionBase = 0;
+  var scoreLineCountSubtractionBase = 10;
   
   //End Properties
   //Start Main
   this.blocklyChangeHandler = blocklyChangeHandler;
-  map = GenerateMap(6,3);
+  map = getMap();
   debug("Map Generated");
   gui = new GUI();
   debug("GUI object created");
@@ -42,7 +42,7 @@ function GameEngine() {
   }
   
   function getMap() {
-    return GenerateMap(6,3);
+    return GenerateMap(2+level,1+level);
   }
 
   

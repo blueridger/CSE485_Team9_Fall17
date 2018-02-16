@@ -114,6 +114,8 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   batteryTile.setBattery(true);
   
   this.getDirection = function() { return player.front(); };
+  this.getWidth = function() { return maxX; };
+  this.getHeight = function() { return maxY; };
   
   this.getTile = function(index) { return getTile(index); };
   function getTile(index) {
