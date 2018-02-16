@@ -33,7 +33,7 @@ function GameEngine() {
 	var playerPos = [0, 0];
 	var playerDir = 1;
 	var batteryPos = [1, 1];
-  var batterySize = 5;
+	var batterySize = 5;
     var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos, batterySize);
     return map;
   }
