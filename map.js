@@ -123,10 +123,10 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
 	
   this.getAdjacentTiles = function(index) {
     var tiles = new Array(4);
-    tiles[0] = getTile([index[0] - 1, index[1]]);
-    tiles[1] = getTile([index[0], index[1] + 1]);
-    tiles[2] = getTile([index[0] + 1, index[1]]);
-    tiles[3] = getTile([index[0], index[1] - 1]);
+    tiles[Map.NORTH] = getTile([index[0] - 1, index[1]]);
+    tiles[Map.EAST] = getTile([index[0], index[1] + 1]);
+    tiles[Map.SOUTH] = getTile([index[0] + 1, index[1]]);
+    tiles[Map.WEST] = getTile([index[0], index[1] - 1]);
     return tiles;
   }
   
