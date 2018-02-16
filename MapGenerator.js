@@ -7,6 +7,7 @@ function GenerateMap(width, height) {
 	var playerPosition;
 	var playerDirection;
 	var batteryPosition;
+	var batterySize;
 	
 	function Tile() {
 		var parent;
@@ -102,6 +103,7 @@ function GenerateMap(width, height) {
 		batteryPosition = [parseInt(randomNum / width, 10), randomNum % width];
 	}
 	playerDirection = Math.floor(Math.random() * 4);
-	var randomMap = new Map(randomVWalls, randomHWalls, playerPosition, playerDirection, batteryPosition);
+	batterySize = width*height*25;
+	var randomMap = new Map(width, height, randomVWalls, randomHWalls, playerPosition, playerDirection, batteryPosition, batterySize);
 	return randomMap;
 }
