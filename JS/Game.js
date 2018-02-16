@@ -204,7 +204,6 @@ function GUI(){
 		this.updateGameArea();
 	}
 	
-	
 	//Private methods
 	gameArea = {
 		canvas : document.createElement("canvas"),
@@ -370,6 +369,7 @@ function GUI(){
 		ctx.strokeStyle = "#ff0000";
 		ctx.stroke();
 	}
+
 
 	function displaySimpleModal(title,message)
 	{
