@@ -75,14 +75,14 @@ function GUI(){
 		robot.update();
 	}
 
-	this.winGame()
+	this.winGame = function()
 	{
 	    displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	}
 
-	this.loseGame()
+	this.loseGame = function()
 	{
-	    
+	    displaySimpleModal("Loser!", "You Crashed!");
 	}
 
 
