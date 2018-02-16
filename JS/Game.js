@@ -35,6 +35,7 @@ function GUI(){
 	
 	//Public methods
 	this.setup = function (map) {
+	    gameArea.clear();
 	    gameMap = map;
 	    getInitialValues(gameMap);
 		gameAreaDiv = document.getElementById("GameArea");
@@ -80,10 +81,11 @@ function GUI(){
 
 	this.winGame = function(acquiredLevelScore, gameScore, levelNumber)
 	{
-    document.getElementById("mr-gameScore").innerHTML = gameScore;
-    document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
-    document.getElementById("mr-levelNumber").innerHTML = levelNumber;
-	    displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
+	    gameArea.clear();
+        document.getElementById("mr-gameScore").innerHTML = gameScore;
+        document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
+        document.getElementById("mr-levelNumber").innerHTML = levelNumber;
+        displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	}
 
 	this.loseGame = function(isBatteryDead) //crash case if false
@@ -243,8 +245,11 @@ function GUI(){
 			
 		},
 
-		clear : function() {
-			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		clear: function () {
+		    if (typeof this.context != "undefined") {
+		        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		    }
+
 		}
 	}
 	
@@ -316,6 +321,12 @@ function GUI(){
 	
 		settings.width = tmpWidth;
 		settings.height = (tmpWidth / settings.columns) * settings.rows;
+
+		if(settings.height > 500)
+		{
+		    settings.height = 500;
+		    settings.width = (500 / settings.rows) * settings.columns;
+		}
 	}
 
 	function getInitialValues(map)
