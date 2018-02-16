@@ -320,13 +320,13 @@ function GUI(){
 	{
     
     switch(map.getDirection()) {
-    case 0:
+    case Map.NORTH:
         settings.robotDirection = 'up';
         break;
-    case 1:
+    case Map.EAST:
         settings.robotDirection = 'right';
         break;
-    case 2:
+    case Map.SOUTH:
         settings.robotDirection = 'down';
         break;
     default:
