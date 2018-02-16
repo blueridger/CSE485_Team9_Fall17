@@ -75,15 +75,20 @@ function GUI(){
 		robot.update();
 	}
 
-	this.winGame = function()
+	this.winGame = function(acquiredLevelScore, gameScore, levelNumber)
 	{
+    document.getElementById("mr-gameScore").innerHTML = gameScore;
+    document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
+    document.getElementById("mr-levelNumber").innerHTML = levelNumber;
 	    displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	}
 
-	this.loseGame = function()
+	this.loseGame = function(isBatteryDead) //crash case if false
 	{
 	    displaySimpleModal("Loser!", "You Crashed!");
 	}
+  
+  this.setLevelScore = function(levelScore) { document.getElementById("mr-levelScore").innerHTML = levelScore; }
 
 
 	this.debug = function(message)
