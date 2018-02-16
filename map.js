@@ -107,6 +107,8 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
   playerTile.setPlayer(true);
   batteryTile.setBattery(true);
   
+  this.getDirection = function() { return player.front(); };
+  
   this.getTile = function(index) { return getTile(index); };
   function getTile(index) {
     if (index[0] < 0 || index[1] < 0 || index[0] >= maxY || index[1] >= maxX) return null;

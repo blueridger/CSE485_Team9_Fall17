@@ -21,7 +21,7 @@ function GameEngine() {
   //End Properties
   //Start Main
   this.blocklyChangeHandler = blocklyChangeHandler;
-  map = mapGenStub();
+  map = GenerateMap(6,3);
   debug("Map Generated");
   gui = new GUI();
   debug("GUI object created");
@@ -38,6 +38,10 @@ function GameEngine() {
   var batterySize = 5;
     var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos, batterySize);
     return map;
+  }
+  
+  function getMap() {
+    return GenerateMap(6,3);
   }
 
   
@@ -219,7 +223,7 @@ function GameEngine() {
       level++;
       gui.winGame(levelScore, score, level);
       gui.setLevelScore(getLevelScore());
-      map = mapGenStub();
+      map = getMap();
       resetLevel();
       return true;
     } else if (map.isDead()) {

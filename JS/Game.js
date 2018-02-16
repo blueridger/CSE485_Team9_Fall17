@@ -25,7 +25,8 @@ function GUI(){
 		width: 500,
 		height: 495,
 		robotStart: [0,0],
-		batteryStart : [0,0]
+		batteryStart : [0,0],
+    robotDirection: 'right'
 	};
 	
 	//Public vars
@@ -50,7 +51,7 @@ function GUI(){
 		var height = settings.height/settings.rows;
 
 		battery = new batteryComponent(width, height, width * settings.batteryStart[1], height * settings.batteryStart[0]);
-		robot = new robotComponent(width, height, width * settings.robotStart[1], height * settings.robotStart[0], 'right');
+		robot = new robotComponent(width, height, width * settings.robotStart[1], height * settings.robotStart[0], settings.robotDirection);
 		
 		gameArea.start();
 		
@@ -317,6 +318,20 @@ function GUI(){
 
 	function getInitialValues(map)
 	{
+    
+    switch(map.getDirection()) {
+    case 0:
+        settings.robotDirection = 'up';
+        break;
+    case 1:
+        settings.robotDirection = 'right';
+        break;
+    case 2:
+        settings.robotDirection = 'down';
+        break;
+    default:
+        settings.robotDirection = 'left';
+    }
 	    for (var x = 0; x < settings.columns; x++) {
 	        for (var y = 0; y < settings.rows; y++) {
 
