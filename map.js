@@ -56,7 +56,7 @@ function Tile(tileIndex) {
   };
 }
 
-function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition, batterySize) {
+function Map(width, height, verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition, batterySize) {
   
   this.constructor.NORTH = 0;
   this.constructor.EAST = 1;
@@ -70,8 +70,8 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
   var batteryTile;
   var batteryMaxLife = batterySize;
   var batteryLife = batteryMaxLife;
-  var maxX = 6;
-  var maxY = 3;
+  var maxX = width;
+  var maxY = height;
   var tileMap = new Array(maxY); //TODO allow dynamic sizing
 	
   for (var i = 0; i < maxY; i++) {
@@ -86,22 +86,22 @@ function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, ba
 	
   for(var i = 0; i < verticalWalls.length; i++) {
     if(verticalWalls[i]) {
-      if(i%7>0) {
-        tileMap[parseInt((i-parseInt(i/7, 10)-1)/6, 10)][(i-parseInt(i/7, 10)-1)%6].setWall(1, true);
+      if(i%(maxX+1)>0) {
+        tileMap[parseInt((i-parseInt(i/(maxX+1), 10)-1)/maxX, 10)][(i-parseInt(i/(maxX+1), 10)-1)%maxX].setWall(1, true);
       }
-      if((i+1)%7>0) {
-        tileMap[parseInt((i-parseInt(i/7, 10))/6, 10)][(i-parseInt(i/7, 10))%6].setWall(3, true);
+      if((i+1)%(maxX+1)>0) {
+        tileMap[parseInt((i-parseInt(i/(maxX+1), 10))/maxX, 10)][(i-parseInt(i/(maxX+1), 10))%maxX].setWall(3, true);
       }
     }
   }
 	
   for(var i = 0; i < horizontalWalls.length; i++) {
     if(horizontalWalls[i]) {
-      if(i%4>0) {
-        tileMap[parseInt((6*((i-parseInt(i/4, 10)-1)%3)+parseInt((i-parseInt(i/4, 10)-1)/3, 10))/6, 10)][(6*((i-parseInt(i/4, 10)-1)%3)+parseInt((i-parseInt(i/4, 10)-1)/3, 10))%6].setWall(2, true);
+      if(i%(maxY+1)>0) {
+        tileMap[parseInt((maxX*((i-parseInt(i/(maxY+1), 10)-1)%maxY)+parseInt((i-parseInt(i/(maxY+1), 10)-1)/maxY, 10))/maxX, 10)][(maxX*((i-parseInt(i/(maxY+1), 10)-1)%maxY)+parseInt((i-parseInt(i/(maxY+1), 10)-1)/maxY, 10))%maxX].setWall(2, true);
       }
-      if((i+1)%4>0) {
-        tileMap[parseInt((6*((i-parseInt(i/4, 10))%3)+parseInt((i-parseInt(i/4, 10))/3, 10))/6, 10)][(6*((i-parseInt(i/4, 10))%3)+parseInt((i-parseInt(i/4, 10))/3, 10))%6].setWall(0, true);
+      if((i+1)%(maxY+1)>0) {
+        tileMap[parseInt((maxX*((i-parseInt(i/(maxY+1), 10))%maxY)+parseInt((i-parseInt(i/(maxY+1), 10))/maxY, 10))/maxX, 10)][(maxX*((i-parseInt(i/(maxY+1), 10))%maxY)+parseInt((i-parseInt(i/(maxY+1), 10))/maxY, 10))%maxX].setWall(0, true);
       }
     }
   }
