@@ -63,13 +63,12 @@ function GUI(){
         //Clears the game area so it can be re-written
 	    gameArea.clear();
 
-	    //Redrwas each element of the game area
+	    
 	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1])
 	    {
 	        gameWon = true;
-	        displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
-	        //alert("You Won!!!");
 	    }
+	    //Redrwas each element of the game area
 		drawGrid();
 		drawMap();
 		battery.update();
@@ -78,12 +77,12 @@ function GUI(){
 
 	this.winGame()
 	{
-	    return gameWon;
+	    displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	}
 
 	this.loseGame()
 	{
-	    return gameLost;
+	    
 	}
 
 
