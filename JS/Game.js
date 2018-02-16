@@ -26,7 +26,7 @@ function GUI(){
 		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0],
-    robotDirection: 'right'
+        robotDirection: 'right'
 	};
 	
 	//Public vars
@@ -34,18 +34,20 @@ function GUI(){
 	
 	
 	//Public methods
-	this.setup = function(map) {
+	this.setup = function (map) {
+	    gameMap = map;
+	    getInitialValues(gameMap);
 		gameAreaDiv = document.getElementById("GameArea");
 		getGameDimensions(gameAreaDiv);
-		gameMap = map;
-		getInitialValues(gameMap);
+		
+		
 
 		this.debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
     
-    if(typeof arrangeButtons === "function")
-    {
-    arrangeButtons(true);
-    }
+        if(typeof arrangeButtons === "function")
+        {
+            arrangeButtons(true);
+        }
     
 		var width = settings.width/settings.columns;
 		var height = settings.height/settings.rows;
@@ -319,21 +321,22 @@ function GUI(){
 	function getInitialValues(map)
 	{
     
-    switch(map.getDirection()) {
-    case Map.NORTH:
-        settings.robotDirection = 'up';
-        break;
-    case Map.EAST:
-        settings.robotDirection = 'right';
-        break;
-    case Map.SOUTH:
-        settings.robotDirection = 'down';
-        break;
-    default:
-        settings.robotDirection = 'left';
-    }
-    settings.columns = map.getWidth();
-    settings.rows = map.getHeight();
+        switch(map.getDirection()) {
+        case Map.NORTH:
+            settings.robotDirection = 'up';
+            break;
+        case Map.EAST:
+            settings.robotDirection = 'right';
+            break;
+        case Map.SOUTH:
+            settings.robotDirection = 'down';
+            break;
+        default:
+            settings.robotDirection = 'left';
+        }
+        settings.columns = map.getWidth();
+        settings.rows = map.getHeight();
+
 	    for (var x = 0; x < settings.columns; x++) {
 	        for (var y = 0; y < settings.rows; y++) {
 
