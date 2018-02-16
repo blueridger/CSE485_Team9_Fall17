@@ -57,6 +57,12 @@ function Tile(tileIndex) {
 }
 
 function Map(verticalWalls, horizontalWalls, playerPosition, playerDirection, batteryPosition, batterySize) {
+  
+  this.constructor.NORTH = 0;
+  this.constructor.EAST = 1;
+  this.constructor.SOUTH = 2;
+  this.constructor.WEST = 3;
+  
   var originalPosition = playerPosition;
   var originalDirection = playerDirection;
   var player;
