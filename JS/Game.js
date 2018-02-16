@@ -7,6 +7,8 @@ function GUI(){
 	var gameArea = null;
 	var gameMap = null;
 	var debug = true;
+	var gameWon = false;
+	var gameLost = false;
 	
 	var robotImages = {
 		north: "ship_north.png",
@@ -64,6 +66,7 @@ function GUI(){
 	    //Redrwas each element of the game area
 	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1])
 	    {
+	        gameWon = true;
 	        displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	        //alert("You Won!!!");
 	    }
@@ -71,6 +74,16 @@ function GUI(){
 		drawMap();
 		battery.update();
 		robot.update();
+	}
+
+	this.winGame()
+	{
+	    return gameWon;
+	}
+
+	this.loseGame()
+	{
+	    return gameLost;
 	}
 
 
@@ -87,6 +100,7 @@ function GUI(){
 		var moveAmtY = settings.height/settings.rows;
 
 		if (!isSuccess) {
+		    gameLost = true;
 		    //alert("Hit Wall");
 		}
 		else {
@@ -126,6 +140,7 @@ function GUI(){
 
 
 		if (!isSuccess) {
+		    gameLost = true;
 		    alert("Hit Wall");
 		}
 		else {
