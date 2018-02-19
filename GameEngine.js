@@ -254,6 +254,8 @@ function GameEngine() {
       // Clear the program output.
       //this.blocklyWorker.resetStepUi();
       resetStepUi(true);
+      if(latestCode.length > 0)
+      {
       interpreter = new Interpreter(latestCode, initApi);
       debug(interpreter.ast);
 
@@ -265,6 +267,7 @@ function GameEngine() {
         this;
         GAME_ENGINE.step();
       }, 1);
+      }
       return;
     }
     highlightPause = false;
