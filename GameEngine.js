@@ -18,6 +18,7 @@ function GameEngine() {
   var playSpeed = 1000;
   var isPlaying = false;
   var scoreLineCountSubtractionBase = 10;
+  var latestCode = "";
   
   //End Properties
   //Start Main
@@ -254,6 +255,8 @@ function GameEngine() {
       // Clear the program output.
       //this.blocklyWorker.resetStepUi();
       resetStepUi(true);
+      if(latestCode.length > 0)
+      {
       interpreter = new Interpreter(latestCode, initApi);
       debug(interpreter.ast);
 
@@ -265,6 +268,7 @@ function GameEngine() {
         this;
         GAME_ENGINE.step();
       }, 1);
+      }
       return;
     }
     highlightPause = false;
