@@ -19,6 +19,7 @@ function GameEngine() {
   var isPlaying = false;
   var scoreLineCountSubtractionBase = 10;
   var latestCode = "";
+  var lastConditionBlockResult;
   
   //End Properties
   //Start Main
@@ -149,8 +150,10 @@ function GameEngine() {
   //send a flag to the step() function to pause
   function highlightBlock(id) 
   {
-    demoWorkspace.highlightBlock(id);
-    highlightPause = true;
+    if (lastConditionBlockResult) {
+      demoWorkspace.highlightBlock(id);
+      highlightPause = true;
+    }
   }
   
   function moveForward() {
@@ -197,24 +200,36 @@ function GameEngine() {
   
   function openRight() {
     debug("GameEng.openRight() called.");
-    var isOpen = map.openRight();
-    debug("isOpen = " + isOpen);
-    return isOpen;
+    lastConditionBlockResult = map.openRight();
+    debug("isOpenRight = " + lastConditionBlockResult);
+    return lastConditionBlockResult;
   }
   
   function openLeft() {
     debug("GameEng.openLeft() called.");
-    return map.openLeft();
+    lastConditionBlockResult = map.openLeft();
+    debug("isOpenRight = " + lastConditionBlockResult);
+    return lastConditionBlockResult;
   }
   
   function openRear() {
     debug("GameEng.openRear() called.");
-    return map.openRear();
+    lastConditionBlockResult = map.openRear();
+    debug("isOpenRight = " + lastConditionBlockResult);
+    return lastConditionBlockResult;
   }
   
   function openFront() {
     debug("GameEng.openFront() called.");
-    return map.openFront();
+    lastConditionBlockResult = map.openFront();
+    debug("isOpenRight = " + lastConditionBlockResult);
+    return lastConditionBlockResult;
+  }
+  
+  function not(conditionalFunc) { 
+    debug("GameEng.not() called.");
+    lastConditionBlockResult = !conditionalFunc();
+    return lastConditionBlockResult;
   }
   
   function checkGameState() {
