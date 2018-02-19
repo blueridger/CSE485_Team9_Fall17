@@ -18,6 +18,7 @@ function GameEngine() {
   var playSpeed = 1000;
   var isPlaying = false;
   var scoreLineCountSubtractionBase = 10;
+  var latestCode = "";
   
   //End Properties
   //Start Main
