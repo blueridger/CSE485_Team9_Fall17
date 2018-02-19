@@ -245,6 +245,7 @@ function GameEngine() {
       resetLevel();
       return true;
     } else if (map.isDead()) {
+      debug("Battery DEAD.");
       pause();
       gui.loseGame(true);
       resetLevel(); //After a delay??

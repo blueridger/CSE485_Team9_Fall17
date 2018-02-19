@@ -68,7 +68,7 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   var player;
   var playerTile;
   var batteryTile;
-  var batteryMaxLife = 1;//batterySize;
+  var batteryMaxLife = batterySize;
   var batteryLife = batteryMaxLife;
   var maxX = width;
   var maxY = height;
@@ -202,6 +202,6 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   }
   
   this.isDead = function() {
-    return batteryLife == 0;
+    return batteryLife <= 0;
   }
 }
