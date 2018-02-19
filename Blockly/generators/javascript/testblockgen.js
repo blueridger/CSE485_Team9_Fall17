@@ -32,7 +32,7 @@ Blockly.JavaScript['open_back'] = function(block) {
 Blockly.JavaScript['wall_right'] = function(block) {
   // Search the text for a substring.
   
-  code = "!openRight()";
+  code = "not(openRight())";
   //code += "highlightBlock('" + block.id + "');\n";
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -40,21 +40,21 @@ Blockly.JavaScript['wall_right'] = function(block) {
 Blockly.JavaScript['wall_left'] = function(block) {
   // Search the text for a substring.
   
-  code = "!openLeft()";
+  code = "not(openLeft())";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 Blockly.JavaScript['wall_front'] = function(block) {
   // Search the text for a substring.
   
-  code = "!openFront()";
+  code = "not(openFront())";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 Blockly.JavaScript['wall_back'] = function(block) {
   // Search the text for a substring.
   
-  code = "!openRear()";
+  code = "not(openRear())";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
