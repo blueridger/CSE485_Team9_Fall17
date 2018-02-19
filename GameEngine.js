@@ -27,6 +27,7 @@ function GameEngine() {
   debug("Map Generated");
   gui = new GUI();
   debug("GUI object created");
+  gui.setup(map);
   //End Main
   //Start Private Methods
 
@@ -340,5 +341,5 @@ function GameEngine() {
     resetLevel();
   }
   //End Privileged Methods
-  gui.setup(map);
+  
 }

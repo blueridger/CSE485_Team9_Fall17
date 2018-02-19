@@ -103,7 +103,7 @@ function GenerateMap(width, height) {
 		batteryPosition = [parseInt(randomNum / width, 10), randomNum % width];
 	}
 	playerDirection = Math.floor(Math.random() * 4);
-	batterySize = width*height*25;
+	batterySize = width*height*0+1;
 	var randomMap = new Map(width, height, randomVWalls, randomHWalls, playerPosition, playerDirection, batteryPosition, batterySize);
 	return randomMap;
 }
