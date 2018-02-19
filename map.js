@@ -68,7 +68,7 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   var player;
   var playerTile;
   var batteryTile;
-  var batteryMaxLife = batterySize;
+  var batteryMaxLife = 1;//batterySize;
   var batteryLife = batteryMaxLife;
   var maxX = width;
   var maxY = height;

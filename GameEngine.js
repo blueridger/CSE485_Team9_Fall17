@@ -153,7 +153,7 @@ function GameEngine() {
     if (lastConditionBlockResult) {
       demoWorkspace.highlightBlock(id);
       highlightPause = true;
-    }
+    } else lastConditionBlockResult = true;
   }
   
   function moveForward() {
