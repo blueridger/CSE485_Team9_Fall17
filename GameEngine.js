@@ -6,6 +6,11 @@ function GameEngine() {
   //Start Properties
   
   this.constructor.debug = true;
+  
+  
+  /*
+   * START  Private variables
+   */
 
   var map = null;
   var gui = null;
@@ -21,17 +26,28 @@ function GameEngine() {
   var latestCode = "";
   var lastConditionBlockResult;
   
-  //End Properties
-  //Start Main
+  /*
+   * END  Private variables
+   */
+  
+  /*
+   * START  Main
+   */
   this.blocklyChangeHandler = blocklyChangeHandler;
   map = getMap();
   debug("Map Generated");
   gui = new GUI();
   debug("GUI object created");
   gui.setup(map);
-  //End Main
-  //Start Private Methods
+  
+  /*
+   * END  Main
+   */
 
+  /*
+   * START  Private methods
+   */
+  
   //returns a real map to test with
   function mapGenStub() {
     var vWalls = [true, true, false, false, true, false, true, true, false, false, false, false, true, true, true, false, true, false, false, false, true];
@@ -47,7 +63,223 @@ function GameEngine() {
   function getMap() {
     return GenerateMap(2+level,1+level);
   }
+  
+  function checkGameState() {
+    debug("GameEng.checkGameState called.");
+    if (map.isWin()) {
+      pause();
+      var levelScore = getLevelScore();
+      score += levelScore;
+      level++;
+      gui.winGame(levelScore, score, level);
+      gui.setLevelScore(getLevelScore());
+      map = getMap();
+      resetLevel();
+      return true;
+    } else if (map.isDead()) {
+      debug("Battery DEAD.");
+      pause();
+      gui.loseGame(true);
+      resetLevel(); //After a delay??
+      return true;
+    }
+    return false;
+  }
+  
+  function getLevelScore() {
+    var base = Math.max(scoreLineCountSubtractionBase - blocklyChangeHandler.getBlockCount(demoWorkspace), 1);
+    return base * Math.pow(2, Math.max(level - lastLevelModified, 0));
+  }
+  
+  /*
+   * END  Private methods
+   */
+  
+  /*
+   * START  Privileged methods
+   */
 
+  //return boolean true if level won
+  function step(play) {
+    debug("GameEng.step() called privately.");
+    
+    if (!interpreter) {
+      // First statement of this code.
+      // Clear the program output.
+      //this.blocklyWorker.resetStepUi();
+      resetStepUi(true);
+      if(latestCode.length > 0)
+      {
+      interpreter = new Interpreter(latestCode, initApi);
+      debug(interpreter.ast);
+
+      // And then show generated code in an alert.
+      // In a timeout to allow the outputArea.value to reset first.
+      //var thisPointer = this;
+      setTimeout(function() {
+        highlightPause = true;
+        this;
+        GAME_ENGINE.step();
+      }, 1);
+      }
+      return;
+    }
+    highlightPause = false;
+    
+    do {
+      
+      try {
+        var hasMoreCode = interpreter.step();
+      } finally {
+        if (!hasMoreCode) {
+          // Program complete, no more code to execute.
+          //outputArea.value += '\n\n<< Program complete >>';
+          debug("no more code");
+          interpreter = null;
+          //this.blocklyWorker.resetStepUi();
+          resetStepUi(true)
+          step();
+        }
+        else
+        {
+          debug("more code");
+        }
+      }
+      // Keep executing until a highlight statement is reached,
+      // or the code completes or errors.
+    } while (hasMoreCode && !highlightPause && interpreter);
+    if (highlightPause && !checkGameState() && isPlaying) {
+      playTimeout = setTimeout(step, playSpeed);
+    }
+    
+  }
+  this.step = function() {
+    debug("GameEng.step() called publicly.");
+    step();
+  }
+  
+  this.play = function() {
+    debug("GameEng.play() called.");
+    if (!isPlaying) {
+      isPlaying = true;
+      step();
+    }
+  }
+
+  //return void
+  function pause() {
+    debug("GameEng.pause() called.");
+    clearTimeout(playTimeout);
+    isPlaying = false;
+  }
+  this.pause = pause;
+
+  function resetLevel() {
+    debug("GameEng.resetLevel() called.");
+    pause();
+    map.resetLevel();
+    gui.setup(map);
+    removeInterpreter();
+  }
+  this.resetLevel = resetLevel;
+  
+  this.setPlaySpeed = function(speed) {
+    playSpeed = speed;
+  }
+  
+  this.instructionsModified = function() {
+    debug("GameEng.instructionsModified() called.");
+    lastLevelModified = level;
+    gui.setLevelScore(getLevelScore());
+    resetLevel();
+  }
+  
+  /*
+   * END  Privileged methods
+   */
+  
+  /*
+   * START  Interpreter-called methods
+   */
+  
+  //function to highlight blocks
+  //send a flag to the step() function to pause
+  function highlightBlock(id) 
+  {
+    demoWorkspace.highlightBlock(id);
+    highlightPause = true;
+    return true;
+  }
+  
+  function moveForward() {
+    debug("GameEng.moveForward() called.");
+    var canMove = map.movePlayerForward();
+    debug("canMove = " + canMove);
+    if (canMove) {
+      gui.moveForward(true);
+    } 
+    else {
+      pause();
+      gui.moveForward(false);
+      gui.loseGame(false);
+      resetLevel();
+    }
+  }
+  
+  function moveBackward() {
+     debug("GameEng.moveBackward() called.");
+     var canMove = map.movePlayerBackward();
+     debug("canMove = " + canMove);
+    if (canMove) {
+      gui.moveBackward(true);
+    } 
+    else {
+      pause();
+      gui.moveBackward(false);
+      gui.loseGame(false);
+      resetLevel();
+    }
+  }
+  
+  function turnRight() {
+    debug("GameEng.turnRight() called.");
+    map.turnPlayerRight();
+    gui.turnRight();
+  }
+  
+  function turnLeft() {
+    debug("GameEng.turnLeft() called.");
+    map.turnPlayerLeft();
+    gui.turnLeft();
+  }
+  
+  function openRight() {
+    debug("GameEng.openRight() called.");
+    return map.openRight();
+  }
+  
+  function openLeft() {
+    debug("GameEng.openLeft() called.");
+    return map.openLeft();
+  }
+  
+  function openRear() {
+    debug("GameEng.openRear() called.");
+    return map.openRear();
+  }
+  
+  function openFront() {
+    debug("GameEng.openFront() called.");
+    return map.openFront();
+  }
+  
+  /*
+   * END  Interpreter-called methods
+   */
+  
+  /*
+   * START  Blockly / Interpreter setup
+   */
   
   this.generateCodeAndLoadIntoInterpreter = function() 
   {
@@ -146,209 +378,7 @@ function GameEngine() {
     interpreter.createNativeFunction(wrapper));
   }
   
-  //function to highlight blocks
-  //send a flag to the step() function to pause
-  function highlightBlock(id) 
-  {
-    demoWorkspace.highlightBlock(id);
-    highlightPause = true;
-    return true;
-  }
-  
-  function moveForward() {
-    debug("GameEng.moveForward() called.");
-    var canMove = map.movePlayerForward();
-    debug("canMove = " + canMove);
-    if (canMove) {
-      gui.moveForward(true);
-    } 
-    else {
-      pause();
-      gui.moveForward(false);
-      gui.loseGame(false);
-      resetLevel();
-    }
-  }
-  
-  function moveBackward() {
-     debug("GameEng.moveBackward() called.");
-     var canMove = map.movePlayerBackward();
-     debug("canMove = " + canMove);
-    if (canMove) {
-      gui.moveBackward(true);
-    } 
-    else {
-      pause();
-      gui.moveBackward(false);
-      gui.loseGame(false);
-      resetLevel();
-    }
-  }
-  
-  function turnRight() {
-    debug("GameEng.turnRight() called.");
-    map.turnPlayerRight();
-    gui.turnRight();
-  }
-  
-  function turnLeft() {
-    debug("GameEng.turnLeft() called.");
-    map.turnPlayerLeft();
-    gui.turnLeft();
-  }
-  
-  function openRight() {
-    debug("GameEng.openRight() called.");
-    lastConditionBlockResult = map.openRight();
-    debug("isOpenRight = " + lastConditionBlockResult);
-    return lastConditionBlockResult;
-  }
-  
-  function openLeft() {
-    debug("GameEng.openLeft() called.");
-    lastConditionBlockResult = map.openLeft();
-    debug("isOpenRight = " + lastConditionBlockResult);
-    return lastConditionBlockResult;
-  }
-  
-  function openRear() {
-    debug("GameEng.openRear() called.");
-    lastConditionBlockResult = map.openRear();
-    debug("isOpenRight = " + lastConditionBlockResult);
-    return lastConditionBlockResult;
-  }
-  
-  function openFront() {
-    debug("GameEng.openFront() called.");
-    lastConditionBlockResult = map.openFront();
-    debug("isOpenRight = " + lastConditionBlockResult);
-    return lastConditionBlockResult;
-  }
-  
-  function checkGameState() {
-    debug("GameEng.checkGameState called.");
-    if (map.isWin()) {
-      pause();
-      var levelScore = getLevelScore();
-      score += levelScore;
-      level++;
-      gui.winGame(levelScore, score, level);
-      gui.setLevelScore(getLevelScore());
-      map = getMap();
-      resetLevel();
-      return true;
-    } else if (map.isDead()) {
-      debug("Battery DEAD.");
-      pause();
-      gui.loseGame(true);
-      resetLevel(); //After a delay??
-      return true;
-    }
-    return false;
-  }
-  
-  function getLevelScore() {
-    var base = Math.max(scoreLineCountSubtractionBase - blocklyChangeHandler.getBlockCount(demoWorkspace), 1);
-    return base * Math.pow(2, Math.max(level - lastLevelModified, 0));
-  }
-  
-  //End Private Methods
-  //Start Privileged Methods
-
-  //return boolean true if level won
-  function step(play) {
-    debug("GameEng.step() called privately.");
-    
-    if (!interpreter) {
-      // First statement of this code.
-      // Clear the program output.
-      //this.blocklyWorker.resetStepUi();
-      resetStepUi(true);
-      if(latestCode.length > 0)
-      {
-      interpreter = new Interpreter(latestCode, initApi);
-      debug(interpreter.ast);
-
-      // And then show generated code in an alert.
-      // In a timeout to allow the outputArea.value to reset first.
-      //var thisPointer = this;
-      setTimeout(function() {
-        highlightPause = true;
-        this;
-        GAME_ENGINE.step();
-      }, 1);
-      }
-      return;
-    }
-    highlightPause = false;
-    
-    do {
-      
-      try {
-        var hasMoreCode = interpreter.step();
-      } finally {
-        if (!hasMoreCode) {
-          // Program complete, no more code to execute.
-          //outputArea.value += '\n\n<< Program complete >>';
-          debug("no more code");
-          interpreter = null;
-          //this.blocklyWorker.resetStepUi();
-          resetStepUi(true)
-          step();
-        }
-        else
-        {
-          debug("more code");
-        }
-      }
-      // Keep executing until a highlight statement is reached,
-      // or the code completes or errors.
-    } while (hasMoreCode && !highlightPause && interpreter);
-    if (highlightPause && !checkGameState() && isPlaying) {
-      playTimeout = setTimeout(step, playSpeed);
-    }
-    
-  }
-  this.step = function() {
-    debug("GameEng.step() called publicly.");
-    step();
-  }
-  
-  this.play = function() {
-    debug("GameEng.play() called.");
-    if (!isPlaying) {
-      isPlaying = true;
-      step();
-    }
-  }
-
-  //return void
-  function pause() {
-    debug("GameEng.pause() called.");
-    clearTimeout(playTimeout);
-    isPlaying = false;
-  }
-  this.pause = pause;
-
-  function resetLevel() {
-    debug("GameEng.resetLevel() called.");
-    pause();
-    map.resetLevel();
-    gui.setup(map);
-    removeInterpreter();
-  }
-  this.resetLevel = resetLevel;
-  
-  this.setPlaySpeed = function(speed) {
-    playSpeed = speed;
-  }
-  
-  this.instructionsModified = function() {
-    debug("GameEng.instructionsModified() called.");
-    lastLevelModified = level;
-    gui.setLevelScore(getLevelScore());
-    resetLevel();
-  }
-  //End Privileged Methods
-  
+  /*
+   * END  Blockly / Interpreter setup
+   */
 }
