@@ -62,12 +62,45 @@
 				<li><button class="btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play();">Play</button></li>
 				<li><button class="btn btn-primary" id="mr-pause" onclick="GAME_ENGINE.pause();">Pause</button></li>
 				<li><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
-				<li><button class="btn btn-link" id="mr-help" onclick="">help</button></li>
+				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal">help</button></li>
 				<li><button class="btn btn-primary" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</button></li>
-				<li><button class="btn btn-primary" id="mr-resetGame" onclick="alert('TODO');">Reset Game</button></li>
+				<li><button class="btn btn-primary" id="mr-resetGame" onclick="loacation.reload();">Reset Game</button></li>
 			</ul>
 		</nav>
 	
+      <!-- Modal -->
+      <div class="modal fade" id="mr-helpModal" tabindex="-1" role="dialog" aria-labelledby="mr-helpModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="mr-helpModalLongTitle">Maze Runner Help</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div>
+                          <h5>Welcome</h5>
+                          <p>The Maze Runner's battery is running out. He needs your help to find the battery and recharge. Help him navigate through the maze to reach the battery.</p>
+                      </div>
+                      <div class="mr-helpDiv clearfix">
+                          <h5>Maze Runner Robot</h5>
+                          <img class="float-left" src="images/ship_east.png" width="50px" alt="robot" />
+                          <p>I'm the maze runner. help me recharge my batteries</p>
+                      </div>
+                      <div class="mr-helpDiv clearfix">
+                          <h5>Battery</h5>
+                          <img class="float-left" src="images/tmpBattery.png" width="50px" alt="robot" />
+                          <p>The battery is what you are trying to get.</p>
+                      </div>
+                    <div></div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+      </div>
 	
 	  <!-- blockly code -->
 	  <xml id="toolbox" style="display: none">

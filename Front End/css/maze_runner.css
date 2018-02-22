@@ -65,6 +65,10 @@ header{
 }
       
 
+/*************** help Modal ***************/
+.mr-helpDiv p {
+    margin-left:.25em;
+}
 
 /*************** Game styling ***************/
 
