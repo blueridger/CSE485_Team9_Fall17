@@ -202,6 +202,6 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   }
   
   this.isDead = function() {
-    return batteryLife == 0;
+    return batteryLife <= 0;
   }
 }

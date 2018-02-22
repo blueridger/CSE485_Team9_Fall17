@@ -168,13 +168,13 @@
       /* Load blocks to workspace. */
       Blockly.Xml.domToWorkspace(workspaceBlocks , demoWorkspace);
       
-      //generate the code for the first time
-      GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
-      
       //Change listener for the workspace
       demoWorkspace.addChangeListener(function(event) 
         {
-          if (!(event instanceof Blockly.Events.Ui)) 
+        
+          if (!(event instanceof Blockly.Events.Ui)
+            && !(event instanceof Blockly.Events.BlockCreate)
+            && !(event instanceof Blockly.Events.BlockChange)) 
           {
             //pass it to another object to handle changes
             GAME_ENGINE.blocklyChangeHandler.handleChanges(event, demoWorkspace);
