@@ -441,9 +441,9 @@ function GUI(){
 
 	function displaySimpleModal(title,message)
 	{
-	    var modalDiv = '<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 
-	    modalDiv += '  <div class="modal-dialog" role="document">';
+	    modalDiv += '  <div class="modal-dialog modal-dialog-centered" role="document">';
 	    modalDiv += '    <div class="modal-content">';
 	    modalDiv += '      <div class="modal-header">';
 	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ title +'</h5>';
