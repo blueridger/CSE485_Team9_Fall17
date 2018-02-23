@@ -74,7 +74,7 @@ function GameEngine() {
       gui.winGame(levelScore, score, level);
       gui.setLevelScore(getLevelScore());
       map = getMap();
-      resetLevel();
+      //resetLevel();
       return true;
     } else if (map.isDead()) {
       debug("Battery DEAD.");

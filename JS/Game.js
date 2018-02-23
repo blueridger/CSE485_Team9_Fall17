@@ -35,7 +35,6 @@ function GUI(){
 	
 	//Public methods
 	this.setup = function (map) {
-	    gameArea.clear();
 	    gameMap = map;
 	    getInitialValues(gameMap);
 		gameAreaDiv = document.getElementById("GameArea");
@@ -59,6 +58,7 @@ function GUI(){
 		gameArea.start();
 		
 		this.updateGameArea();
+		
 	}
 	
 	this.updateGameArea = function () {
@@ -81,10 +81,16 @@ function GUI(){
 
 	this.winGame = function(acquiredLevelScore, gameScore, levelNumber)
 	{
-	    gameArea.clear();
+        // Update Scores and level
         document.getElementById("mr-gameScore").innerHTML = gameScore;
         document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
         document.getElementById("mr-levelNumber").innerHTML = levelNumber;
+
+        //Clear images
+        robot.img = null;
+        battery.img = null;
+
+        //Display Win text
         displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	}
 
@@ -247,6 +253,7 @@ function GUI(){
 
 		clear: function () {
 		    if (typeof this.context != "undefined") {
+		        console.log("game area cleared");
 		        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		    }
 
@@ -261,33 +268,37 @@ function GUI(){
 		this.y = y;
 		this.facing = facing;
 		this.row = y/height;
-		this.col = x/width;
+		this.col = x / width;
+		this.img = new Image();
+		var parent = this;
 
 		var row = y / (height / settings.rows);
 		var col = x / (width / settings.columns);
 
 		this.update = function() {
 			ctx = gameArea.context;
-			var img = new Image();
 			
-			img.onload = function(){
-				ctx.drawImage(img,robot.x, robot.y,width, height);
+			console.log("width: " + width + " | h:" + height);
+
+			switch (robot.facing) {
+			    case "right":
+			        parent.img.src = "images/" + robotImages.east;
+			        break;
+			    case "left":
+			        parent.img.src = "images/" + robotImages.west;
+			        break;
+			    case "up":
+			        parent.img.src = "images/" + robotImages.north;
+			        break;
+			    case "down":
+			        parent.img.src = "images/" + robotImages.south;
+			        break;
+			}
+
+			parent.img.onload = function () {
+			    ctx.drawImage(parent.img, parent.x, parent.y, parent.width, parent.height);
 			}
 			
-			switch(robot.facing){
-				case "right":
-					img.src = "images/" + robotImages.east;
-					break;
-				case "left":
-					img.src = "images/" + robotImages.west;
-					break;
-				case "up":
-					img.src = "images/" + robotImages.north;
-					break;
-				case "down":
-					img.src = "images/" + robotImages.south;
-					break;
-			}
 		}
 	}
 
@@ -296,15 +307,17 @@ function GUI(){
 	    this.height = height;
 	    this.x = x;
 	    this.y = y;
+	    this.img = new Image();
+	    var parent = this;
 
 	    this.update = function () {
 	        ctx = gameArea.context;
-	        var img = new Image();
 
-	        img.onload = function () {
-	            ctx.drawImage(img, battery.x, battery.y, width, height);
-	        }
-	        img.src = "images/tmpBattery.png";
+	        parent.img.src = "images/tmpBattery.png";
+
+	        parent.img.onload = function () {
+	            ctx.drawImage(parent.img, parent.x, parent.y, parent.width, parent.height);
+	        }  
 	    }
 	}
 	
@@ -442,7 +455,7 @@ function GUI(){
 	    modalDiv += message;
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-footer">';
-	    modalDiv += '        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+	    modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
 	    modalDiv += '      </div>';
 	    modalDiv += '    </div>';
 	    modalDiv += '  </div>';
