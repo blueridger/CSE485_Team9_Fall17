@@ -63,51 +63,98 @@
 				<li><button class="btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play(); arrangeButtons(false);">Play</button></li>
 				<li><button class="btn btn-primary" id="mr-pause" style="display:none" onclick="GAME_ENGINE.pause(); arrangeButtons(true)">Pause</button></li>
 				<li><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
-        <li><input type="range" min="1" max="4" value="2" style="display:none;" id="myRange"></li>
+                <li><input type="range" min="1" max="4" value="2" style="display:none;" id="myRange"></li>
 				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal">help</button></li>
-				<li><button class="btn btn-primary" id="mr-resetLevel" onclick="GAME_ENGINE.resetLevel();">Reset Level</button></li>
-				<li><button class="btn btn-primary" id="mr-resetGame" onclick="location.reload();">Reset Game</button></li>
+				<li><button class="btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal">Reset Level</button></li>
+				<li><button class="btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal">Reset Game</button></li>
 			</ul>
 		</nav>
-    
-          <!-- Modal -->
-      <div class="modal fade" id="mr-helpModal" tabindex="-1" role="dialog" aria-labelledby="mr-helpModalLongTitle" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+        
+        <!-- Reset Level Modal -->
+        <div class="modal fade" id="mr-resetGameModal" tabindex="-1" role="dialog" aria-labelledby="resetGameModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resetGameModalLongTitle">Reset Game?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you Sure?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.reload();">Reset Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset Level Modal -->
+        <div class="modal fade" id="mr-resetLevelModal" tabindex="-1" role="dialog" aria-labelledby="resetLevelModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h5 class="modal-title" id="mr-helpModalLongTitle">Maze Runner Help</h5>
+                      <h5 class="modal-title" id="resetLevelModalLongTitle">Reset Level?</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
                   <div class="modal-body">
-                      <div>
-                          <h5>Welcome</h5>
-                          <p>The Maze Runner's battery is running out. He needs your help to find the battery and recharge. Help him navigate through the maze to reach the battery.</p>
-                      </div>
-                      <div class="mr-helpDiv clearfix">
-                          <h5>Maze Runner Robot</h5>
-                          <img class="float-left" src="images/ship_east.png" width="50px" alt="robot" />
-                          <p>I'm the maze runner. help me recharge my batteries</p>
-                      </div>
-                      <div class="mr-helpDiv clearfix">
-                          <h5>Battery</h5>
-                          <img class="float-left" src="images/tmpBattery.png" width="50px" alt="robot" />
-                          <p>The battery is what you are trying to get.</p>
-                      </div>
-                      <div class="mr-helpDiv clearfix">
-                          <h5>Step</h5>
-                          <img class="float-left" src="images/step_button.png" width="50px" alt="robot" />
-                          <p>Go through each action step by step.</p>
-                      </div>
-                    <div></div>
+                      Are you Sure?
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="GAME_ENGINE.resetLevel();">Reset Level</button>
                   </div>
               </div>
           </div>
-      </div>
+        </div>
+    
+        <!--Help Modal -->
+        <div class="modal fade" id="mr-helpModal" tabindex="-1" role="dialog" aria-labelledby="mr-helpModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mr-helpModalLongTitle">Maze Runner Help</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <h5>Welcome</h5>
+                            <p>The Maze Runner's battery is running out. He needs your help to find the battery and recharge. Help him navigate through the maze to reach the battery.</p>
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Maze Runner Robot</h5>
+                            <img class="float-left" src="images/ship_east.png" width="50px" alt="robot" />
+                            <p>I'm the maze runner. help me recharge my batteries</p>
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Battery</h5>
+                            <img class="float-left" src="images/tmpBattery.png" width="50px" alt="robot" />
+                            <p>The battery is what you are trying to get.</p>
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Logic &amp; Statment Operations</h5>
+                            <img class="float-left" src="images/logic_operations.png" width="100px" alt="robot" />
+                            <img class="float-left" src="images/statement_operations.png" width="100px" alt="robot" />
+                            <p>Use the logic and statement operations to help the robot move and reach the battery.</p>
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Step</h5>
+                            <img class="float-left" src="images/step_button.png" width="50px" alt="robot" />
+                            <p>Go through each action step by step.</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 	
 	
 	  <!-- blockly code -->
@@ -117,7 +164,8 @@
         <block type="open_left"></block>
         <block type="open_front"></block>
         <block type="open_back"></block>
-        <block type="outer_if"></block>
+        <block type="if"></block>
+        <block type="if_else"></block>
         <block type="wall_right"></block>	
         <block type="wall_left"></block>
         <block type="wall_front"></block>
@@ -134,12 +182,12 @@
     <!---DEFULAT BLOCKS---->
     <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
       <variables></variables>
-      <block type="outer_if" id="!5.J#s[UIoH)?ERLqgdk" x="38" y="13">
+      <block type="if" id="!5.J#s[UIoH)?ERLqgdk" x="38" y="13">
         <value name="Condition">
           <block type="open_front" id="]=w0r1dlM_u*en;*$|?{">
           </block>
         </value>
-        <statement name="Name">
+        <statement name="Statement">
           <block type="forward_statement" id="JeqO%A=C`q-iteljzcye">
             <next>
               <block type="right_statement" id="JeqO%A=C`q-iteljzcyf">

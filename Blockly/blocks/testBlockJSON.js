@@ -10,7 +10,7 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": ""
 },
 {
-  "type": "outer_if",
+  "type": "if",
   "message0": "If %1 Then %2",
   "args0": [
     {
@@ -20,7 +20,7 @@ Blockly.defineBlocksWithJsonArray([{
     },
     {
       "type": "input_statement",
-      "name": "Name",
+      "name": "Statement",
       "check": [
         "right_statement",
         "back_statement",
@@ -31,11 +31,35 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "previousStatement": null,
-  "nextStatement": 'back_statement',
+  "nextStatement": null,
   //"inputsInline": true,
   "colour": 0,
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "if_else",
+  "message0": "If %1 Then %2 Else %3",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "Condition",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_statement",
+      "name": "True"
+    },
+    {
+      "type": "input_statement",
+      "name": "False"
+    }
+  ],
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": "",
+  "previousStatement": null,
+  "nextStatement": null
 },
 {
   "type": "back_statement",
