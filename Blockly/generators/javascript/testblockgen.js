@@ -68,7 +68,7 @@ Blockly.JavaScript['wall_back'] = function(block) {
 
 Blockly.JavaScript['if'] = function(block) {
   var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
-  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Name');
+  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Statement');
   // TODO: Assemble JavaScript into code variable.
   
   var code = '';
@@ -103,6 +103,42 @@ Blockly.JavaScript['if_else'] = function(block) {
   code += 'else{\n' + statements_false + '}\n';
   
   return code;
+};
+
+Blockly.JavaScript['while'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Statement');
+  // TODO: Assemble JavaScript into code variable.
+  
+  var code = '';
+  code += "highlightBlock('" + block.id + "');//hightlight if block\n";
+  inputBlock = block.getInputTargetBlock("Condition");
+  code += 'while ' + value_condition + ' {\n';
+  //if(inputBlock != null)
+  //{
+    //code += "highlightBlock('" + inputBlock.id + "');//highlight condition\n";
+  //}
+  code += statements_statement + '}\n';
+  
+  return code;//[code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['do_while'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Statement');
+  // TODO: Assemble JavaScript into code variable.
+  
+  var code = '';
+  code += "highlightBlock('" + block.id + "');//hightlight if block\n";
+  inputBlock = block.getInputTargetBlock("Condition");
+  code += 'do{\n'+ statements_statement + '}';
+  code += 'while ' + value_condition + '\n';
+  //if(inputBlock != null)
+  //{
+    //code += "highlightBlock('" + inputBlock.id + "');//highlight condition\n";
+  //}
+  
+  return code;//[code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['back_statement'] = function(block) {

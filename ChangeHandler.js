@@ -15,7 +15,7 @@ function ChangeHandler(gameEng)
     ((event instanceof Blockly.Events.BlockMove))
     {
       currentBlock = workspace.getBlockById(event.blockId);
-      if(currentBlock != null && (currentBlock.type == "if" || currentBlock.type == "if_else"))//block exists
+      if(currentBlock != null && (currentBlock.type == "if" || currentBlock.type == "while" || currentBlock.type == "do_while" || currentBlock.type == "if_else"))//block exists
       {
         //console.log("found the block");
         if(!handleChangesWorker(currentBlock, MAX_LEVEL_OF_NESTING))

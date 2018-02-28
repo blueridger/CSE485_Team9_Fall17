@@ -62,6 +62,55 @@ Blockly.defineBlocksWithJsonArray([{
   "nextStatement": null
 },
 {
+  "type": "while",
+  "message0": "While %1 Do %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "Condition",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_statement",
+      "name": "Statement"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  //"inputsInline": true,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "do_while",
+  "message0": "Do %1 While %2",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "Statement",
+      "check": [
+        "right_statement",
+        "back_statement",
+        "left_statement",
+        "inner_if",
+        "forward_statement"
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "Condition",
+      "check": "Boolean"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  //"inputsInline": true,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "back_statement",
   "message0": "Go Back",
   "previousStatement": null,
