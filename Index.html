@@ -298,14 +298,14 @@
       
       var slider = document.getElementById("myRange");
       
-      var SPEED = [ 2000, 1000, 500, 150 ]; //millisecond intervals, range must match range of element id="myRange"
       
       // Update the current slider value (each time you drag the slider handle)
-      slider.oninput = function() {
+      document.getElementById("myRange").oninput = function() {
+        var SPEED = [ 2000, 1000, 500, 150 ]; //millisecond intervals, range must match range of element id="myRange"
         console.log(this.value);
         GAME_ENGINE.setPlaySpeed(SPEED[this.value - 1]);
       }
-      slider.oninput();
+      document.getElementById("myRange").oninput();
       
       function arrangeButtons(showPlayAndStep)
       {
