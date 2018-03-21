@@ -170,6 +170,8 @@
 	  <!-- blockly code -->
 	  <xml id="toolbox" style="display: none">
       <category name="Logic">
+        <block type="if"></block>
+        <block type="if_else"></block>
         <block type="open_right"></block>	
         <block type="open_left"></block>
         <block type="open_front"></block>
@@ -179,14 +181,12 @@
         <block type="wall_front"></block>
         <block type="wall_back"></block>
       </category>
-      <category name="Structures">
-        <block type="if"></block>
-        <block type="if_else"></block>
+      <category name="Loops">
         <block type="while"></block>
         <block type="do_while"></block>
       
       </category>
-      <category name="Statements">
+      <category name="Actions">
         <block type="back_statement"></block>
         <block type="forward_statement"></block>
         <block type="left_statement"></block>
@@ -194,7 +194,7 @@
       </category>
     </xml>
 
-    <!---DEFULAT BLOCKS---->
+    <!---DEFAULT BLOCKS---->
     <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
       <variables></variables>
       <block type="if" id="!5.J#s[UIoH)?ERLqgdk" x="38" y="13">
@@ -226,7 +226,12 @@
 
     <script type="application/javascript">
       
-      GAME_ENGINE = new GameEngine(true);
+      var settings = {
+        debug: true,
+        mapSource: null //string to use for map loading, will randomly generate map if null.
+      }
+      
+      GAME_ENGINE = new GameEngine();
       
       //load the tool box description from the above XML
       var toolbox = document.getElementById("toolbox");
@@ -293,31 +298,14 @@
       
       var slider = document.getElementById("myRange");
       
-      var SPEED_1 = 2000;
-      var SPEED_2 = 1000;
-      var SPEED_3 = 500;
-      var SPEED_4 = 150;
+      var SPEED = [ 2000, 1000, 500, 150 ]; //millisecond intervals, range must match range of element id="myRange"
       
       // Update the current slider value (each time you drag the slider handle)
       slider.oninput = function() {
         console.log(this.value);
-        if(this.value == 1)
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_1);
-        }
-        else if (this.value == 3)
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_3);
-        }
-        else if(this.value == 4)
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_4);
-        }
-        else
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_2);
-        }
+        GAME_ENGINE.setPlaySpeed(SPEED[this.value - 1]);
       }
+      slider.oninput();
       
       function arrangeButtons(showPlayAndStep)
       {

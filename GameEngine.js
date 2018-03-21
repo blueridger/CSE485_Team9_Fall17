@@ -2,7 +2,7 @@ function debug(message) {
     if (GameEngine.debug) console.log(message);
   }
 
-function GameEngine() {
+function GameEngine(settings) {
   
   //Start Properties
   this.constructor.debug = true;
@@ -20,7 +20,7 @@ function GameEngine() {
   var level = 1;
   var lastLevelModified = level;
   var blocklyChangeHandler = new ChangeHandler(this);
-  var playSpeed = 1000;
+  var playSpeed = 10000;
   var isPlaying = false;
   var scoreLineCountSubtractionBase = 10;
   var latestCode = "";
