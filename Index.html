@@ -226,13 +226,14 @@
 
     <script type="application/javascript">
       
-      var settings = {
-        debug: true,
-        mapSource: null //string to use for map loading, will randomly generate map if null.
-      }
-      
-      GAME_ENGINE = new GameEngine();
-      
+      (function() {
+        var settings = {
+          debug: true,
+          mapSource: null //string to use for map loading, will randomly generate map if null.
+        }
+        
+        GAME_ENGINE = new GameEngine();
+      })();
       
       
       var slider = document.getElementById("myRange");
