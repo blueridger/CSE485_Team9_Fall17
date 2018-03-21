@@ -69,19 +69,19 @@ Blockly.SOUND_LIMIT = 100;
  * When dragging a block out of a stack, split the stack in two (true), or drag
  * out the block healing the stack (false).
  */
-Blockly.DRAG_STACK = true;
+Blockly.DRAG_STACK = false;
 
 /**
  * The richness of block colours, regardless of the hue.
  * Must be in the range of 0 (inclusive) to 1 (exclusive).
  */
-Blockly.HSV_SATURATION = 0.45;
+Blockly.HSV_SATURATION = 0.2;
 
 /**
  * The intensity of block colours, regardless of the hue.
  * Must be in the range of 0 (inclusive) to 1 (exclusive).
  */
-Blockly.HSV_VALUE = 0.65;
+Blockly.HSV_VALUE = 0.2;
 
 /**
  * Sprited icons and images.
