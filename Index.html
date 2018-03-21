@@ -233,68 +233,7 @@
       
       GAME_ENGINE = new GameEngine();
       
-      //load the tool box description from the above XML
-      var toolbox = document.getElementById("toolbox");
       
-      //define the blockly options
-      var options = 
-      { 
-        toolbox : toolbox, 
-        collapse : true, 
-        comments : true, 
-        disable : true, 
-        maxBlocks : Infinity, 
-        trashcan : true, 
-        horizontalLayout : false, 
-        toolboxPosition : 'bottom', 
-        css : false, 
-        media : 'https://blockly-demo.appspot.com/static/media/', 
-        rtl : false, 
-        scrollbars : true, 
-        sounds : false, 
-        oneBasedIndex : true, 
-        grid : 
-        {
-          spacing : 20, 
-          length : 1, 
-          colour : '#888', 
-          snap : true
-        }
-      };
-      
-      //inject the blockly canvas into the blocklyDiv
-      var blocklyWorkspace = Blockly.inject('blocklyDiv',
-        {
-          media: 'Blockly/media/',
-          toolbox: document.getElementById('toolbox')
-        }
-      );
-        
-      //variable defining the default blocks to load on start up.
-      var workspaceBlocks = document.getElementById("workspaceBlocks"); 
-
-      /* Load blocks to workspace. */
-      Blockly.Xml.domToWorkspace(workspaceBlocks , blocklyWorkspace);
-      
-      //Change listener for the workspace
-      blocklyWorkspace.addChangeListener(function(event) 
-        {
-        
-          if (!(event instanceof Blockly.Events.Ui)
-            && !(event instanceof Blockly.Events.BlockCreate)
-            && !(event instanceof Blockly.Events.BlockChange)) 
-          {
-            //pass it to another object to handle changes
-            GAME_ENGINE.blocklyChangeHandler.handleChanges(event, blocklyWorkspace);
-            
-            //generate code from the recently changed blockly workspace
-            GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
-            
-            //dump the current instance of the interpreter. This guarantees that code execution will start that the beginning
-            GAME_ENGINE.removeInterpreter();
-          }
-        }
-      );
       
       var slider = document.getElementById("myRange");
       
@@ -325,6 +264,8 @@
         }
       }
       </script>
+      
+      <script src="JS/BlocklyUtility.js"></script>
 
       <div id="GameArea"> </div>
 
