@@ -3,8 +3,8 @@ function debug(message) {
   }
 
 function GameEngine() {
-  //Start Properties
   
+  //Start Properties
   this.constructor.debug = true;
   
   

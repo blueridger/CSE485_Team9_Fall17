@@ -23,7 +23,7 @@ function ChangeHandler(gameEng)
           console.log("deleting block");
           currentBlock.dispose(true);
         }
-      }        
+      }
     }
   }
   
