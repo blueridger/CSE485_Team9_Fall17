@@ -7,7 +7,7 @@ function BlocklyUtility()
   
   this.resetStepUi = function(clearOutput) 
   {
-    demoWorkspace.highlightBlock(null);
+    blocklyWorkspace.highlightBlock(null);
     highlightPause = false;
   }
 }

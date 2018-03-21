@@ -87,7 +87,7 @@ function GameEngine(settings) {
   }
   
   function getLevelScore() {
-    var base = Math.max(scoreLineCountSubtractionBase - blocklyChangeHandler.getBlockCount(demoWorkspace), 1);
+    var base = Math.max(scoreLineCountSubtractionBase - blocklyChangeHandler.getBlockCount(blocklyWorkspace), 1);
     return base * Math.pow(2, Math.max(level - lastLevelModified, 0));
   }
   
@@ -206,7 +206,7 @@ function GameEngine(settings) {
   //send a flag to the step() function to pause
   function highlightBlock(id) 
   {
-    demoWorkspace.highlightBlock(id);
+    blocklyWorkspace.highlightBlock(id);
     highlightPause = true;
     return true;
   }
@@ -287,7 +287,7 @@ function GameEngine(settings) {
     Blockly.JavaScript.addReservedWords('highlightBlock');
     
     //generate the runnable code from the blocks
-    latestCode = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+    latestCode = Blockly.JavaScript.workspaceToCode(blocklyWorkspace);
     resetStepUi(true);
     debug("new code: " + latestCode);
   }
@@ -296,14 +296,14 @@ function GameEngine(settings) {
   function removeInterpreter()
   {
     interpreter = null;
-    demoWorkspace.highlightBlock(null);
+    blocklyWorkspace.highlightBlock(null);
   }
   this.removeInterpreter = removeInterpreter;
   
   //unhighlights the current block and sets a flag that the step() funtion should stop executing
   function resetStepUi(clearOutput) 
   {
-    demoWorkspace.highlightBlock(null);
+    blocklyWorkspace.highlightBlock(null);
     highlightPause = false;
   }	
   

@@ -243,7 +243,7 @@
       };
       
       //inject the blockly canvas into the blocklyDiv
-      var demoWorkspace = Blockly.inject('blocklyDiv',
+      var blocklyWorkspace = Blockly.inject('blocklyDiv',
         {
           media: 'Blockly/media/',
           toolbox: document.getElementById('toolbox')
@@ -254,10 +254,10 @@
       var workspaceBlocks = document.getElementById("workspaceBlocks"); 
 
       /* Load blocks to workspace. */
-      Blockly.Xml.domToWorkspace(workspaceBlocks , demoWorkspace);
+      Blockly.Xml.domToWorkspace(workspaceBlocks , blocklyWorkspace);
       
       //Change listener for the workspace
-      demoWorkspace.addChangeListener(function(event) 
+      blocklyWorkspace.addChangeListener(function(event) 
         {
         
           if (!(event instanceof Blockly.Events.Ui)
@@ -265,7 +265,7 @@
             && !(event instanceof Blockly.Events.BlockChange)) 
           {
             //pass it to another object to handle changes
-            GAME_ENGINE.blocklyChangeHandler.handleChanges(event, demoWorkspace);
+            GAME_ENGINE.blocklyChangeHandler.handleChanges(event, blocklyWorkspace);
             
             //generate code from the recently changed blockly workspace
             GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
