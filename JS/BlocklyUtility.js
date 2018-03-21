@@ -1,8 +1,5 @@
 (function()
 {
-      
-      
-      
       //inject the blockly canvas into the blocklyDiv
       blocklyWorkspace = Blockly.inject('blocklyDiv',
         {

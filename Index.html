@@ -235,14 +235,10 @@
         GAME_ENGINE = new GameEngine(settings);
       })();
       
-      
-      var slider = document.getElementById("myRange");
-      
-      
       // Update the current slider value (each time you drag the slider handle)
       document.getElementById("myRange").oninput = function() {
         var SPEED = [ 2000, 1000, 500, 150 ]; //millisecond intervals, range must match range of element id="myRange"
-        console.log(this.value);
+        debug("Speed set to " + this.value);
         GAME_ENGINE.setPlaySpeed(SPEED[this.value - 1]);
       }
       document.getElementById("myRange").oninput();

@@ -20,9 +20,9 @@ function GameEngine(settings) {
   var level = 1;
   var lastLevelModified = level;
   var blocklyChangeHandler = new ChangeHandler(this);
-  var playSpeed = 10000; //should be overridden before use
+  var playSpeed;
   var isPlaying = false;
-  var scoreLineCountSubtractionBase = 10;
+  var scoreLineCountSubtractionBase = 10; //set <= 1 to disable line-count-based scoring
   var latestCode = "";
   var lastConditionBlockResult;
   
@@ -72,7 +72,7 @@ function GameEngine(settings) {
       debug("Battery DEAD.");
       pause();
       gui.loseGame(true);
-      resetLevel(); //After a delay??
+      resetLevel();
       return true;
     }
     return false;
@@ -91,59 +91,45 @@ function GameEngine(settings) {
    * START  Privileged methods
    */
 
-  //return boolean true if level won
   function step(play) {
     debug("GameEng.step() called privately.");
     
     if (!interpreter) {
-      // First statement of this code.
-      // Clear the program output.
-      //this.blocklyWorker.resetStepUi();
-      resetStepUi(true);
-      if(latestCode.length > 0)
+      resetStepUi();
+      if (latestCode.length > 0)
       {
-      interpreter = new Interpreter(latestCode, initApi);
-      debug(interpreter.ast);
+        interpreter = new Interpreter(latestCode, initApi);
+        debug(interpreter.ast);
 
-      // And then show generated code in an alert.
-      // In a timeout to allow the outputArea.value to reset first.
-      //var thisPointer = this;
-      setTimeout(function() {
-        highlightPause = true;
-        this;
-        GAME_ENGINE.step();
-      }, 1);
+        // In a timeout to allow the outputArea.value to reset first.
+        setTimeout(function() {
+          highlightPause = true;
+          GAME_ENGINE.step();
+        }, 1);
       }
-      return;
-    }
-    highlightPause = false;
-    
-    do {
       
-      try {
-        var hasMoreCode = interpreter.step();
-      } finally {
-        if (!hasMoreCode) {
-          // Program complete, no more code to execute.
-          //outputArea.value += '\n\n<< Program complete >>';
-          debug("no more code");
-          interpreter = null;
-          //this.blocklyWorker.resetStepUi();
-          resetStepUi(true)
-          step();
+    } else {
+      highlightPause = false;
+      do {
+        try {
+          var hasMoreCode = interpreter.step();
+        } finally {
+          if (!hasMoreCode) {
+            // Program complete, no more code to execute.
+            debug("Interpreter has no more code.");
+            removeInterpreter();
+            resetStepUi()
+            step();
+          }
+          else debug("Interpreter still has more code.");
         }
-        else
-        {
-          debug("more code");
-        }
+        // Keep executing until a highlight statement is reached,
+        // or the code completes or errors.
+      } while (hasMoreCode && !highlightPause && interpreter);
+      if (highlightPause && !checkGameState() && isPlaying) {
+        playTimeout = setTimeout(step, playSpeed);
       }
-      // Keep executing until a highlight statement is reached,
-      // or the code completes or errors.
-    } while (hasMoreCode && !highlightPause && interpreter);
-    if (highlightPause && !checkGameState() && isPlaying) {
-      playTimeout = setTimeout(step, playSpeed);
     }
-    
   }
   this.step = function() {
     debug("GameEng.step() called publicly.");
@@ -280,7 +266,7 @@ function GameEngine(settings) {
     
     //generate the runnable code from the blocks
     latestCode = Blockly.JavaScript.workspaceToCode(blocklyWorkspace);
-    resetStepUi(true);
+    resetStepUi();
     debug("new code: " + latestCode);
   }
   
@@ -293,7 +279,7 @@ function GameEngine(settings) {
   this.removeInterpreter = removeInterpreter;
   
   //unhighlights the current block and sets a flag that the step() funtion should stop executing
-  function resetStepUi(clearOutput) 
+  function resetStepUi() 
   {
     blocklyWorkspace.highlightBlock(null);
     highlightPause = false;
