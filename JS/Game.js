@@ -11,10 +11,10 @@ function GUI(){
 	var gameLost = false;
 	
 	var robotImages = {
-		north: "ship_north.png",
-		south: "ship_south.png",
-		east: "ship_east.png",
-		west: "ship_west.png"
+		north: "RobotBackward.png",
+		south: "RobotForward.png",
+		east: "RobotRight.png",
+		west: "RobotLeft.png"
 	};
 
 	
@@ -313,7 +313,7 @@ function GUI(){
 	    this.update = function () {
 	        ctx = gameArea.context;
 
-	        parent.img.src = "images/tmpBattery.png";
+	        parent.img.src = "images/RobotBattery.png";
 
 	        parent.img.onload = function () {
 	            ctx.drawImage(parent.img, parent.x, parent.y, parent.width, parent.height);

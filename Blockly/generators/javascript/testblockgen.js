@@ -66,9 +66,9 @@ Blockly.JavaScript['wall_back'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-Blockly.JavaScript['outer_if'] = function(block) {
+Blockly.JavaScript['if'] = function(block) {
   var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
-  var statements_name = Blockly.JavaScript.statementToCode(block, 'Name');
+  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Statement');
   // TODO: Assemble JavaScript into code variable.
   
   var code = '';
@@ -79,7 +79,64 @@ Blockly.JavaScript['outer_if'] = function(block) {
   //{
     //code += "highlightBlock('" + inputBlock.id + "');//highlight condition\n";
   //}
-  code += statements_name + '}\n';
+  code += statements_statement + '}\n';
+  
+  return code;//[code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['if_else'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_true = Blockly.JavaScript.statementToCode(block, 'True');
+  var statements_false = Blockly.JavaScript.statementToCode(block, 'False');
+  // TODO: Assemble JavaScript into code variable.
+  var code = '';
+  
+  code += "highlightBlock('" + block.id + "');//hightlight if block\n";
+  inputBlock = block.getInputTargetBlock("Condition");
+  code += 'if ' + value_condition + ' {\n';
+  //if(inputBlock != null)
+  //{
+    //code += "highlightBlock('" + inputBlock.id + "');//highlight condition\n";
+  //}
+  code += statements_true + '}\n';
+  
+  code += 'else{\n' + statements_false + '}\n';
+  
+  return code;
+};
+
+Blockly.JavaScript['while'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Statement');
+  // TODO: Assemble JavaScript into code variable.
+  
+  var code = '';
+  code += "highlightBlock('" + block.id + "');//hightlight if block\n";
+  inputBlock = block.getInputTargetBlock("Condition");
+  code += 'while ' + value_condition + ' {\n';
+  //if(inputBlock != null)
+  //{
+    //code += "highlightBlock('" + inputBlock.id + "');//highlight condition\n";
+  //}
+  code += statements_statement + '}\n';
+  
+  return code;//[code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['do_while'] = function(block) {
+  var value_condition = Blockly.JavaScript.valueToCode(block, 'Condition', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_statement = Blockly.JavaScript.statementToCode(block, 'Statement');
+  // TODO: Assemble JavaScript into code variable.
+  
+  var code = '';
+  code += "highlightBlock('" + block.id + "');//hightlight if block\n";
+  inputBlock = block.getInputTargetBlock("Condition");
+  code += 'do{\n'+ statements_statement + '}';
+  code += 'while ' + value_condition + '\n';
+  //if(inputBlock != null)
+  //{
+    //code += "highlightBlock('" + inputBlock.id + "');//highlight condition\n";
+  //}
   
   return code;//[code, Blockly.JavaScript.ORDER_NONE];
 };

@@ -10,7 +10,7 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": ""
 },
 {
-  "type": "outer_if",
+  "type": "if",
   "message0": "If %1 Then %2",
   "args0": [
     {
@@ -20,7 +20,7 @@ Blockly.defineBlocksWithJsonArray([{
     },
     {
       "type": "input_statement",
-      "name": "Name",
+      "name": "Statement",
       "check": [
         "right_statement",
         "back_statement",
@@ -31,7 +31,80 @@ Blockly.defineBlocksWithJsonArray([{
     }
   ],
   "previousStatement": null,
-  "nextStatement": 'back_statement',
+  "nextStatement": null,
+  //"inputsInline": true,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "if_else",
+  "message0": "If %1 Then %2 Else %3",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "Condition",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_statement",
+      "name": "True"
+    },
+    {
+      "type": "input_statement",
+      "name": "False"
+    }
+  ],
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": "",
+  "previousStatement": null,
+  "nextStatement": null
+},
+{
+  "type": "while",
+  "message0": "While %1 Do %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "Condition",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_statement",
+      "name": "Statement"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  //"inputsInline": true,
+  "colour": 0,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "do_while",
+  "message0": "Do %1 While %2",
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "Statement",
+      "check": [
+        "right_statement",
+        "back_statement",
+        "left_statement",
+        "inner_if",
+        "forward_statement"
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "Condition",
+      "check": "Boolean"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
   //"inputsInline": true,
   "colour": 0,
   "tooltip": "",
