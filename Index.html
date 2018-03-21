@@ -226,41 +226,17 @@
 
     <script type="application/javascript">
       
-      var settings = {
-        debug: true,
-        mapSource: null //string to use for map loading, will randomly generate map if null.
-      }
-      
-      GAME_ENGINE = new GameEngine();
+      (function() {
+        var settings = {
+          debug: true,
+          mapSource: null //string to use for map loading, will randomly generate map if null.
+        }
+        
+        GAME_ENGINE = new GameEngine();
+      })();
       
       //load the tool box description from the above XML
       var toolbox = document.getElementById("toolbox");
-      
-      //define the blockly options
-      var options = 
-      { 
-        toolbox : toolbox, 
-        collapse : true, 
-        comments : true, 
-        disable : true, 
-        maxBlocks : Infinity, 
-        trashcan : true, 
-        horizontalLayout : false, 
-        toolboxPosition : 'bottom', 
-        css : false, 
-        media : 'https://blockly-demo.appspot.com/static/media/', 
-        rtl : false, 
-        scrollbars : true, 
-        sounds : false, 
-        oneBasedIndex : true, 
-        grid : 
-        {
-          spacing : 20, 
-          length : 1, 
-          colour : '#888', 
-          snap : true
-        }
-      };
       
       //inject the blockly canvas into the blocklyDiv
       var blocklyWorkspace = Blockly.inject('blocklyDiv',

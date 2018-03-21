@@ -20,7 +20,7 @@ function GameEngine(settings) {
   var level = 1;
   var lastLevelModified = level;
   var blocklyChangeHandler = new ChangeHandler(this);
-  var playSpeed = 10000;
+  var playSpeed = 10000; //should be overridden before use
   var isPlaying = false;
   var scoreLineCountSubtractionBase = 10;
   var latestCode = "";
@@ -48,20 +48,12 @@ function GameEngine(settings) {
    * START  Private methods
    */
   
-  //returns a real map to test with
-  function mapGenStub() {
-    var vWalls = [true, true, false, false, true, false, true, true, false, false, false, false, true, true, true, false, true, false, false, false, true];
-	var hWalls = [true, false, false, true, true, true, true, true, true, false, false, true, true, true, false, true, true, false, false, true, true, false, true, true];
-	var playerPos = [0, 0];
-	var playerDir = 1;
-	var batteryPos = [1, 1];
-	var batterySize = 5;
-    var map = new Map(vWalls, hWalls, playerPos, playerDir, batteryPos, batterySize);
-    return map;
-  }
-  
   function getMap() {
-    return GenerateMap(2+level,1+level);
+    if (settings.mapSource == null)
+      return GenerateMap(2+level,1+level);
+    else {
+      //STUB for Gabe's map loading
+    }
   }
   
   function checkGameState() {
