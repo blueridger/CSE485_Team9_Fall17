@@ -33,7 +33,7 @@ Blockly.defineBlocksWithJsonArray([{
   "previousStatement": null,
   "nextStatement": null,
   //"inputsInline": true,
-  "colour": #FFFF00,
+  "colour": 0,
   "tooltip": "",
   "helpUrl": ""
 },
