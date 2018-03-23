@@ -5,7 +5,7 @@ function debug(message) {
 function GameEngine(settings) {
   
   //Start Properties
-  this.constructor.debug = true;
+  this.constructor.debug = false;
   
   
   /*

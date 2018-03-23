@@ -9,6 +9,7 @@ function GUI(){
 	var debug = true;
 	var gameWon = false;
 	var gameLost = false;
+	var updateFunc = null;
 	
 	var robotImages = {
 		north: "RobotBackward.png",
@@ -42,7 +43,7 @@ function GUI(){
 		
 		
 
-		this.debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
+		//this.debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
     
         if(typeof arrangeButtons === "function")
         {
@@ -62,32 +63,36 @@ function GUI(){
 	}
 	
 	this.updateGameArea = function () {
-	    this.debug("x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
+	    updateGame();
+	}
 
-        //Clears the game area so it can be re-written
+	var updateGame = function () {
+	    console.log("cX: " + robot.currentX + " | cY: " + robot.currentY + "x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
+
+	    //Clears the game area so it can be re-written
 	    gameArea.clear();
 
-	    
-	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1])
-	    {
+
+	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1]) {
 	        gameWon = true;
 	    }
 	    //Redrwas each element of the game area
-		drawGrid();
-		drawMap();
-		battery.update();
-		robot.update();
+	    drawGrid();
+	    drawMap();
+	    battery.update();
+	    robot.update();
 	}
 
 	this.winGame = function(acquiredLevelScore, gameScore, levelNumber)
 	{
+	    updateGame();
         // Update Scores and level
         document.getElementById("mr-gameScore").innerHTML = gameScore;
         document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
         document.getElementById("mr-levelNumber").innerHTML = levelNumber;
 
         //Clear images
-        robot.img = null;
+        //robot.img = null;
         battery.img = null;
 
         //Display Win text
@@ -96,7 +101,7 @@ function GUI(){
 
 	this.loseGame = function(isBatteryDead) //crash case if false
 	{
-	    displaySimpleModal("Loser!", "You Crashed!");
+	    displaySimpleModal("You Lost!", "You Crashed!", "Try Again");
 	}
   
   this.setLevelScore = function(levelScore) { document.getElementById("mr-levelScore").innerHTML = levelScore; }
@@ -266,6 +271,8 @@ function GUI(){
 		this.height = height;
 		this.x = x;
 		this.y = y;
+		this.currentX = x;
+		this.currentY = y;
 		this.facing = facing;
 		this.row = y/height;
 		this.col = x / width;
@@ -277,8 +284,6 @@ function GUI(){
 
 		this.update = function() {
 			ctx = gameArea.context;
-			
-			console.log("width: " + width + " | h:" + height);
 
 			switch (robot.facing) {
 			    case "right":
@@ -386,7 +391,7 @@ function GUI(){
 		var height = gameArea.canvas.height;
 		var width = gameArea.canvas.width;
 		ctx.beginPath();
-
+		ctx.lineWidth = 7;
 	
 		for (var x = 0; x < width; x += width/settings.columns) {
 			for (var y = 0; y < height; y += height/settings.rows) {
@@ -434,12 +439,12 @@ function GUI(){
 			}
 		}
 
-		ctx.strokeStyle = "#ff0000";
+		ctx.strokeStyle = "#9370db";
 		ctx.stroke();
 	}
 
 
-	function displaySimpleModal(title,message)
+	function displaySimpleModal(title,message, buttonMsg)
 	{
 	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
 
@@ -447,15 +452,19 @@ function GUI(){
 	    modalDiv += '    <div class="modal-content">';
 	    modalDiv += '      <div class="modal-header">';
 	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ title +'</h5>';
-	    modalDiv += '        <button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-	    modalDiv += '          <span aria-hidden="true">&times;</span>';
-	    modalDiv += '        </button>';
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-body">';
 	    modalDiv += message;
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-footer">';
-	    modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
+	    if (typeof buttonMsg == "undefined") {
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
+	    }
+	    else
+	    {
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">'+ buttonMsg +'</button>';
+	    }
+	    
 	    modalDiv += '      </div>';
 	    modalDiv += '    </div>';
 	    modalDiv += '  </div>';
@@ -469,6 +478,7 @@ function GUI(){
 		var width = gameArea.canvas.width;
 	
 		ctx.beginPath();
+		ctx.lineWidth = 1;
 	
 		for (var y = 0; y <= height; y += height/settings.rows) {
 			ctx.moveTo(0,y);
@@ -480,7 +490,7 @@ function GUI(){
 			ctx.lineTo(x,height);
 		}
 
-		ctx.strokeStyle = "#393939";
+		ctx.strokeStyle = "#878787";
 		ctx.stroke();
 	}
 }

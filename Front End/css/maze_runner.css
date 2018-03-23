@@ -15,6 +15,7 @@ body{
 	width:60%; 
 	/*height:500px; */
 	min-width:450px;
+    margin-right:2%;
 	
 }
 
@@ -67,12 +68,16 @@ header{
 
 /*************** help Modal ***************/
 .mr-helpDiv {
-    margin-top:.75em;
+    margin-top:1.25em;
+}
+
+.mr-helpDiv img {
+    margin-right:1.25em;
 }
 
 /*************** Game styling ***************/
 
 canvas{
   background-color: black;
-  border:2px solid #ff0000;
+  border:5px solid #9370db;
 }

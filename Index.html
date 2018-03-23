@@ -64,21 +64,18 @@
 				<li><button class="btn btn-primary" id="mr-pause" style="display:none" onclick="GAME_ENGINE.pause(); arrangeButtons(true)">Pause</button></li>
 				<li><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
                 <li><input type="range" min="1" max="4" value="2" style="display:none;" id="myRange"></li>
-				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal">help</button></li>
+				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal" onclick="GAME_ENGINE.pause(); arrangeButtons(true)">help</button></li>
 				<li><button class="btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal">Reset Level</button></li>
 				<li><button class="btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal">Reset Game</button></li>
 			</ul>
 		</nav>
         
-        <!-- Reset Level Modal -->
+        <!-- Reset Game Modal -->
         <div class="modal fade" id="mr-resetGameModal" tabindex="-1" role="dialog" aria-labelledby="resetGameModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="resetGameModalLongTitle">Reset Game?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         Are you Sure?
@@ -97,9 +94,6 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <h5 class="modal-title" id="resetLevelModalLongTitle">Reset Level?</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
                   </div>
                   <div class="modal-body">
                       Are you Sure?
@@ -118,49 +112,63 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="mr-helpModalLongTitle">Maze Runner Help</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <div>
                             <h5>Welcome</h5>
                             <p>The Maze Runner's battery is running out. He needs your help to find the battery and recharge. Help him navigate through the maze to reach the battery.</p>
+                            <hr/>
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Maze Runner Robot</h5>
-                            <img class="float-left" src="images/RobotForward.png" width="50px" alt="robot" />
-                            <p>I'm the maze runner. Help me recharge my batteries.</p>
+                            <div class="clearfix">
+                                <img class="float-left" src="images/RobotForward.png" width="50px" alt="robot" />
+                                <p>I'm the maze runner. Help me recharge my batteries.</p>
+                            </div>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Battery</h5>
-                            <img class="float-left" src="images/RobotBattery.png" width="50px" alt="robot" />
-                            <p>Help The Maze Runner Robot find this battery by using the logic and statement operations.</p>
+                            <div class="clearfix">
+                                <img class="float-left" src="images/RobotBattery.png" width="50px" alt="robot" />
+                                <p>Help The Maze Runner Robot find this battery by using the logic and statement operations.</p>
+                            </div>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Logic &amp; Statement Operations</h5>
-                            <img class="float-left" src="images/logic_operations.png" width="100px" alt="robot" />
-                            <img class="float-left" src="images/statement_operations.png" width="100px" alt="robot" />
-                            <p>Use the logic and statement operations to help the robot move and reach the battery.</p>
+                            <div class="clearfix">
+                                <img class="float-left" src="images/logic_operations.png" width="100px" alt="robot" />
+                                <img class="float-left" src="images/statement_operations.png" width="100px" alt="robot" />
+                                <p>Use the logic and statement operations to help the robot move and reach the battery.</p>
+                            </div>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Step</h5>
                             <img class="float-left" src="images/step_button.png" width="50px" alt="robot" />
                             <p>Go through each action step by step.</p>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Reset Level</h5>
                             <img class="float-left" src="images/resetLevel.png" width="70px" alt="robot" />
                             <p>Need to reset the level? No problem. Hit this button and the level will reset preserving your logic and statement operations.</p>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Reset Game</h5>
                             <img class="float-left" src="images/resetGame.png" width="70px" alt="robot" />
                             <p>Want to completely start over? This button will reset the game, but be careful! You will lose all progress.</p>
+                            <hr />
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Scoring</h5>
+                            <p>Complete a level, get a point! Challenge: Complete a level without changing your code from the previous level? We'll throw you an extra point!</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="GAME_ENGINE.play(); arrangeButtons(false);">Close</button>
                     </div>
                 </div>
             </div>
