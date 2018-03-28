@@ -1,4 +1,7 @@
-
+var ASUmaroon = '#8c1d40'
+var ASUgold = '#ffc627'
+var ROBOmaroon = '#900101'
+var ROBOgold = '#eee70b'
 
 Blockly.defineBlocksWithJsonArray([{
   "type": "condition_to_check",
@@ -33,7 +36,7 @@ Blockly.defineBlocksWithJsonArray([{
   "previousStatement": null,
   "nextStatement": null,
   //"inputsInline": true,
-  "colour": 0,
+  "colour": ASUmaroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -124,7 +127,7 @@ Blockly.defineBlocksWithJsonArray([{
   "message0": "Go Forward",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 60,
+  "colour": ASUgold,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -142,7 +145,7 @@ Blockly.defineBlocksWithJsonArray([{
   "message0": "Turn Right",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 60,
+  "colour": ROBOgold,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -166,7 +169,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "open_front",
   "message0": "Open Front",
   "output": null,
-  "colour": 0,
+  "colour": ROBOmaroon,
   "tooltip": "",
   "helpUrl": ""
 },
