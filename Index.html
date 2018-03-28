@@ -73,6 +73,25 @@
 				<li><button class="btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal">Reset Game</button></li>
 			</ul>
 		</nav>
+    <script type="application/javascript">
+      function arrangeButtons(showPlayAndStep)
+      {
+        if(showPlayAndStep == true)
+        {
+          document.getElementById('mr-play').style.display = 'table-cell'; 
+          document.getElementById('mr-step').style.display = 'table-cell'; 
+          document.getElementById('myRange').style.display = 'none'; 
+          document.getElementById('mr-pause').style.display = 'none';
+        }
+        else
+        {
+          document.getElementById('mr-play').style.display = 'none'; 
+          document.getElementById('mr-step').style.display = 'none'; 
+          document.getElementById('myRange').style.display = 'table-cell'; 
+          document.getElementById('mr-pause').style.display = 'table-cell';
+        }
+      }
+    </script>
         
         <!-- Reset Game Modal -->
         <div class="modal fade" id="mr-resetGameModal" tabindex="-1" role="dialog" aria-labelledby="resetGameModalCenterTitle" aria-hidden="true">
@@ -213,25 +232,7 @@
       GAME_ENGINE = InitializeGame();
       document.getElementById("myRange").oninput(); //set default play speed
       
-      
-      function arrangeButtons(showPlayAndStep)
-      {
-        if(showPlayAndStep == true)
-        {
-          document.getElementById('mr-play').style.display = 'table-cell'; 
-          document.getElementById('mr-step').style.display = 'table-cell'; 
-          document.getElementById('myRange').style.display = 'none'; 
-          document.getElementById('mr-pause').style.display = 'none';
-        }
-        else
-        {
-          document.getElementById('mr-play').style.display = 'none'; 
-          document.getElementById('mr-step').style.display = 'none'; 
-          document.getElementById('myRange').style.display = 'table-cell'; 
-          document.getElementById('mr-pause').style.display = 'table-cell';
-        }
-      }
-      </script>
+    </script>
       
       <script src="JS/BlocklyUtility.js"></script>
 
