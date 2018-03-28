@@ -282,6 +282,8 @@ Blockly.Css.CONTENT = [
     'fill: #fff;',
     'font-family: sans-serif;',
     'font-size: 11pt;',
+    //'text-shadow: -10px 0px #000, 0px 10px #000, 10px 0px #000, 0px -10px  #000;',
+    //'text-shadow: -10px 0px black;',
   '}',
 
   '.blocklyNonEditableText>text {',
@@ -397,6 +399,7 @@ Blockly.Css.CONTENT = [
     'outline: none;',
     'padding: 0 1px;',
     'width: 100%',
+    //'text-shadow: -10px 0 black, 0 10px black, 10px 0 black, 0 -10px black;',
   '}',
 
   '.blocklyMainBackground {',
