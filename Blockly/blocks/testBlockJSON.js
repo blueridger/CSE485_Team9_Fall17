@@ -2,6 +2,8 @@ var ASUmaroon = '#8c1d40'
 var ASUgold = '#ffc627'
 var ROBOmaroon = '#900101'
 var ROBOgold = '#eee70b'
+var gold = '#ffc627'
+var maroon = '#900101'
 
 Blockly.defineBlocksWithJsonArray([{
   "type": "condition_to_check",
@@ -36,7 +38,7 @@ Blockly.defineBlocksWithJsonArray([{
   "previousStatement": null,
   "nextStatement": null,
   //"inputsInline": true,
-  "colour": ASUmaroon,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -58,7 +60,7 @@ Blockly.defineBlocksWithJsonArray([{
       "name": "False"
     }
   ],
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": "",
   "previousStatement": null,
@@ -81,7 +83,7 @@ Blockly.defineBlocksWithJsonArray([{
   "previousStatement": null,
   "nextStatement": null,
   //"inputsInline": true,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -109,7 +111,7 @@ Blockly.defineBlocksWithJsonArray([{
   "previousStatement": null,
   "nextStatement": null,
   //"inputsInline": true,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -118,7 +120,7 @@ Blockly.defineBlocksWithJsonArray([{
   "message0": "Go Back",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 60,
+  "colour": gold,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -127,7 +129,7 @@ Blockly.defineBlocksWithJsonArray([{
   "message0": "Go Forward",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": ASUgold,
+  "colour": gold,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -136,7 +138,7 @@ Blockly.defineBlocksWithJsonArray([{
   "message0": "Turn Left",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 60,
+  "colour": gold,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -145,7 +147,7 @@ Blockly.defineBlocksWithJsonArray([{
   "message0": "Turn Right",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": ROBOgold,
+  "colour": gold,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -153,7 +155,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "open_left",
   "message0": "Open Left",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -161,7 +163,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "open_right",
   "message0": "Open Right",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -169,7 +171,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "open_front",
   "message0": "Open Front",
   "output": null,
-  "colour": ROBOmaroon,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -177,7 +179,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "open_back",
   "message0": "Open Back",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -185,7 +187,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "wall_left",
   "message0": "Wall Left",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -193,7 +195,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "wall_right",
   "message0": "Wall Right",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -201,7 +203,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "wall_front",
   "message0": "Wall Front",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 },
@@ -209,7 +211,7 @@ Blockly.defineBlocksWithJsonArray([{
   "type": "wall_back",
   "message0": "Wall Back",
   "output": null,
-  "colour": 0,
+  "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
 }
