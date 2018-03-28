@@ -4,9 +4,9 @@ function InitializeGame() {
     mapSource: null //string to use for map loading, will randomly generate map if null.
   }
   blocklyCustomSettings = {
-    enableWhile: false;
-    enableDoWhile: false;
-    enableIfElse: true;
+    enableWhile: true,
+    enableDoWhile: true,
+    enableIfElse: false
   }
   return new GameEngine(gameEngineSettings);
 }
