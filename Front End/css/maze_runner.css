@@ -59,6 +59,19 @@ header{
 	padding: .5em 1.2em;
 }
 
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited{
+    background-color: #8c1d40 !important;
+    border-color: #8c1d40 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #730101 !important;
+    border-color: #730101 !important;
+}
+
 
 /*************** modal styling ***************/
 .modal-content{
