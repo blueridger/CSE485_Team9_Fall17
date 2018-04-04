@@ -6,7 +6,6 @@ function GUI(){
 	var gameAreaDiv = null;
 	var gameArea = null;
 	var gameMap = null;
-	var debug = true;
 	var gameWon = false;
 	var gameLost = false;
 	var updateFunc = null;
@@ -43,7 +42,7 @@ function GUI(){
 		
 		
 
-		//this.debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
+		//debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
     
         if(typeof arrangeButtons === "function")
         {
@@ -67,7 +66,7 @@ function GUI(){
 	}
 
 	var updateGame = function () {
-	    console.log("cX: " + robot.currentX + " | cY: " + robot.currentY + "x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
+	    debug("GUI:  cX: " + robot.currentX + " | cY: " + robot.currentY + "x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
 
 	    //Clears the game area so it can be re-written
 	    gameArea.clear();
@@ -83,8 +82,10 @@ function GUI(){
 	    robot.update();
 	}
 
-	this.winGame = function(acquiredLevelScore, gameScore, levelNumber)
+	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame)
 	{
+    //TODO use isEndGame param
+    
 	    updateGame();
         // Update Scores and level
         document.getElementById("mr-gameScore").innerHTML = gameScore;
@@ -99,18 +100,14 @@ function GUI(){
         displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
 	}
 
-	this.loseGame = function(isBatteryDead) //crash case if false
+	this.loseLevel = function(isBatteryDead) //crash case if false
 	{
-	    displaySimpleModal("You Lost!", "You Crashed!", "Try Again");
+	    if (isBatteryDead) displaySimpleModal("You Lost!", "Your battery died!", "Try Again");
+      else displaySimpleModal("You Lost!", "You Crashed!", "Try Again");
 	}
   
   this.setLevelScore = function(levelScore) { document.getElementById("mr-levelScore").innerHTML = levelScore; }
 
-
-	this.debug = function(message)
-	{
-	    if (debug) console.log("GUI: " + message);
-	}
 
 	//TODO
 	//If isSuccess is true, move robot
@@ -258,7 +255,7 @@ function GUI(){
 
 		clear: function () {
 		    if (typeof this.context != "undefined") {
-		        console.log("game area cleared");
+		        debug("GUI: game area cleared");
 		        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		    }
 

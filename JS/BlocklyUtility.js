@@ -19,16 +19,16 @@
       <block type="left_statement"></block>
       <block type="right_statement"></block>
     </category>`;
-if (blocklyCustomSettings && (blocklyCustomSettings.enableDoWhile || blocklyCustomSettings.enableWhile)) {
-  toolbox += '<category name="Loops">';
-  if (blocklyCustomSettings && blocklyCustomSettings.enableWhile)
-    toolbox += '<block type="while"></block>';
-  if (blocklyCustomSettings && blocklyCustomSettings.enableDoWhile)
-    toolbox += '<block type="do_while"></block>'
-  toolbox += '</category>';
-}
-toolbox += "</xml>";
-console.log(toolbox);
+  if (blocklyCustomSettings && (blocklyCustomSettings.enableDoWhile || blocklyCustomSettings.enableWhile)) {
+    toolbox += '<category name="Loops">';
+    if (blocklyCustomSettings && blocklyCustomSettings.enableWhile)
+      toolbox += '<block type="while"></block>';
+    if (blocklyCustomSettings && blocklyCustomSettings.enableDoWhile)
+      toolbox += '<block type="do_while"></block>';
+    toolbox += '</category>';
+  }
+  toolbox += "</xml>";
+  console.log(toolbox);
   
   //inject the blockly canvas into the blocklyDiv
   blocklyWorkspace = Blockly.inject('blocklyDiv',
