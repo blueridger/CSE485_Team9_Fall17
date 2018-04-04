@@ -1,8 +1,18 @@
 (function()
 {
+  /*function debug(message) {
+    if (GameEngine.debug) console.log(message);
+  }
+  
+  
+  this.constructor.debug = false;*/
+  
+  debug("Building toolbox");
+  
   var toolbox = `<xml><category name="Logic">
         <block type="if"></block>`;
   if (blocklyCustomSettings && blocklyCustomSettings.enableIfElse)
+    debug("if/else enabled");
     toolbox += '<block type="if_else"></block>';
   toolbox += `<block type="open_right"></block>
       <block type="open_left"></block>
@@ -20,15 +30,20 @@
       <block type="right_statement"></block>
     </category>`;
 if (blocklyCustomSettings && (blocklyCustomSettings.enableDoWhile || blocklyCustomSettings.enableWhile)) {
+  debug("using \"loops\" category");
   toolbox += '<category name="Loops">';
   if (blocklyCustomSettings && blocklyCustomSettings.enableWhile)
+    debug("while enabled");
     toolbox += '<block type="while"></block>';
   if (blocklyCustomSettings && blocklyCustomSettings.enableDoWhile)
+    debug("do/while enabled");
     toolbox += '<block type="do_while"></block>'
   toolbox += '</category>';
 }
 toolbox += "</xml>";
-console.log(toolbox);
+  debug(toolbox);
+
+    debug("injecting workspace");
   
   //inject the blockly canvas into the blocklyDiv
   blocklyWorkspace = Blockly.inject('blocklyDiv',
@@ -52,6 +67,8 @@ console.log(toolbox);
         && !(event instanceof Blockly.Events.BlockCreate)
         && !(event instanceof Blockly.Events.BlockChange)) 
       {
+        debug("change detected");
+        
         //pass it to another object to handle changes
         GAME_ENGINE.blocklyChangeHandler.handleChanges(event, blocklyWorkspace);
         

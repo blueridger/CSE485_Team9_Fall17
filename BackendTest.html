@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="Front End/css/maze_runner.css" />
+    <link type="text/css" rel="stylesheet" href="Front End/css/blockly.css" />
 
     <!-- BootStrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -14,7 +15,6 @@
 
 
     <title>CSE 110 Maze Runner</title>
-    <script src="JS/Game.js"></script>
     <script src="JS/JSInter/acorn.js"></script>
     <script src="JS/JSInter/interpreter.js"></script>
     <script src="Blockly/blockly_compressed.js"></script>
@@ -23,10 +23,12 @@
     <script src="Blockly/blocks/testBlockJSON.js"></script>
     <script src="Blockly/generators/javascript/testblockgen.js"></script>
     <script src="Blockly/msg/js/en.js"></script>
-    <script src="map.js"></script>
-    <script src="GameEngine.js"></script>
-    <script src="ChangeHandler.js"></script>
-    <script src="MapGenerator.js"></script>
+    <script src="JS/GUI.js"></script>
+    <script src="JS/Map.js"></script>
+    <script src="JS/GameEngine.js"></script>
+    <script src="JS/ChangeHandler.js"></script>
+    <script src="JS/MapGenerator.js"></script>
+    <script src="settings.js"></script>
 	
 
   </head>
@@ -63,22 +65,41 @@
 				<li><button class="btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play(); arrangeButtons(false);">Play</button></li>
 				<li><button class="btn btn-primary" id="mr-pause" style="display:none" onclick="GAME_ENGINE.pause(); arrangeButtons(true)">Pause</button></li>
 				<li><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
-                <li><input type="range" min="1" max="4" value="2" style="display:none;" id="myRange"></li>
-				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal">help</button></li>
+        <li><input class="btn" type="range" min="1" max="4" value="2" style="display:none;" id="myRange" oninput=
+          'var MILLISECOND_INTERVAL = [ 2000, 1000, 500, 150 ];
+          debug("Speed set to " + this.value);
+          GAME_ENGINE.setPlaySpeed(MILLISECOND_INTERVAL[this.value - 1]);'></li>
+				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal" onclick="GAME_ENGINE.pause(); arrangeButtons(true)">help</button></li>
 				<li><button class="btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal">Reset Level</button></li>
 				<li><button class="btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal">Reset Game</button></li>
 			</ul>
 		</nav>
+    <script type="application/javascript">
+      function arrangeButtons(showPlayAndStep)
+      {
+        if(showPlayAndStep == true)
+        {
+          document.getElementById('mr-play').style.display = 'table-cell'; 
+          document.getElementById('mr-step').style.display = 'table-cell'; 
+          document.getElementById('myRange').style.display = 'none'; 
+          document.getElementById('mr-pause').style.display = 'none';
+        }
+        else
+        {
+          document.getElementById('mr-play').style.display = 'none'; 
+          document.getElementById('mr-step').style.display = 'none'; 
+          document.getElementById('myRange').style.display = 'table-cell'; 
+          document.getElementById('mr-pause').style.display = 'table-cell';
+        }
+      }
+    </script>
         
-        <!-- Reset Level Modal -->
+        <!-- Reset Game Modal -->
         <div class="modal fade" id="mr-resetGameModal" tabindex="-1" role="dialog" aria-labelledby="resetGameModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="resetGameModalLongTitle">Reset Game?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         Are you Sure?
@@ -97,9 +118,6 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <h5 class="modal-title" id="resetLevelModalLongTitle">Reset Level?</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
                   </div>
                   <div class="modal-body">
                       Are you Sure?
@@ -118,68 +136,69 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="mr-helpModalLongTitle">Maze Runner Help</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <div>
                             <h5>Welcome</h5>
                             <p>The Maze Runner's battery is running out. He needs your help to find the battery and recharge. Help him navigate through the maze to reach the battery.</p>
+                            <hr/>
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Maze Runner Robot</h5>
-                            <img class="float-left" src="images/ship_east.png" width="50px" alt="robot" />
-                            <p>I'm the maze runner. help me recharge my batteries</p>
+                            <div class="clearfix">
+                                <img class="float-left" src="images/RobotForward.png" width="50px" alt="robot" />
+                                <p>I'm the maze runner. Help me recharge my batteries.</p>
+                            </div>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Battery</h5>
-                            <img class="float-left" src="images/tmpBattery.png" width="50px" alt="robot" />
-                            <p>The battery is what you are trying to get.</p>
+                            <div class="clearfix">
+                                <img class="float-left" src="images/RobotBattery.png" width="50px" alt="robot" />
+                                <p>Help The Maze Runner Robot find this battery by using the logic and statement operations.</p>
+                            </div>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
-                            <h5>Logic &amp; Statment Operations</h5>
-                            <img class="float-left" src="images/logic_operations.png" width="100px" alt="robot" />
-                            <img class="float-left" src="images/statement_operations.png" width="100px" alt="robot" />
-                            <p>Use the logic and statement operations to help the robot move and reach the battery.</p>
+                            <h5>Logic &amp; Statement Operations</h5>
+                            <div class="clearfix">
+                                <img class="float-left" src="images/logic_operations.png" width="100px" alt="robot" />
+                                <img class="float-left" src="images/statement_operations.png" width="100px" alt="robot" />
+                                <p>Use the logic and statement operations to help the robot move and reach the battery.</p>
+                            </div>
+                            <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Step</h5>
                             <img class="float-left" src="images/step_button.png" width="50px" alt="robot" />
                             <p>Go through each action step by step.</p>
+                            <hr />
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Reset Level</h5>
+                            <img class="float-left" src="images/resetLevel.png" width="70px" alt="robot" />
+                            <p>Need to reset the level? No problem. Hit this button and the level will reset preserving your logic and statement operations.</p>
+                            <hr />
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Reset Game</h5>
+                            <img class="float-left" src="images/resetGame.png" width="70px" alt="robot" />
+                            <p>Want to completely start over? This button will reset the game, but be careful! You will lose all progress.</p>
+                            <hr />
+                        </div>
+                        <div class="mr-helpDiv clearfix">
+                            <h5>Scoring</h5>
+                            <p>Complete a level, get a point! Challenge: Complete a level without changing your code from the previous level? We'll throw you an extra point!</p>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="GAME_ENGINE.play(); arrangeButtons(false);">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-	
-	
-	  <!-- blockly code -->
-	  <xml id="toolbox" style="display: none">
-      <category name="Logic">
-        <block type="open_right"></block>	
-        <block type="open_left"></block>
-        <block type="open_front"></block>
-        <block type="open_back"></block>
-        <block type="if"></block>
-        <block type="if_else"></block>
-        <block type="wall_right"></block>	
-        <block type="wall_left"></block>
-        <block type="wall_front"></block>
-        <block type="wall_back"></block>
-      </category>
-      <category name="Statements">
-        <block type="back_statement"></block>
-        <block type="forward_statement"></block>
-        <block type="left_statement"></block>
-        <block type="right_statement"></block>
-      </category>
-    </xml>
 
-    <!---DEFULAT BLOCKS---->
+    <!---DEFAULT BLOCKS---->
     <xml xmlns="http://www.w3.org/1999/xhtml" id="workspaceBlocks" style="display:none">
       <variables></variables>
       <block type="if" id="!5.J#s[UIoH)?ERLqgdk" x="38" y="13">
@@ -210,120 +229,15 @@
     <!--END DEFAULT BLOCKS-->
 
     <script type="application/javascript">
+    
+      GAME_ENGINE = InitializeGame();
+      document.getElementById("myRange").oninput(); //set default play speed
       
-      GAME_ENGINE = new GameEngine(true);
+    </script>
       
-      //load the tool box description from the above XML
-      var toolbox = document.getElementById("toolbox");
-      
-      //define the blockly options
-      var options = 
-      { 
-        toolbox : toolbox, 
-        collapse : true, 
-        comments : true, 
-        disable : true, 
-        maxBlocks : Infinity, 
-        trashcan : true, 
-        horizontalLayout : false, 
-        toolboxPosition : 'bottom', 
-        css : true, 
-        media : 'https://blockly-demo.appspot.com/static/media/', 
-        rtl : false, 
-        scrollbars : true, 
-        sounds : false, 
-        oneBasedIndex : true, 
-        grid : 
-        {
-          spacing : 20, 
-          length : 1, 
-          colour : '#888', 
-          snap : true
-        }
-      };
-      
-      //inject the blockly canvas into the blocklyDiv
-      var blocklyWorkspace = Blockly.inject('blocklyDiv',
-        {
-          media: 'Blockly/media/',
-          toolbox: document.getElementById('toolbox')
-        }
-      );
-        
-      //variable defining the default blocks to load on start up.
-      var workspaceBlocks = document.getElementById("workspaceBlocks"); 
+      <script src="JS/BlocklyUtility.js"></script>
 
-      /* Load blocks to workspace. */
-      Blockly.Xml.domToWorkspace(workspaceBlocks , blocklyWorkspace);
-      
-      //Change listener for the workspace
-      blocklyWorkspace.addChangeListener(function(event) 
-        {
-        
-          if (!(event instanceof Blockly.Events.Ui)
-            && !(event instanceof Blockly.Events.BlockCreate)
-            && !(event instanceof Blockly.Events.BlockChange)) 
-          {
-            //pass it to another object to handle changes
-            GAME_ENGINE.blocklyChangeHandler.handleChanges(event, blocklyWorkspace);
-            
-            //generate code from the recently changed blockly workspace
-            GAME_ENGINE.generateCodeAndLoadIntoInterpreter();
-            
-            //dump the current instance of the interpreter. This guarantees that code execution will start that the beginning
-            GAME_ENGINE.removeInterpreter();
-          }
-        }
-      );
-      
-      var slider = document.getElementById("myRange");
-      
-      var SPEED_1 = 2000;
-      var SPEED_2 = 1000;
-      var SPEED_3 = 500;
-      var SPEED_4 = 150;
-      
-      // Update the current slider value (each time you drag the slider handle)
-      slider.oninput = function() {
-        console.log(this.value);
-        if(this.value == 1)
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_1);
-        }
-        else if (this.value == 3)
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_3);
-        }
-        else if(this.value == 4)
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_4);
-        }
-        else
-        {
-          GAME_ENGINE.setPlaySpeed(SPEED_2);
-        }
-      }
-      
-      function arrangeButtons(showPlayAndStep)
-      {
-        if(showPlayAndStep == true)
-        {
-          document.getElementById('mr-play').style.display = 'table-cell'; 
-          document.getElementById('mr-step').style.display = 'table-cell'; 
-          document.getElementById('myRange').style.display = 'none'; 
-          document.getElementById('mr-pause').style.display = 'none';
-        }
-        else
-        {
-          document.getElementById('mr-play').style.display = 'none'; 
-          document.getElementById('mr-step').style.display = 'none'; 
-          document.getElementById('myRange').style.display = 'table-cell'; 
-          document.getElementById('mr-pause').style.display = 'table-cell';
-        }
-      }
-      </script>
-
-      <div id="GameArea"> </div>
+      <div id="GameArea"></div>
 
       <footer>
       </footer>

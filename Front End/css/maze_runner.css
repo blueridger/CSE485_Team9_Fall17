@@ -28,6 +28,10 @@ body{
 	padding:.15em;
 }
 
+.btn {
+  width:124px;
+}
+
 ul{
 	list-style:none; 
 	display:table; 
