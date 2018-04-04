@@ -191,7 +191,7 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
   
   this.resetLevel = function() {
     playerTile.setPlayer(false);
-    playerTile = tileMap[originalPosition[0]][originalPosition[1]];
+    playerTile = getTile(originalPosition);
     playerTile.setPlayer(true);
     player.setDirection(originalDirection);
     batteryLife = batteryMaxLife;
