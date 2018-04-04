@@ -16,16 +16,17 @@ function GameEngine(settings) {
   var gui = null;
   var interpreter = null;
   var playTimeout = null;
+  var isPlaying = false;
+  var playSpeed;
+  
   var score = 0;
   var level = 1;
   var numLevels = settings.numberOfLevels;
   var lastLevelModified = level;
+  
   var blocklyChangeHandler = new ChangeHandler(this);
-  var playSpeed;
-  var isPlaying = false;
   var scoreLineCountSubtractionBase = 10; //set <= 1 to disable line-count-based scoring
   var latestCode = "";
-  var lastConditionBlockResult;
   
   /*
    * END  Private variables

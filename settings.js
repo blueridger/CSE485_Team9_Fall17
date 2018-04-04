@@ -2,7 +2,7 @@ function InitializeGame() {
   var gameEngineSettings = {
     debug: true,
     mapSource: null, //string to use for map loading, will randomly generate map if null.
-    numberOfLevels: 1
+    numberOfLevels: 3
   }
   blocklyCustomSettings = {
     enableWhile: false,
