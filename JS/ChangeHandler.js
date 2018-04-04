@@ -5,6 +5,7 @@ function ChangeHandler(gameEng)
   
   this.getBlockCount = function(workspace)
   {
+    debug("Block count: " + workspace.getAllBlocks().length);
     return workspace.getAllBlocks().length;
   }
   
@@ -20,7 +21,7 @@ function ChangeHandler(gameEng)
         //console.log("found the block");
         if(!handleChangesWorker(currentBlock, MAX_LEVEL_OF_NESTING))
         {
-          console.log("deleting block");
+          debug("deleting block");
           currentBlock.dispose(true);
         }
       }
