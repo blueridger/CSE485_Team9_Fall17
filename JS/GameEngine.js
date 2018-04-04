@@ -1,11 +1,11 @@
 function debug(message) {
-    if (GameEngine.debug) console.log(message);
-  }
+  if (GameEngine.debug) console.log(message);
+}
 
 function GameEngine(settings) {
   
   //Start Properties
-  this.constructor.debug = true;
+  this.constructor.debug = settings.debug;
   
   
   /*
@@ -16,15 +16,17 @@ function GameEngine(settings) {
   var gui = null;
   var interpreter = null;
   var playTimeout = null;
+  var isPlaying = false;
+  var playSpeed;
+  
   var score = 0;
   var level = 1;
+  var numLevels = settings.numberOfLevels;
   var lastLevelModified = level;
+  
   var blocklyChangeHandler = new ChangeHandler(this);
-  var playSpeed;
-  var isPlaying = false;
   var scoreLineCountSubtractionBase = 10; //set <= 1 to disable line-count-based scoring
   var latestCode = "";
-  var lastConditionBlockResult;
   
   /*
    * END  Private variables
@@ -59,19 +61,22 @@ function GameEngine(settings) {
   function checkGameState() {
     debug("GameEng.checkGameState called.");
     if (map.isWin()) {
+      debug("Level won.");
       pause();
       var levelScore = getLevelScore();
       score += levelScore;
+      var isEndGame = level == numLevels;
       level++;
-      gui.winGame(levelScore, score, level);
-      gui.setLevelScore(getLevelScore());
-      map = getMap();
-      //resetLevel();
+      gui.winLevel(levelScore, score, level, isEndGame);
+      if (!isEndGame) {
+        gui.setLevelScore(getLevelScore());
+        map = getMap();
+      }
       return true;
     } else if (map.isDead()) {
       debug("Battery DEAD.");
       pause();
-      gui.loseGame(true);
+      gui.loseLevel(true);
       resetLevel();
       return true;
     }
@@ -199,7 +204,7 @@ function GameEngine(settings) {
     else {
       pause();
       gui.moveForward(false);
-      gui.loseGame(false);
+      gui.loseLevel(false);
       resetLevel();
     }
   }
@@ -214,7 +219,7 @@ function GameEngine(settings) {
     else {
       pause();
       gui.moveBackward(false);
-      gui.loseGame(false);
+      gui.loseLevel(false);
       resetLevel();
     }
   }
