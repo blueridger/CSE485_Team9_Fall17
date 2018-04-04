@@ -2,6 +2,9 @@
 body{
 	margin:0; 
 	padding:0;
+    font-family: 'Press Start 2P', cursive !important;
+    color:#ffb204 !important;
+    background-color:black !important;
 }
 
 #mr-game-container{
@@ -47,7 +50,7 @@ ul{
 
 header{
 	padding:.5em; 
-	background-color:#eaeaea;
+	border-bottom:2px solid #730101;
 }
 
 	header .mr-levelText{
@@ -61,6 +64,10 @@ header{
 #mr-scores h3{
 	display:inline-block; 
 	padding: .5em 1.2em;
+}
+
+.btn{
+    font-size:.5rem !important;
 }
 
 .btn-primary,
@@ -96,5 +103,5 @@ header{
 
 canvas{
   background-color: black;
-  border:5px solid #9370db;
+  border:5px solid #730101;
 }

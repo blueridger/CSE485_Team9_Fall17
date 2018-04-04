@@ -75,6 +75,7 @@ function GUI(){
 	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1]) {
 	        gameWon = true;
 	    }
+
 	    //Redrwas each element of the game area
 	    drawGrid();
 	    drawMap();
@@ -436,7 +437,7 @@ function GUI(){
 			}
 		}
 
-		ctx.strokeStyle = "#9370db";
+		ctx.strokeStyle = "#730101";
 		ctx.stroke();
 	}
 
