@@ -26,7 +26,7 @@ function GUI(){
 		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0],
-        robotDirection: 'right'
+        robotDirection: Map.EAST
 	};
 	
 	//Public vars
@@ -124,22 +124,22 @@ function GUI(){
 		else {
 		    switch (robot.facing) {
 		        //left
-		        case 'left':
+		        case Map.WEST:
 		            robot.x = robot.x - moveAmtX;
 		            break;
 
 		            //up
-		        case 'up':
+		        case Map.NORTH:
 		            robot.y = robot.y - moveAmtY;
 		            break;
 
 		            //right
-		        case 'right':
+		        case Map.EAST:
 		            robot.x = robot.x + moveAmtX;
 		            break;
 
 		            //down
-		        case 'down':
+		        case Map.SOUTH:
 		            robot.y = robot.y + moveAmtY;
 		            break;
 		    }
@@ -164,21 +164,21 @@ function GUI(){
 		else {
 		    switch (robot.facing) {
 		        //left
-		        case 'left':
+		        case Map.WEST:
 		            robot.x = robot.x + moveAmtX;
 		            break;
 		            //up
-		        case 'up':
+		        case Map.NORTH:
 		            robot.y = robot.y + moveAmtY;
 		            break;
 
 		            //right
-		        case 'right':
+		        case Map.EAST:
 		            robot.x = robot.x - moveAmtX;
 		            break;
 
 		            //down
-		        case 'down':
+		        case Map.SOUTH:
 		            robot.y = robot.y - moveAmtY;
 		            break;
 		    }
@@ -194,23 +194,23 @@ function GUI(){
 		switch(robot.facing)
 		{
 		  //left
-		  case 'left':
-			robot.facing = 'down';
+		  case Map.WEST:
+			robot.facing = Map.SOUTH;
 			break;
 
 		  //up
-		  case 'up':
-			robot.facing = 'left';
+		  case Map.NORTH:
+			robot.facing = Map.WEST;
 			break;
 
 		  //right
-		  case 'right':
-			robot.facing = 'up';
+		  case Map.EAST:
+			robot.facing = Map.NORTH;
 			break;
 
 		  //down
-		  case 'down':
-			robot.facing = 'right';
+		  case Map.SOUTH:
+			robot.facing = Map.EAST;
 			break;
 		}
 		this.updateGameArea();
@@ -220,23 +220,23 @@ function GUI(){
 		switch(robot.facing)
 		{
 		  //left
-		  case 'left':
-			robot.facing = 'up';
+		  case Map.WEST:
+			robot.facing = Map.NORTH;
 			break;
 
 		  //up
-		  case 'up':
-			robot.facing = 'right';
+		  case Map.NORTH:
+			robot.facing = Map.EAST;
 			break;
 
 		  //right
-		  case 'right':
-			robot.facing = 'down';
+		  case Map.EAST:
+			robot.facing = Map.SOUTH;
 			break;
 
 		  //down
-		  case 'down':
-			robot.facing = 'left';
+		  case Map.SOUTH:
+			robot.facing = Map.WEST;
 			break;
 		}
 		this.updateGameArea();
@@ -284,16 +284,16 @@ function GUI(){
 			ctx = gameArea.context;
 
 			switch (robot.facing) {
-			    case "right":
+			    case Map.EAST:
 			        parent.img.src = "images/" + robotImages.east;
 			        break;
-			    case "left":
+			    case Map.WEST:
 			        parent.img.src = "images/" + robotImages.west;
 			        break;
-			    case "up":
+			    case Map.NORTH:
 			        parent.img.src = "images/" + robotImages.north;
 			        break;
-			    case "down":
+			    case Map.SOUTH:
 			        parent.img.src = "images/" + robotImages.south;
 			        break;
 			}
@@ -348,19 +348,7 @@ function GUI(){
 	function getInitialValues(map)
 	{
     
-        switch(map.getDirection()) {
-        case Map.NORTH:
-            settings.robotDirection = 'up';
-            break;
-        case Map.EAST:
-            settings.robotDirection = 'right';
-            break;
-        case Map.SOUTH:
-            settings.robotDirection = 'down';
-            break;
-        default:
-            settings.robotDirection = 'left';
-        }
+        settings.robotDirection = map.getDirection()
         settings.columns = map.getWidth();
         settings.rows = map.getHeight();
 
