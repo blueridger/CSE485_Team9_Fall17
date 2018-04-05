@@ -87,6 +87,8 @@ header{
 /*************** modal styling ***************/
 .modal-content{
     background-color:#fff;
+    font-size:.5rem !important;
+    color: #000 !important; 
 }
       
 
