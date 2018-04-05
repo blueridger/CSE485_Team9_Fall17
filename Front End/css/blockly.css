@@ -3,3 +3,11 @@
   fill: #ffffff;
   font-weight:bold;
 }
+
+.blocklyMainBackground{
+    fill:#646363 !important;
+}
+
+.blocklyToolboxDiv{
+    background-color:#888 !important;
+}
