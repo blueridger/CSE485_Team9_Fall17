@@ -50,7 +50,7 @@ ul{
 
 header{
 	padding:.5em; 
-	border-bottom:2px solid #730101;
+	/*border-bottom:2px solid #730101;*/
 }
 
 	header .mr-levelText{

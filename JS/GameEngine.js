@@ -11,9 +11,8 @@ function GameEngine(settings) {
   /*
    * START  Private variables
    */
-
-  var map = null;
-  var gui = null;
+  var map;
+  var gui;
   var interpreter = null;
   var playTimeout = null;
   var isPlaying = false;
