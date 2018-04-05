@@ -1,5 +1,5 @@
 function InitializeGame() {
-  var gameEngineSettings = {
+  var gameSettings = {
     debug: true,
     mapSource: null, //string to use for map loading, will randomly generate map if null.
     numberOfLevels: 3
@@ -9,5 +9,5 @@ function InitializeGame() {
     enableDoWhile: false,
     enableIfElse: false
   }
-  return new GameEngine(gameEngineSettings);
+  return new GameEngine(gameSettings);
 }
