@@ -14,7 +14,10 @@ function GUI(){
 		north: "RobotBackward.png",
 		south: "RobotForward.png",
 		east: "RobotRight.png",
-		west: "RobotLeft.png"
+		west: "RobotLeft.png",
+		eastCrash: "RobotRight_crash.png",
+		westCrash: "RobotLeft_crash.png",
+        win: "RobotWin.png"
 	};
 
 	
@@ -86,7 +89,9 @@ function GUI(){
 	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame)
 	{
     //TODO use isEndGame param
-    
+        
+	    gameWon = true;
+
 	    updateGame();
         // Update Scores and level
         document.getElementById("mr-gameScore").innerHTML = gameScore;
@@ -98,16 +103,24 @@ function GUI(){
         battery.img = null;
 
         //Display Win text
-        displaySimpleModal("Winner!", "Congrats!!!! You Win!!");
+        displaySimpleModal("Winner!", "Congrats!!!! You Win!!", "Next Level", true);
 	}
 
 	this.loseLevel = function(isBatteryDead) //crash case if false
 	{
-	    if (isBatteryDead) displaySimpleModal("You Lost!", "Your battery died!", "Try Again");
-      else displaySimpleModal("You Lost!", "You Crashed!", "Try Again");
+	    gameLost = true;
+	    updateGame();
+
+	    
+	    if (isBatteryDead) {
+	        displaySimpleModal("You Lost!", "Your battery died!", "Try Again");
+	    }
+	    else {
+	        displaySimpleModal("You Lost!", "You Crashed!", "Try Again");
+	    }
 	}
   
-  this.setLevelScore = function(levelScore) { document.getElementById("mr-levelScore").innerHTML = levelScore; }
+    this.setLevelScore = function(levelScore) { document.getElementById("mr-levelScore").innerHTML = levelScore; }
 
 
 	//TODO
@@ -283,24 +296,38 @@ function GUI(){
 		this.update = function() {
 			ctx = gameArea.context;
 
-			switch (robot.facing) {
-			    case Map.EAST:
-			        parent.img.src = "images/" + robotImages.east;
-			        break;
-			    case Map.WEST:
-			        parent.img.src = "images/" + robotImages.west;
-			        break;
-			    case Map.NORTH:
-			        parent.img.src = "images/" + robotImages.north;
-			        break;
-			    case Map.SOUTH:
-			        parent.img.src = "images/" + robotImages.south;
-			        break;
+			if (gameWon)
+			{
+			    parent.img.src = "images/" + robotImages.win;
+			    gameWon = false;
+			}
+			else {
+			    switch (robot.facing) {
+			        case Map.EAST:
+			            parent.img.src = "images/" + robotImages.east;
+			            if (gameLost) {
+			                parent.img.src = "images/" + robotImages.eastCrash;
+			            }
+			            break;
+			        case Map.WEST:
+			            parent.img.src = "images/" + robotImages.west;
+			            if (gameLost) {
+			                parent.img.src = "images/" + robotImages.westCrash;
+			            }
+			            break;
+			        case Map.NORTH:
+			            parent.img.src = "images/" + robotImages.north;
+			            break;
+			        case Map.SOUTH:
+			            parent.img.src = "images/" + robotImages.south;
+			            break;
+			    }
 			}
 
 			parent.img.onload = function () {
 			    ctx.drawImage(parent.img, parent.x, parent.y, parent.width, parent.height);
 			}
+			gameLost = false;
 			
 		}
 	}
@@ -430,9 +457,9 @@ function GUI(){
 	}
 
 
-	function displaySimpleModal(title,message, buttonMsg)
+	function displaySimpleModal(title,message, buttonMsg, isWon)
 	{
-	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >';
 
 	    modalDiv += '  <div class="modal-dialog modal-dialog-centered" role="document">';
 	    modalDiv += '    <div class="modal-content">';
@@ -440,22 +467,25 @@ function GUI(){
 	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ title +'</h5>';
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-body">';
+	    if (typeof isWon != "undefined")
+	    {
+	        if (isWon)
+	            modalDiv += "<img src='images/RobotWin.png' width='100px'/>";
+	    }
 	    modalDiv += message;
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-footer">';
 	    if (typeof buttonMsg == "undefined") {
 	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
 	    }
-	    else
-	    {
-	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">'+ buttonMsg +'</button>';
+	    else {
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">' + buttonMsg + '</button>';
 	    }
-	    
 	    modalDiv += '      </div>';
 	    modalDiv += '    </div>';
 	    modalDiv += '  </div>';
 	    modalDiv += '</div>';
-	    $(modalDiv).modal();
+	    $(modalDiv).modal({ backdrop: 'static', keyboard: false });
 	}
 	
 	function drawGrid(){
