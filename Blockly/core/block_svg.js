@@ -1249,18 +1249,44 @@ Blockly.BlockSvg.prototype.setDisabled = function(disabled) {
  * @param {boolean} highlighted True if highlighted.
  */
 Blockly.BlockSvg.prototype.setHighlighted = function(highlighted) {
-  if (!this.rendered) {
+  if (!this.rendered) 
+  {
     return;
   }
-  if (highlighted) {
+  if (highlighted) 
+  {
+    //this.addSelect();
     this.svgPath_.setAttribute('filter',
         'url(#' + this.workspace.options.embossFilterId + ')');
     this.svgPathLight_.style.display = 'none';
-  } else {
+  } 
+  else 
+  {
+    //this.removeSelect();
     Blockly.utils.removeAttribute(this.svgPath_, 'filter');
     delete this.svgPathLight_.style.display;
   }
 };
+
+/*Blockly.BlockSvg.prototype.setHighlighted = function(highlighted) {
+  if (!this.rendered) {
+    return;
+  }
+  if (highlighted) {
+    this.addSelect();
+    /*
+    this.svgPath_.setAttribute('filter',
+        'url(#' + this.workspace.options.embossFilterId + ')');
+    this.svgPathLight_.style.display = 'none';
+    */
+  /*} else {
+    this.removeSelect();
+    /*
+    Blockly.utils.removeAttribute(this.svgPath_, 'filter');
+    delete this.svgPathLight_.style.display;
+    *//*
+  }
+};*/
 
 /**
  * Select this block.  Highlight it visually.
