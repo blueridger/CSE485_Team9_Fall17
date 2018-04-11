@@ -16,7 +16,7 @@ function GameEngine(settings) {
   var interpreter = null;
   var playTimeout = null;
   var isPlaying = false;
-  var playSpeed;
+  var playInterval;
   
   var score = 0;
   var level = 1;
@@ -95,7 +95,7 @@ function GameEngine(settings) {
    * START  Privileged methods
    */
 
-  function step(play) {
+  function step() {
     debug("GameEng.step() called privately.");
     
     if (!interpreter) {
@@ -131,7 +131,7 @@ function GameEngine(settings) {
         // or the code completes or errors.
       } while (hasMoreCode && !highlightPause && interpreter);
       if (highlightPause && !checkGameState() && isPlaying) {
-        playTimeout = setTimeout(step, playSpeed);
+        playTimeout = setTimeout(step, playInterval);
       }
     }
   }
@@ -167,8 +167,8 @@ function GameEngine(settings) {
   }
   this.resetLevel = resetLevel;
   
-  this.setPlaySpeed = function(speed) {
-    playSpeed = speed;
+  this.setPlayInterval = function(intervalInMilliseconds) {
+    playInterval = intervalInMilliseconds;
   }
   
   this.instructionsModified = function() {
