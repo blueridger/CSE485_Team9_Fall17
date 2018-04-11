@@ -11,3 +11,8 @@
 .blocklyToolboxDiv{
     background-color:#888 !important;
 }
+
+.blocklySelected>.blocklyPath{
+    stroke: #ffffff;
+    stroke-width: 3px;
+}
