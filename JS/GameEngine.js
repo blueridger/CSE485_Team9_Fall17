@@ -143,6 +143,7 @@ function GameEngine(settings) {
   this.play = function() {
     debug("GameEng.play() called.");
     if (!isPlaying) {
+      arrangeButtons(false); //defined in index.html
       isPlaying = true;
       step();
     }
@@ -153,6 +154,7 @@ function GameEngine(settings) {
     debug("GameEng.pause() called.");
     clearTimeout(playTimeout);
     isPlaying = false;
+    arrangeButtons(true); //defined in index.html
   }
   this.pause = pause;
 
