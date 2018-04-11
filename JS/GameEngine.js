@@ -76,7 +76,7 @@ function GameEngine(settings) {
       debug("Battery DEAD.");
       pause();
       gui.loseLevel(true);
-      resetLevel();
+      //resetLevel();
       return true;
     }
     return false;
@@ -206,7 +206,7 @@ function GameEngine(settings) {
       pause();
       gui.moveForward(false);
       gui.loseLevel(false);
-      resetLevel();
+      //resetLevel();
     }
   }
   
@@ -221,7 +221,7 @@ function GameEngine(settings) {
       pause();
       gui.moveBackward(false);
       gui.loseLevel(false);
-      resetLevel();
+      //resetLevel();
     }
   }
   
