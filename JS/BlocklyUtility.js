@@ -49,7 +49,8 @@ toolbox += "</xml>";
   blocklyWorkspace = Blockly.inject('blocklyDiv',
     {
       media: 'Blockly/media/',
-      toolbox: toolbox
+      toolbox: toolbox,
+      css: true
     }
   );
     
