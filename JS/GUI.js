@@ -8,6 +8,7 @@ function GUI(){
 	var gameMap = null;
 	var gameWon = false;
 	var gameLost = false;
+	var batteryDead = false;
 	var updateFunc = null;
   var animationInterval;
   var animationIntervalMiliseconds = 50;
@@ -17,8 +18,11 @@ function GUI(){
 		south: "RobotForward.png",
 		east: "RobotRight.png",
 		west: "RobotLeft.png",
-		eastCrash: "RobotRight_crash.png",
-		westCrash: "RobotLeft_crash.png",
+		northCrash: "RobotBackwardDaze.png",
+		southCrash: "RobotForwardDaze.png",
+		eastCrash: "RobotRightDaze.png",
+		westCrash: "RobotLeftDaze.png",
+		lose: "RobotLose.png",
         win: "RobotWin.png"
 	};
 
@@ -76,11 +80,6 @@ function GUI(){
 	    //Clears the game area so it can be re-written
 	    gameArea.clear();
 
-
-	    if (robot.col == settings.batteryStart[0] && robot.row == settings.batteryStart[1]) {
-	        gameWon = true;
-	    }
-
 	    //Redrwas each element of the game area
 	    drawGrid();
 	    drawMap();
@@ -94,6 +93,7 @@ function GUI(){
 	    gameWon = true;
       
 	    updateGame();
+
         // Update Scores and level
         document.getElementById("mr-gameScore").innerHTML = gameScore;
         document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
@@ -103,21 +103,30 @@ function GUI(){
         //robot.img = null;
         battery.img = null;
 
-        //Display Win text
-        displaySimpleModal("Winner!", "Congrats!!!! You Win!!", "Next Level", true);
+	    //Display Win text
+        if (!isEndGame)
+        {
+            displaySimpleModal("Level " + (levelNumber - 1) + " Cleared!", "Congrats you Earning " + acquiredLevelScore + " Points", "Next Level", robotImages.win);
+        }
+        else
+        {
+            displaySimpleModal("You Beat The Game!", "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore, "Next Level", robotImages.win);
+        }
+        
 	}
 
 	this.loseLevel = function(isBatteryDead) //crash case if false
 	{
 	    gameLost = true;
+	    batteryDead = isBatteryDead;
 	    updateGame();
 
 	    
 	    if (isBatteryDead) {
-	        displaySimpleModal("You Lost!", "Your battery died!", "Try Again");
+	        displaySimpleModal("You Lost!", "Your battery died!", "Try Again", robotImages.lose);
 	    }
 	    else {
-	        displaySimpleModal("You Lost!", "You Crashed!", "Try Again");
+	        displaySimpleModal("You Lost!", "You Crashed!", "Try Again", robotImages.lose);
 	    }
 	}
   
@@ -132,8 +141,7 @@ function GUI(){
 		var moveAmtY = settings.height/settings.rows;
 
 		if (!isSuccess) {
-		    gameLost = true;
-		    //alert("Hit Wall");
+
 		}
 		else {
 		    switch (robot.facing) {
@@ -172,8 +180,6 @@ function GUI(){
 
 
 		if (!isSuccess) {
-		    gameLost = true;
-		    alert("Hit Wall");
 		}
 		else {
 		    switch (robot.facing) {
@@ -322,6 +328,10 @@ function GUI(){
 			    parent.img.src = "images/" + robotImages.win;
 			    gameWon = false;
 			}
+			else if (batteryDead) {
+			    parent.img.src = "images/" + robotImages.lose;
+			    gameLost = false;
+			}
 			else {
 			    switch (robot.facing) {
 			        case Map.EAST:
@@ -338,9 +348,15 @@ function GUI(){
 			            break;
 			        case Map.NORTH:
 			            parent.img.src = "images/" + robotImages.north;
+			            if (gameLost) {
+			                parent.img.src = "images/" + robotImages.northCrash;
+			            }
 			            break;
 			        case Map.SOUTH:
 			            parent.img.src = "images/" + robotImages.south;
+			            if (gameLost) {
+			                parent.img.src = "images/" + robotImages.southCrash;
+			            }
 			            break;
 			    }
 			}
@@ -478,7 +494,7 @@ function GUI(){
 	}
 
 
-	function displaySimpleModal(title,message, buttonMsg, isWon)
+	function displaySimpleModal(title,message, buttonMsg, image)
 	{
 	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >';
 
@@ -488,10 +504,9 @@ function GUI(){
 	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ title +'</h5>';
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-body">';
-	    if (typeof isWon != "undefined")
+	    if (typeof image != "undefined")
 	    {
-	        if (isWon)
-	            modalDiv += "<img src='images/RobotWin.png' width='100px'/>";
+	        modalDiv += "<img class='float-left' src='images/"+image+"' width='100px' style='margin-right:1.25em;'/>";
 	    }
 	    modalDiv += message;
 	    modalDiv += '      </div>';
@@ -506,7 +521,7 @@ function GUI(){
 	    modalDiv += '    </div>';
 	    modalDiv += '  </div>';
 	    modalDiv += '</div>';
-	    $(modalDiv).modal({ backdrop: 'static', keyboard: false });
+	    $(modalDiv).removeData().modal({ backdrop: 'static', keyboard: false });
 	}
 	
 	function drawGrid(){
