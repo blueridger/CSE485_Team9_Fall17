@@ -12,8 +12,10 @@
   var toolbox = `<xml><category name="Logic">
         <block type="if"></block>`;
   if (blocklyCustomSettings && blocklyCustomSettings.enableIfElse)
+  {
     debug("if/else enabled");
     toolbox += '<block type="if_else"></block>';
+  }
   toolbox += `<block type="open_right"></block>
       <block type="open_left"></block>
       <block type="open_front"></block>
