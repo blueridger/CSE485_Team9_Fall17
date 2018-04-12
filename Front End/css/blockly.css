@@ -1,18 +1,7 @@
-.blocklyText {
-  /*text-shadow: -1px 0px #000000, 0px 1px #000000, 1px 0px #000000, 0px -1px  #000000;*/
-  fill: #ffffff;
-  font-weight:bold;
-}
-
-.blocklyMainBackground{
+/*.blocklyMainBackground{
     fill:#646363 !important;
-}
+}*/
 
 .blocklyToolboxDiv{
     background-color:#888 !important;
-}
-
-.blocklySelected>.blocklyPath{
-    stroke: #ffffff;
-    stroke-width: 3px;
 }

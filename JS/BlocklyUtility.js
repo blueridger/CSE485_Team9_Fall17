@@ -48,7 +48,7 @@ toolbox += "</xml>";
   //inject the blockly canvas into the blocklyDiv
   blocklyWorkspace = Blockly.inject('blocklyDiv',
     {
-      media: 'Blockly/media/',
+      media: 'JS/Blockly/media/',
       toolbox: toolbox,
       css: true
     }
