@@ -9,6 +9,8 @@ function GUI(){
 	var gameWon = false;
 	var gameLost = false;
 	var updateFunc = null;
+  var animationInterval;
+  var animationIntervalMiliseconds = 50;
 	
 	var robotImages = {
 		north: "RobotBackward.png",
@@ -89,9 +91,8 @@ function GUI(){
 	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame)
 	{
     //TODO use isEndGame param
-        
 	    gameWon = true;
-
+      
 	    updateGame();
         // Update Scores and level
         document.getElementById("mr-gameScore").innerHTML = gameScore;
@@ -138,22 +139,22 @@ function GUI(){
 		    switch (robot.facing) {
 		        //left
 		        case Map.WEST:
-		            robot.x = robot.x - moveAmtX;
+                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, -moveAmtX);
 		            break;
 
 		            //up
 		        case Map.NORTH:
-		            robot.y = robot.y - moveAmtY;
+                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, -moveAmtY);
 		            break;
 
 		            //right
 		        case Map.EAST:
-		            robot.x = robot.x + moveAmtX;
+                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, moveAmtX);
 		            break;
 
 		            //down
 		        case Map.SOUTH:
-		            robot.y = robot.y + moveAmtY;
+                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, moveAmtY);
 		            break;
 		    }
 		    robot.row = robot.y / moveAmtY;
@@ -178,21 +179,21 @@ function GUI(){
 		    switch (robot.facing) {
 		        //left
 		        case Map.WEST:
-		            robot.x = robot.x + moveAmtX;
+                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, moveAmtX);
 		            break;
 		            //up
 		        case Map.NORTH:
-		            robot.y = robot.y + moveAmtY;
+                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, moveAmtY);
 		            break;
 
 		            //right
 		        case Map.EAST:
-		            robot.x = robot.x - moveAmtX;
+                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, -moveAmtX);
 		            break;
 
 		            //down
 		        case Map.SOUTH:
-		            robot.y = robot.y - moveAmtY;
+                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, -moveAmtY);
 		            break;
 		    }
 
@@ -256,6 +257,26 @@ function GUI(){
 	}
 	
 	//Private methods
+  function animateY(totalTime, start, amt) {
+    robot.y += amt / (totalTime*0.9/animationIntervalMiliseconds);
+    if ((amt < 0 && robot.y <= start + amt) || (amt >= 0 && robot.y >= start + amt)) {
+      robot.y = start + amt;
+      console.log("done");
+      clearInterval(animationInterval);
+    }
+    updateGame();
+  }
+  
+  function animateX(totalTime, start, amt) {
+    robot.x += amt / (totalTime*0.9/animationIntervalMiliseconds);
+    if ((amt < 0 && robot.x <= start + amt) || (amt >= 0 && robot.x >= start + amt)) {
+      robot.x = start + amt;
+      console.log("done");
+      clearInterval(animationInterval);
+    }
+    updateGame();
+  }
+  
 	gameArea = {
 		canvas : document.createElement("canvas"),
 		start : function() {

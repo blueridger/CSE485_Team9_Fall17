@@ -66,11 +66,13 @@ function GameEngine(settings) {
       score += levelScore;
       var isEndGame = level == numLevels;
       level++;
+      setTimeout( function() {
       gui.winLevel(levelScore, score, level, isEndGame);
       if (!isEndGame) {
         gui.setLevelScore(getLevelScore());
         map = getMap();
       }
+      }, playInterval * 1.3);
       return true;
     } else if (map.isDead()) {
       debug("Battery DEAD.");
@@ -169,6 +171,10 @@ function GameEngine(settings) {
   
   this.setPlayInterval = function(intervalInMilliseconds) {
     playInterval = intervalInMilliseconds;
+  }
+  
+  this.getPlayInterval = function() {
+    return playInterval;
   }
   
   this.instructionsModified = function() {
