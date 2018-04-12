@@ -1,17 +1,12 @@
 function GUI(){
 	//Private vars
-    var robot = null;
-    var battery = null;
-	var score = 0;
-	var gameAreaDiv = null;
+  var robot = null;
+  var battery = null;
 	var gameArea = null;
 	var gameMap = null;
 	var gameWon = false;
 	var gameLost = false;
 	var batteryDead = false;
-	var updateFunc = null;
-  var animationInterval;
-  var animationIntervalMiliseconds = 50;
 	
 	var robotImages = {
 		north: "RobotBackward.png",
@@ -23,7 +18,7 @@ function GUI(){
 		eastCrash: "RobotRightDaze.png",
 		westCrash: "RobotLeftDaze.png",
 		lose: "RobotLose.png",
-        win: "RobotWin.png"
+    win: "RobotWin.png"
 	};
 
 	
@@ -35,73 +30,61 @@ function GUI(){
 		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0],
-        robotDirection: Map.EAST
+    robotDirection: Map.EAST
 	};
-	
-	//Public vars
 	
 	
 	
 	//Public methods
-	this.setup = function (map) {
-	    gameMap = map;
-	    getInitialValues(gameMap);
-		gameAreaDiv = document.getElementById("GameArea");
-		getGameDimensions(gameAreaDiv);
+	this.setup = function (map, isReset) {
+    if(typeof isReset === 'undefined' || !isReset) {
+      gameArea.canvas.removeLayers().clearCanvas()
+    }
+    
+	  gameMap = map;
+	  getInitialValues(gameMap);
+		getGameDimensions($("#GameArea"));
+    gameArea.start();
 		
 		
 
 		//debug("GameArea ={ width: " + settings.width + ", height: " + settings.height + "}");
     
-        if(typeof arrangeButtons === "function")
-        {
-            arrangeButtons(true);
-        }
+    if(typeof arrangeButtons === "function")
+    {
+        arrangeButtons(true);
+    }
     
 		var width = settings.width/settings.columns;
 		var height = settings.height/settings.rows;
-
+    
+    
 		battery = new batteryComponent(width, height, width * settings.batteryStart[1], height * settings.batteryStart[0]);
 		robot = new robotComponent(width, height, width * settings.robotStart[1], height * settings.robotStart[0], settings.robotDirection);
 		
-		gameArea.start();
+		battery.init();
+    robot.init();
 		
-		this.updateGameArea();
+		this.updateGame();
 		
 	}
 	
-	this.updateGameArea = function () {
-	    updateGame();
-	}
-
-	var updateGame = function () {
-	    debug("GUI:  cX: " + robot.currentX + " | cY: " + robot.currentY + "x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
-
-	    //Clears the game area so it can be re-written
-	    gameArea.clear();
-
-	    //Redrwas each element of the game area
-	    drawGrid();
-	    drawMap();
-	    battery.update();
-	    robot.update();
+	this.updateGame = function () {
+	    debug("GUI:  x: " + robot.x + " | y: " + robot.y + " | f: " + robot.facing);
+      if(typeof GAME_ENGINE != 'undefined')
+        robot.update(GAME_ENGINE.getPlayInterval());
 	}
 
 	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame)
 	{
-    //TODO use isEndGame param
 	    gameWon = true;
       
-	    updateGame();
+	    this.updateGame();
 
-        // Update Scores and level
-        document.getElementById("mr-gameScore").innerHTML = gameScore;
-        document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
-        document.getElementById("mr-levelNumber").innerHTML = levelNumber;
-
-        //Clear images
-        //robot.img = null;
-        battery.img = null;
+      // Update Scores and level
+      document.getElementById("mr-gameScore").innerHTML = gameScore;
+      document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
+      document.getElementById("mr-levelNumber").innerHTML = levelNumber;
 
 	    //Display Win text
         if (!isEndGame)
@@ -119,7 +102,7 @@ function GUI(){
 	{
 	    gameLost = true;
 	    batteryDead = isBatteryDead;
-	    updateGame();
+	    this.updateGame();
 
 	    
 	    if (isBatteryDead) {
@@ -147,27 +130,27 @@ function GUI(){
 		    switch (robot.facing) {
 		        //left
 		        case Map.WEST:
-                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, -moveAmtX);
+                robot.x -= moveAmtX;
 		            break;
 
 		            //up
 		        case Map.NORTH:
-                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, -moveAmtY);
+                robot.y -= moveAmtY;
 		            break;
 
 		            //right
 		        case Map.EAST:
-                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, moveAmtX);
+               robot.x += moveAmtX;
 		            break;
 
 		            //down
 		        case Map.SOUTH:
-                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, moveAmtY);
+                robot.y += moveAmtY;
 		            break;
 		    }
 		    robot.row = robot.y / moveAmtY;
 		    robot.col = robot.x / moveAmtX;
-		    this.updateGameArea();
+		    this.updateGame();
 		}
 	}
 
@@ -185,28 +168,28 @@ function GUI(){
 		    switch (robot.facing) {
 		        //left
 		        case Map.WEST:
-                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, moveAmtX);
+                robot.x += moveAmtX;
 		            break;
 		            //up
 		        case Map.NORTH:
-                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, moveAmtY);
+                robot.y += moveAmtY;
 		            break;
 
 		            //right
 		        case Map.EAST:
-                animationInterval = setInterval(animateX, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.x, -moveAmtX);
+                robot.x -= moveAmtX;
 		            break;
 
 		            //down
 		        case Map.SOUTH:
-                animationInterval = setInterval(animateY, animationIntervalMiliseconds, GAME_ENGINE.getPlayInterval(), robot.y, -moveAmtY);
+                robot.y -= moveAmtY;
 		            break;
 		    }
 
 		    robot.row = robot.y / moveAmtY;
 		    robot.col = robot.x / moveAmtX;
 
-		    this.updateGameArea();
+		    this.updateGame();
 		}
 	  }
 
@@ -233,7 +216,7 @@ function GUI(){
 			robot.facing = Map.EAST;
 			break;
 		}
-		this.updateGameArea();
+		this.updateGame();
 	  }
 
 	this.turnRight = function(){
@@ -259,47 +242,19 @@ function GUI(){
 			robot.facing = Map.WEST;
 			break;
 		}
-		this.updateGameArea();
+		this.updateGame();
 	}
 	
 	//Private methods
-  function animateY(totalTime, start, amt) {
-    robot.y += amt / (totalTime*0.9/animationIntervalMiliseconds);
-    if ((amt < 0 && robot.y <= start + amt) || (amt >= 0 && robot.y >= start + amt)) {
-      robot.y = start + amt;
-      console.log("done");
-      clearInterval(animationInterval);
-    }
-    updateGame();
-  }
-  
-  function animateX(totalTime, start, amt) {
-    robot.x += amt / (totalTime*0.9/animationIntervalMiliseconds);
-    if ((amt < 0 && robot.x <= start + amt) || (amt >= 0 && robot.x >= start + amt)) {
-      robot.x = start + amt;
-      console.log("done");
-      clearInterval(animationInterval);
-    }
-    updateGame();
-  }
   
 	gameArea = {
-		canvas : document.createElement("canvas"),
+		canvas : $("canvas"),
 		start : function() {
-			this.canvas.width = settings.width;
-			this.canvas.height = settings.height;
-			this.context = this.canvas.getContext("2d");
-
-			gameAreaDiv.appendChild(this.canvas);
-			
-		},
-
-		clear: function () {
-		    if (typeof this.context != "undefined") {
-		        debug("GUI: game area cleared");
-		        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		    }
-
+      this.canvas.prop('width', settings.width);
+      this.canvas.prop('height', settings.height);
+      gameArea.canvas.clearCanvas();
+      drawGrid();
+      drawMap();
 		}
 	}
 	
@@ -309,8 +264,6 @@ function GUI(){
 		this.height = height;
 		this.x = x;
 		this.y = y;
-		this.currentX = x;
-		this.currentY = y;
 		this.facing = facing;
 		this.row = y/height;
 		this.col = x / width;
@@ -319,51 +272,79 @@ function GUI(){
 
 		var row = y / (height / settings.rows);
 		var col = x / (width / settings.columns);
-
-		this.update = function() {
-			ctx = gameArea.context;
-
-			if (gameWon)
+    
+    var getImage = function(){
+      var retImg = "";
+      if (gameWon)
 			{
-			    parent.img.src = "images/" + robotImages.win;
-			    gameWon = false;
+			    retImg = "images/" + robotImages.win;
 			}
 			else if (batteryDead) {
-			    parent.img.src = "images/" + robotImages.lose;
+			    retImg = "images/" + robotImages.lose;
 			    gameLost = false;
 			}
 			else {
 			    switch (robot.facing) {
 			        case Map.EAST:
-			            parent.img.src = "images/" + robotImages.east;
+			            retImg = "images/" + robotImages.east;
 			            if (gameLost) {
-			                parent.img.src = "images/" + robotImages.eastCrash;
+			                retImg = "images/" + robotImages.eastCrash;
 			            }
 			            break;
 			        case Map.WEST:
-			            parent.img.src = "images/" + robotImages.west;
+			            retImg = "images/" + robotImages.west;
 			            if (gameLost) {
-			                parent.img.src = "images/" + robotImages.westCrash;
+			                retImg = "images/" + robotImages.westCrash;
 			            }
 			            break;
 			        case Map.NORTH:
-			            parent.img.src = "images/" + robotImages.north;
+			            retImg = "images/" + robotImages.north;
 			            if (gameLost) {
-			                parent.img.src = "images/" + robotImages.northCrash;
+			                retImg = "images/" + robotImages.northCrash;
 			            }
 			            break;
 			        case Map.SOUTH:
-			            parent.img.src = "images/" + robotImages.south;
+			            retImg = "images/" + robotImages.south;
 			            if (gameLost) {
-			                parent.img.src = "images/" + robotImages.southCrash;
+			                retImg = "images/" + robotImages.southCrash;
 			            }
 			            break;
 			    }
 			}
+      return retImg;  
+    }
+    
+    this.init = function(){
+      gameArea.canvas.drawImage({
+        source: getImage(),
+        layer: true,
+        name: 'robot',
+        x: parent.x, y: parent.y,
+        width: parent.width,
+        height: parent.height,
+        fromCenter : false
+      });
+    }
 
-			parent.img.onload = function () {
-			    ctx.drawImage(parent.img, parent.x, parent.y, parent.width, parent.height);
-			}
+    this.update = function(interval) {
+      if(gameWon)
+      {
+        gameArea.canvas.removeLayer('battery');
+        gameArea.canvas.setLayer('robot', {
+          source: getImage()
+        }).drawLayers();
+        gameWon = false;
+      }
+      else
+      {
+        
+        gameArea.canvas.setLayer('robot', {
+          source: getImage()
+        }).animateLayer('robot', {
+          x: parent.x, y: parent.y
+        },interval).drawLayers();
+      }
+      
 			gameLost = false;
 			
 		}
@@ -377,20 +358,27 @@ function GUI(){
 	    this.img = new Image();
 	    var parent = this;
 
-	    this.update = function () {
-	        ctx = gameArea.context;
-
-	        parent.img.src = "images/RobotBattery.png";
-
-	        parent.img.onload = function () {
-	            ctx.drawImage(parent.img, parent.x, parent.y, parent.width, parent.height);
-	        }  
+	    this.init = function () {
+        gameArea.canvas.drawImage({
+          source: "images/RobotBattery.png",
+          x: parent.x, y: parent.y,
+          width: parent.width,
+          height: parent.height,
+          fromCenter :false,
+          layer : true,
+          name : 'battery',
+          click : function (layer) {
+            $(this).animateLayer(layer, {
+              rotate: '+=180'
+            });
+          }
+        });
 	    }
 	}
 	
 	function getGameDimensions(elem) {
-		var tmpWidth = elem.clientWidth;
-	
+		var tmpWidth = elem.width();
+    
 		for(var i = tmpWidth; i > tmpWidth-settings.columns; i--)
 		{
 			if(i%settings.columns == 0)
@@ -411,10 +399,9 @@ function GUI(){
 
 	function getInitialValues(map)
 	{
-    
-        settings.robotDirection = map.getDirection()
-        settings.columns = map.getWidth();
-        settings.rows = map.getHeight();
+      settings.robotDirection = map.getDirection()
+      settings.columns = map.getWidth();
+      settings.rows = map.getHeight();
 
 	    for (var x = 0; x < settings.columns; x++) {
 	        for (var y = 0; y < settings.rows; y++) {
@@ -437,12 +424,19 @@ function GUI(){
 	}
 	
 	function drawMap(){
-		var ctx = gameArea.context;
-		var height = gameArea.canvas.height;
-		var width = gameArea.canvas.width;
-		ctx.beginPath();
-		ctx.lineWidth = 7;
-	
+		var height = gameArea.canvas.height();
+		var width = gameArea.canvas.width();
+
+    var paths = {
+      strokeStyle : '#730101',
+      strokeWidth: 7,
+      rounded : true,
+      layer :true,
+      name: 'map'
+    };
+    
+    var pathCount = 0;
+    
 		for (var x = 0; x < width; x += width/settings.columns) {
 			for (var y = 0; y < height; y += height/settings.rows) {
 				
@@ -455,9 +449,12 @@ function GUI(){
 				if(walls[0]){
 					var yLineTo = (y + height/settings.rows);
 					var xLineTo = (x + width/settings.columns);
-					
-					ctx.moveTo(x,y);
-					ctx.lineTo(xLineTo,y);
+          pathCount++;
+          paths["p"+pathCount] = {
+            type: 'line',
+            x1: x, y1: y,
+            x2: xLineTo, y2: y
+          };
 				}
 				
 				//east
@@ -465,8 +462,12 @@ function GUI(){
 					var yLineTo = (y + height/settings.rows);
 					var xLineTo = (x + width/settings.columns);
 					
-					ctx.moveTo(xLineTo,y);
-					ctx.lineTo(xLineTo,yLineTo);
+          pathCount++;
+          paths["p"+pathCount] = {
+            type: 'line',
+            x1: xLineTo, y1: y,
+            x2: xLineTo, y2: yLineTo
+          };
 				}
 				
 				//south
@@ -474,8 +475,12 @@ function GUI(){
 					var yLineTo = (y + height/settings.rows);
 					var xLineTo = (x + width/settings.columns);
 					
-					ctx.moveTo(x,yLineTo);
-					ctx.lineTo(xLineTo,yLineTo);
+          pathCount++;
+          paths["p"+pathCount] = {
+            type: 'line',
+            x1: x, y1: yLineTo,
+            x2: xLineTo, y2: yLineTo
+          };
 				}
 				
 				//west
@@ -483,14 +488,18 @@ function GUI(){
 					var yLineTo = (y + height/settings.rows);
 					var xLineTo = (x + width/settings.columns);
 					
-					ctx.moveTo(x,y);
-					ctx.lineTo(x,yLineTo);
+          pathCount++;
+          paths["p"+pathCount] = {
+            type: 'line',
+            x1: x, y1: y,
+            x2: x, y2: yLineTo
+          };
+          
 				}
 			}
 		}
 
-		ctx.strokeStyle = "#730101";
-		ctx.stroke();
+		gameArea.canvas.drawPath(paths);
 	}
 
 
@@ -525,24 +534,35 @@ function GUI(){
 	}
 	
 	function drawGrid(){
-		var ctx = gameArea.context;
-		var height = gameArea.canvas.height;
-		var width = gameArea.canvas.width;
-	
-		ctx.beginPath();
-		ctx.lineWidth = 1;
-	
-		for (var y = 0; y <= height; y += height/settings.rows) {
-			ctx.moveTo(0,y);
-			ctx.lineTo(width,y);
+		var h = gameArea.canvas.height();
+		var w = gameArea.canvas.width();
+    
+
+    var paths = {
+      strokeStyle : '#878787',
+      strokeWidth: 1,
+      layer :true,
+      name: 'grid'
+    };
+    
+    var pathCount = 0;
+		for (var y = 0; y <= h; y += h/settings.rows) {
+      pathCount++;
+      paths["p"+pathCount] = {
+        type: 'line',
+        x1: 0, y1: y,
+        x2: w, y2: y
+      };
 		}
 
-		for (var x = 0; x <= width; x += width/settings.columns) {
-			ctx.moveTo(x,0);
-			ctx.lineTo(x,height);
+		for (var x = 0; x <= w; x += w/settings.columns) {
+      pathCount++;
+      paths["p"+pathCount] = {
+        type: 'line',
+        x1: x, y1: 0,
+        x2: x, y2: h
+      };
 		}
-
-		ctx.strokeStyle = "#878787";
-		ctx.stroke();
+    gameArea.canvas.drawPath(paths);
 	}
 }

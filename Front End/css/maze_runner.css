@@ -104,6 +104,5 @@ header{
 /*************** Game styling ***************/
 
 canvas{
-  background-color: black;
   border:5px solid #730101;
 }
