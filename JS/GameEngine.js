@@ -17,6 +17,8 @@ function GameEngine(settings) {
   var playTimeout = null;
   var isPlaying = false;
   var playInterval;
+  var userSelectedPlayInterval;
+  var MILLISECOND_INTERVAL = [ 2000, 1000, 500, 150 ]
   
   var score = 0;
   var level = 1;
@@ -147,6 +149,7 @@ function GameEngine(settings) {
     if (!isPlaying) {
       arrangeButtons(false); //defined in index.html
       isPlaying = true;
+      playInterval = userSelectedPlayInterval;
       step();
     }
   }
@@ -157,6 +160,7 @@ function GameEngine(settings) {
     clearTimeout(playTimeout);
     isPlaying = false;
     arrangeButtons(true); //defined in index.html
+    playInterval = MILLISECOND_INTERVAL[MILLISECOND_INTERVAL.length - 1];
   }
   this.pause = pause;
 
@@ -169,8 +173,9 @@ function GameEngine(settings) {
   }
   this.resetLevel = resetLevel;
   
-  this.setPlayInterval = function(intervalInMilliseconds) {
-    playInterval = intervalInMilliseconds;
+  this.setPlaySpeed = function(speed) {
+    userSelectedPlayInterval = MILLISECOND_INTERVAL[speed - 1];
+    if (isPlaying) playInterval = userSelectedPlayInterval;
   }
   
   this.getPlayInterval = function() {

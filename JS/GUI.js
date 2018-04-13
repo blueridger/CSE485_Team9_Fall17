@@ -342,7 +342,7 @@ function GUI(){
           source: getImage()
         }).animateLayer('robot', {
           x: parent.x, y: parent.y
-        },interval).drawLayers();
+        },interval*0.5).drawLayers();
       }
       
 			gameLost = false;
