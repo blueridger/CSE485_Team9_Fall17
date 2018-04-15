@@ -440,68 +440,70 @@ function GUI(){
         };
     
         var pathCount = 0;
-    
-		for (var x = 0; x < width; x += width/settings.columns) {
-			for (var y = 0; y < height; y += height/settings.rows) {
-				
-				var row = y/(height/settings.rows);
-				var col = x / (width / settings.columns);
-				//alert(row + " " + col);
-				var walls = gameMap.getTile([row,col]).getWalls();
-				
-				//north
-				if(walls[0]){
-					var yLineTo = (y + height/settings.rows);
-					var xLineTo = (x + width/settings.columns);
+
+        
+        for (var col = 0; col < settings.columns; col++) {
+            for (var row = 0; row < settings.rows; row++) {
+               
+                var walls = gameMap.getTile([row, col]).getWalls();
+
+                var y = row * (height / settings.rows);
+                var x = col * (width / settings.columns);
+
+                //north
+                if (walls[0]) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
                     pathCount++;
-                    paths["p"+pathCount] = {
-                    type: 'line',
-                    x1: x, y1: y,
-                    x2: xLineTo, y2: y
-                };
-				}
-				
-				//east
-				if(walls[1]){
-					var yLineTo = (y + height/settings.rows);
-					var xLineTo = (x + width/settings.columns);
-					
-          pathCount++;
-          paths["p"+pathCount] = {
-            type: 'line',
-            x1: xLineTo, y1: y,
-            x2: xLineTo, y2: yLineTo
-          };
-				}
-				
-				//south
-				if(walls[2]){
-					var yLineTo = (y + height/settings.rows);
-					var xLineTo = (x + width/settings.columns);
-					
-          pathCount++;
-          paths["p"+pathCount] = {
-            type: 'line',
-            x1: x, y1: yLineTo,
-            x2: xLineTo, y2: yLineTo
-          };
-				}
-				
-				//west
-				if(walls[3]){
-					var yLineTo = (y + height/settings.rows);
-					var xLineTo = (x + width/settings.columns);
-					
-          pathCount++;
-          paths["p"+pathCount] = {
-            type: 'line',
-            x1: x, y1: y,
-            x2: x, y2: yLineTo
-          };
-          
-				}
-			}
-		}
+                    paths["p" + pathCount] = {
+                        type: 'line',
+                        x1: x, y1: y,
+                        x2: xLineTo, y2: y
+                    };
+                }
+
+                //east
+                if (walls[1]) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+
+                    pathCount++;
+                    paths["p" + pathCount] = {
+                        type: 'line',
+                        x1: xLineTo, y1: y,
+                        x2: xLineTo, y2: yLineTo
+                    };
+                }
+
+                //south
+                if (walls[2]) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+
+                    pathCount++;
+                    paths["p" + pathCount] = {
+                        type: 'line',
+                        x1: x, y1: yLineTo,
+                        x2: xLineTo, y2: yLineTo
+                    };
+                }
+
+                //west
+                if (walls[3]) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+
+                    pathCount++;
+                    paths["p" + pathCount] = {
+                        type: 'line',
+                        x1: x, y1: y,
+                        x2: x, y2: yLineTo
+                    };
+
+                }
+                
+            }
+        }
 
 		gameArea.canvas.drawPath(paths);
 	}
@@ -545,31 +547,31 @@ function GUI(){
 		var w = gameArea.canvas.width();
     
 
-    var paths = {
-      strokeStyle : '#878787',
-      strokeWidth: 1,
-      layer :true,
-      name: 'grid'
-    };
+        var paths = {
+            strokeStyle : '#878787',
+            strokeWidth: 1,
+            layer :true,
+            name: 'grid'
+        };
     
-    var pathCount = 0;
+        var pathCount = 0;
 		for (var y = 0; y <= h; y += h/settings.rows) {
-      pathCount++;
-      paths["p"+pathCount] = {
-        type: 'line',
-        x1: 0, y1: y,
-        x2: w, y2: y
-      };
+            pathCount++;
+            paths["p"+pathCount] = {
+                type: 'line',
+                x1: 0, y1: y,
+                x2: w, y2: y
+            };
 		}
 
 		for (var x = 0; x <= w; x += w/settings.columns) {
-      pathCount++;
-      paths["p"+pathCount] = {
-        type: 'line',
-        x1: x, y1: 0,
-        x2: x, y2: h
-      };
+            pathCount++;
+            paths["p"+pathCount] = {
+                type: 'line',
+                x1: x, y1: 0,
+                x2: x, y2: h
+            };
 		}
-    gameArea.canvas.drawPath(paths);
+        gameArea.canvas.drawPath(paths);
 	}
 }
