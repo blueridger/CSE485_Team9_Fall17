@@ -1,7 +1,7 @@
 function GUI(){
 	//Private vars
-  var robot = null;
-  var battery = null;
+    var robot = null;
+    var battery = null;
 	var gameArea = null;
 	var gameMap = null;
 	var gameWon = false;
@@ -18,7 +18,7 @@ function GUI(){
 		eastCrash: "RobotRightDaze.png",
 		westCrash: "RobotLeftDaze.png",
 		lose: "RobotLose.png",
-    win: "RobotWin.png"
+        win: "RobotWin.png"
 	};
 
 	
@@ -30,7 +30,7 @@ function GUI(){
 		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0],
-    robotDirection: Map.EAST
+        robotDirection: Map.EAST
 	};
 	
 	
@@ -40,9 +40,10 @@ function GUI(){
         if(typeof isReset === 'undefined' || !isReset) {
             gameArea.canvas.removeLayers().clearCanvas()
         }
-    
+        gameMap = null;
+
 	    gameMap = map;
-	    getInitialValues(gameMap);
+	    getInitialValues();
 	    getGameDimensions($("#GameArea"));
 	    $("#blocklyDiv").height(settings.height);
         gameArea.start();
@@ -251,11 +252,11 @@ function GUI(){
 	gameArea = {
 		canvas : $("canvas"),
 		start : function() {
-      this.canvas.prop('width', settings.width);
-      this.canvas.prop('height', settings.height);
-      gameArea.canvas.clearCanvas();
-      drawGrid();
-      drawMap();
+            this.canvas.prop('width', settings.width);
+            this.canvas.prop('height', settings.height);
+            gameArea.canvas.clearCanvas();
+            drawGrid();
+            drawMap();
 		}
 	}
 	
@@ -400,11 +401,11 @@ function GUI(){
 		}
 	}
 
-	function getInitialValues(map)
+	function getInitialValues()
 	{
-      settings.robotDirection = map.getDirection()
-      settings.columns = map.getWidth();
-      settings.rows = map.getHeight();
+	    settings.robotDirection = gameMap.getDirection()
+	    settings.columns = gameMap.getWidth();
+	    settings.rows = gameMap.getHeight();
 
 	    for (var x = 0; x < settings.columns; x++) {
 	        for (var y = 0; y < settings.rows; y++) {
@@ -430,21 +431,21 @@ function GUI(){
 		var height = gameArea.canvas.height();
 		var width = gameArea.canvas.width();
 
-    var paths = {
-      strokeStyle : '#730101',
-      strokeWidth: 7,
-      rounded : true,
-      layer :true,
-      name: 'map'
-    };
+        var paths = {
+            strokeStyle : '#730101',
+            strokeWidth: 7,
+            rounded : true,
+            layer :true,
+            name: 'map'
+        };
     
-    var pathCount = 0;
+        var pathCount = 0;
     
 		for (var x = 0; x < width; x += width/settings.columns) {
 			for (var y = 0; y < height; y += height/settings.rows) {
 				
 				var row = y/(height/settings.rows);
-				var col = x/(width/settings.columns);
+				var col = x / (width / settings.columns);
 				//alert(row + " " + col);
 				var walls = gameMap.getTile([row,col]).getWalls();
 				
@@ -452,12 +453,12 @@ function GUI(){
 				if(walls[0]){
 					var yLineTo = (y + height/settings.rows);
 					var xLineTo = (x + width/settings.columns);
-          pathCount++;
-          paths["p"+pathCount] = {
-            type: 'line',
-            x1: x, y1: y,
-            x2: xLineTo, y2: y
-          };
+                    pathCount++;
+                    paths["p"+pathCount] = {
+                    type: 'line',
+                    x1: x, y1: y,
+                    x2: xLineTo, y2: y
+                };
 				}
 				
 				//east
