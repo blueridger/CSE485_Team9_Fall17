@@ -90,7 +90,7 @@ function GUI(){
 	    //Display Win text
         if (!isEndGame)
         {
-            displaySimpleModal("Level " + (levelNumber - 1) + " Cleared!", "Congrats you Earning " + acquiredLevelScore + " Points", "Next Level", robotImages.win);
+            displaySimpleModal("Level " + (levelNumber - 1) + " Cleared!", "Congrats you Earned " + acquiredLevelScore + " Points", "Next Level", robotImages.win);
         }
         else
         {
