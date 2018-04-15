@@ -95,15 +95,6 @@ function GenerateMap(width, height) {
 			}
 		}
 	}
-	randomNum = Math.floor(Math.random() * numTiles);
-	playerPosition = [parseInt(randomNum / width, 10), randomNum % width];
-	batteryPosition = playerPosition;
-	while(batteryPosition[0] == playerPosition[0] && batteryPosition[1] == playerPosition[1]) {
-		randomNum = Math.floor(Math.random() * numTiles);
-		batteryPosition = [parseInt(randomNum / width, 10), randomNum % width];
-	}
-	playerDirection = Math.floor(Math.random() * 4);
-	batterySize = width*height*25;
-	var randomMap = new Map(width, height, randomVWalls, randomHWalls, playerPosition, playerDirection, batteryPosition, batterySize);
+	var randomMap = new Map(width, height, randomVWalls, randomHWalls);
 	return randomMap;
 }
