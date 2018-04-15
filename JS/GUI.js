@@ -391,10 +391,12 @@ function GUI(){
 		settings.width = tmpWidth;
 		settings.height = (tmpWidth / settings.columns) * settings.rows;
 
-		if(settings.height > 500)
+		var maxHeight = window.innerHeight - 200;
+
+		if (settings.height > maxHeight)
 		{
-		    settings.height = 500;
-		    settings.width = (500 / settings.rows) * settings.columns;
+		    settings.height = maxHeight;
+		    settings.width = (maxHeight / settings.rows) * settings.columns;
 		}
 	}
 
