@@ -37,14 +37,15 @@ function GUI(){
 	
 	//Public methods
 	this.setup = function (map, isReset) {
-    if(typeof isReset === 'undefined' || !isReset) {
-      gameArea.canvas.removeLayers().clearCanvas()
-    }
+        if(typeof isReset === 'undefined' || !isReset) {
+            gameArea.canvas.removeLayers().clearCanvas()
+        }
     
-	  gameMap = map;
-	  getInitialValues(gameMap);
-		getGameDimensions($("#GameArea"));
-    gameArea.start();
+	    gameMap = map;
+	    getInitialValues(gameMap);
+	    getGameDimensions($("#GameArea"));
+	    $("#blocklyDiv").height(settings.height);
+        gameArea.start();
 		
 		
 
@@ -93,7 +94,7 @@ function GUI(){
         }
         else
         {
-            displaySimpleModal("You Beat The Game!", "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore, "Next Level", robotImages.win);
+            displaySimpleModal("You Beat The Game!", "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore, "Reset Game", robotImages.win);
         }
         
 	}
@@ -522,6 +523,9 @@ function GUI(){
 	    modalDiv += '      <div class="modal-footer">';
 	    if (typeof buttonMsg == "undefined") {
 	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
+	    }
+	    else if (buttonMsg == "Reset Game"){
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="location.reload();" data-dismiss="modal">' + buttonMsg + '</button>';
 	    }
 	    else {
 	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">' + buttonMsg + '</button>';
