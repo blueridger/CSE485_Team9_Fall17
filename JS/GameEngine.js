@@ -164,11 +164,11 @@ function GameEngine(settings) {
   }
   this.pause = pause;
 
-  function resetLevel() {
+  function resetLevel(isReset) {
     debug("GameEng.resetLevel() called.");
     pause();
     map.resetLevel();
-    gui.setup(map);
+    gui.setup(map,isReset);
     removeInterpreter();
   }
   this.resetLevel = resetLevel;
@@ -186,7 +186,7 @@ function GameEngine(settings) {
     debug("GameEng.instructionsModified() called.");
     lastLevelModified = level;
     gui.setLevelScore(getLevelScore());
-    resetLevel();
+    resetLevel(true);
   }
   
   /*

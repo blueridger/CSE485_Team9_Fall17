@@ -38,7 +38,7 @@ function GUI(){
 	//Public methods
 	this.setup = function (map, isReset) {
         if(typeof isReset === 'undefined' || !isReset) {
-            gameArea.canvas.removeLayers().clearCanvas()
+            gameArea.canvas.removeLayers().clearCanvas();
         }
         gameMap = null;
 
@@ -80,22 +80,30 @@ function GUI(){
 	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame)
 	{
 	    gameWon = true;
-      
 	    this.updateGame();
 
-      // Update Scores and level
-      document.getElementById("mr-gameScore").innerHTML = gameScore;
-      document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
-      document.getElementById("mr-levelNumber").innerHTML = levelNumber;
+
+        // Update Scores and level
+        document.getElementById("mr-gameScore").innerHTML = gameScore;
+        document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
+        document.getElementById("mr-levelNumber").innerHTML = levelNumber;
 
 	    //Display Win text
         if (!isEndGame)
         {
-            displaySimpleModal("Level " + (levelNumber - 1) + " Cleared!", "Congrats you Earned " + acquiredLevelScore + " Points", "Next Level", robotImages.win);
+            setTimeout(function () {
+                displaySimpleModal({
+                    title: "Level " + (levelNumber - 1) + " Cleared!",
+                    message: "Congratulations! Level Score: " + acquiredLevelScore + ".",
+                    messageImg: robotImages.win
+                });
+            }, 500);
         }
         else
         {
-            displaySimpleModal("You Beat The Game!", "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore, "Reset Game", robotImages.win);
+            setTimeout(function () {
+                gameWonAnime(gameScore);
+            }, 500);
         }
         
 	}
@@ -108,17 +116,30 @@ function GUI(){
 
 	    
 	    if (isBatteryDead) {
-	        displaySimpleModal("You Lost!", "Your battery died!", "Try Again", robotImages.lose);
+	        setTimeout(function () {
+	            displaySimpleModal({
+	                title: "Level Failed!",
+	                message: "Your battery died!",
+	                buttonMsg: "Try Again",
+	                messageImg: robotImages.lose
+	            });
+	        }, 500);
 	    }
 	    else {
-	        displaySimpleModal("You Lost!", "You Crashed!", "Try Again", robotImages.lose);
+	        setTimeout(function () {
+	            displaySimpleModal({
+	                title: "Level Failed!",
+	                message: "You Crashed!",
+	                buttonMsg: "Try Again",
+	                messageImg: robotImages.lose
+	            });
+	        }, 500);
 	    }
 	}
   
     this.setLevelScore = function(levelScore) { document.getElementById("mr-levelScore").innerHTML = levelScore; }
 
 
-	//TODO
 	//If isSuccess is true, move robot
 	//If false, crash animation
 	this.moveForward = function(isSuccess){
@@ -156,7 +177,6 @@ function GUI(){
 		}
 	}
 
-	//TODO
 	//If isSuccess is true, move robot
 	//If false, crash animation
 	this.moveBackward = function(isSuccess){
@@ -259,6 +279,42 @@ function GUI(){
             drawMap();
 		}
 	}
+
+	function gameWonAnime(gameScore) {
+	    gameArea.canvas.removeLayers().clearCanvas();
+
+	    var height = gameArea.canvas.height();
+	    var width = gameArea.canvas.width();
+
+	    var scale = width;
+	    var pY = (height - width) / 2;
+	    var pX = 0;
+
+	    if (height < width)
+	    {
+	        scale = height;
+	        pX = (width - height) / 2;
+	        pY = 0;
+	    }
+	    
+	    gameArea.canvas.drawImage({
+	        source: "images/Fear_Fork.png",
+	        layer: true,
+	        name: 'fork',
+	        x: pX, y: pY,
+	        width: scale,
+	        height: scale,
+	        fromCenter: false,
+	        click: function () {
+	            displaySimpleModal({
+	                title: "You Beat The Game!",
+	                message: "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore,
+	                buttonMsg: "Reset Game",
+	                messageImg: robotImages.win
+	            });
+	        }
+	    });
+	}
 	
 	
 	var robotComponent = function(width, height, x, y, facing){
@@ -315,6 +371,7 @@ function GUI(){
 			}
       return retImg;  
     }
+
     
     this.init = function(){
       gameArea.canvas.drawImage({
@@ -509,31 +566,35 @@ function GUI(){
 	}
 
 
-	function displaySimpleModal(title,message, buttonMsg, image)
+	function displaySimpleModal(options)
 	{
 	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >';
 
 	    modalDiv += '  <div class="modal-dialog modal-dialog-centered" role="document">';
 	    modalDiv += '    <div class="modal-content">';
 	    modalDiv += '      <div class="modal-header">';
-	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ title +'</h5>';
+	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ options.title +'</h5>';
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-body">';
-	    if (typeof image != "undefined")
+	    if (typeof options.messageImg != "undefined")
 	    {
-	        modalDiv += "<img class='float-left' src='images/"+image+"' width='100px' style='margin-right:1.25em;'/>";
+	        modalDiv += "<img class='float-left' src='images/"+options.messageImg+"' width='100px' style='margin-right:1.25em;'/>";
 	    }
-	    modalDiv += message;
+	    modalDiv += options.message;
 	    modalDiv += '      </div>';
 	    modalDiv += '      <div class="modal-footer">';
-	    if (typeof buttonMsg == "undefined") {
+
+        //Next Level
+	    if (typeof options.buttonMsg === "undefined") {
 	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
 	    }
-	    else if (buttonMsg == "Reset Game"){
-	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="location.reload();" data-dismiss="modal">' + buttonMsg + '</button>';
+            //Reset Game
+	    else if (options.buttonMsg == "Reset Game"){
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="location.reload();" data-dismiss="modal">' + options.buttonMsg + '</button>';
 	    }
+            //Reset Level
 	    else {
-	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">' + buttonMsg + '</button>';
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel(true);" data-dismiss="modal">' + options.buttonMsg + '</button>';
 	    }
 	    modalDiv += '      </div>';
 	    modalDiv += '    </div>';
