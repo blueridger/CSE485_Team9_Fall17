@@ -83,21 +83,21 @@ function GUI(){
 	    this.updateGame();
 
 
-        // Update Scores and level
-        document.getElementById("mr-gameScore").innerHTML = gameScore;
-        document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
-        document.getElementById("mr-levelNumber").innerHTML = levelNumber;
 
 	    //Display Win text
         if (!isEndGame)
         {
-            setTimeout(function () {
-                displaySimpleModal({
-                    title: "Level " + (levelNumber - 1) + " Cleared!",
-                    message: "Congratulations! Level Score: " + acquiredLevelScore + ".",
-                    messageImg: robotImages.win
-                });
-            }, 500);
+          // Update Scores and level
+          document.getElementById("mr-gameScore").innerHTML = gameScore;
+          document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
+          document.getElementById("mr-levelNumber").innerHTML = levelNumber;
+          setTimeout(function () {
+              displaySimpleModal({
+                  title: "Level " + (levelNumber - 1) + " Cleared!",
+                  message: "Congratulations! Level Score: " + acquiredLevelScore + ".",
+                  messageImg: robotImages.win
+              });
+          }, 500);
         }
         else
         {

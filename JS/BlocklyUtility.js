@@ -1,4 +1,4 @@
-(function()
+function BlocklyUtility()
 {
   /*function debug(message) {
     if (GameEngine.debug) console.log(message);
@@ -83,4 +83,4 @@ toolbox += "</xml>";
       }
     }
   );
-})();
+}

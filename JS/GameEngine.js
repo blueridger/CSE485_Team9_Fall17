@@ -7,11 +7,15 @@ function GameEngine(settings) {
   //Start Properties
   this.constructor.debug = settings.debug;
   
+  this.mapInput;
   
   /*
    * START  Private variables
    */
+  var thisEng = this;
   var map;
+  var maps = [];
+  var mapSource = settings.mapSource;
   var gui;
   var interpreter = null;
   var playTimeout = null;
@@ -25,7 +29,7 @@ function GameEngine(settings) {
   var numLevels = settings.numberOfLevels;
   var lastLevelModified = level;
   
-  var blocklyChangeHandler = new ChangeHandler(this);
+  var blocklyChangeHandler;
   var scoreLineCountSubtractionBase = 10; //set <= 1 to disable line-count-based scoring
   var latestCode = "";
   
@@ -36,12 +40,21 @@ function GameEngine(settings) {
   /*
    * START  Main
    */
-  this.blocklyChangeHandler = blocklyChangeHandler;
-  map = getMap();
-  debug("Map Generated");
-  gui = new GUI();
-  debug("GUI object created");
-  gui.setup(map);
+   
+  if (mapSource == null) {
+    for (var i = level; i <= numLevels; i++) maps.push(GenerateMap(2+i,1+i));
+    debug(maps);
+    getMap();
+    debug("Map Generated");
+    gui = new GUI();
+    debug("GUI object created");
+    gui.setup(map);
+    blocklyChangeHandler = new ChangeHandler(thisEng);
+    thisEng.blocklyChangeHandler = blocklyChangeHandler;
+    if (BlocklyUtility) BlocklyUtility();
+  } else {
+    loadMap(level);
+  }
   
   /*
    * END  Main
@@ -51,13 +64,33 @@ function GameEngine(settings) {
    * START  Private methods
    */
   
-  function getMap() {
-    if (settings.mapSource == null)
-      return GenerateMap(2+level,1+level);
-    else {
-      //STUB for Gabe's map loading
+  
+  function loadMap(levelNum) {
+    debug("GameEng.loadMap called.");
+    if (levelNum > numLevels || levelNum > mapSource.length) {
+      numLevels = levelNum - 1;
+      getMap();
+      debug("Map Generated");
+      gui = new GUI();
+      debug("GUI object created");
+      gui.setup(map);
+      blocklyChangeHandler = new ChangeHandler(thisEng);
+      thisEng.blocklyChangeHandler = blocklyChangeHandler;
+      if (BlocklyUtility) BlocklyUtility();
+      return;
     }
+    $.getJSON(mapSource[levelNum-1], function( data ) {
+      debug("Map " + mapSource[levelNum-1] + " loaded.");
+      maps.push(new Map(data.width, data.height, data.verticalWalls, data.horizontalWalls,
+        data.playerPosition, data.playerDirection, data.batteryPosition, data.batterySize));
+      loadMap(levelNum + 1);
+    });
   }
+   
+  function getMap() {
+    map = maps[level-1];
+  }
+  
   
   function checkGameState() {
     debug("GameEng.checkGameState called.");
@@ -69,18 +102,17 @@ function GameEngine(settings) {
       var isEndGame = level == numLevels;
       level++;
       setTimeout( function() {
-      gui.winLevel(levelScore, score, level, isEndGame);
-      if (!isEndGame) {
-        gui.setLevelScore(getLevelScore());
-        map = getMap();
-      }
+        gui.winLevel(levelScore, score, level, isEndGame);
+        if (!isEndGame) {
+          gui.setLevelScore(getLevelScore());
+          getMap();
+        }
       }, playInterval * 1.3);
       return true;
     } else if (map.isDead()) {
       debug("Battery DEAD.");
       pause();
       gui.loseLevel(true);
-      //resetLevel();
       return true;
     }
     return false;

@@ -25,12 +25,12 @@
     <script src="JS/Blockly/testBlockJSON.js"></script>
     <script src="JS/Blockly/testblockgen.js"></script>
     <script src="JS/Blockly/en.js"></script>
+    <script src="JS/BlocklyUtility.js"></script>
     <script src="JS/GUI.js"></script>
     <script src="JS/Map.js"></script>
     <script src="JS/GameEngine.js"></script>
     <script src="JS/ChangeHandler.js"></script>
     <script src="JS/MapGenerator.js"></script>
-    <script src="settings.js"></script>
     <script type="application/javascript">
         function arrangeButtons(showPlayAndStep)
         {
@@ -230,12 +230,27 @@
 
     <script type="application/javascript">
     
-      GAME_ENGINE = InitializeGame();
-      document.getElementById("myRange").oninput(); //set default play speed
+      (function () {
+        var configFileName;
+        if (location.search.length > 0) {
+          var param = location.search.split('=');
+          configFileName = "Configurations/" + param[param.length - 1] + ".js";
+        } else {
+          configFileName = "Configurations/Default.js";
+        }
+        $.ajax({
+          url: configFileName,
+          dataType: 'script',
+          success: function() {
+            GAME_ENGINE = InitializeGame();
+            document.getElementById("myRange").oninput(); //set default play speed
+          },
+          async: true,
+        });
+      })();
       
     </script>
       
-      <script src="JS/BlocklyUtility.js"></script>
 
       <div id="GameArea"></div>
 
