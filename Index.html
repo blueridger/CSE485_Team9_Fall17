@@ -38,17 +38,17 @@
             if(showPlayAndStep == true)
             {
                 
-                $("#play_li").fadeIn(50);
-                $("#step_li").fadeIn(50);
-                $("#range_li").fadeOut(0);
-                $("#pause_li").fadeOut(0);
+                $("#range_li").addClass('hidden');
+                $("#pause_li").addClass('hidden');
+                $("#play_li").removeClass('hidden');
+                $("#step_li").removeClass('hidden');
             }
             else
             {
-                $("#play_li").fadeOut(50);
-                $("#step_li").fadeOut(50);
-                $("#range_li").fadeIn(0);
-                $("#pause_li").fadeIn(0);
+                $("#play_li").addClass('hidden');
+                $("#step_li").addClass('hidden');
+                $("#range_li").removeClass('hidden');
+                $("#pause_li").removeClass('hidden');
             }
         }
     </script>
