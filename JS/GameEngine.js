@@ -26,7 +26,7 @@ function GameEngine(settings) {
   
   var score = 0;
   var level = 1;
-  var numLevels = settings.numberOfLevels;
+  var numLevels;
   var lastLevelModified = level;
   
   var blocklyChangeHandler;
@@ -42,6 +42,7 @@ function GameEngine(settings) {
    */
    
   if (mapSource == null) {
+    numLevels = settings.numberOfLevels
     for (var i = level; i <= numLevels; i++) maps.push(GenerateMap(2+i,1+i));
     debug(maps);
     getMap();
@@ -67,7 +68,7 @@ function GameEngine(settings) {
   
   function loadMap(levelNum) {
     debug("GameEng.loadMap called.");
-    if (levelNum > numLevels || levelNum > mapSource.length) {
+    if (levelNum > mapSource.length) {
       numLevels = levelNum - 1;
       getMap();
       debug("Map Generated");
