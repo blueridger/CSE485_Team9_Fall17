@@ -32,7 +32,8 @@ body{
 }
 
 .btn {
-  width:124px;
+  width:110px;
+  height:27px;
 }
 
 ul{
@@ -103,6 +104,12 @@ header{
 
 /*************** Game styling ***************/
 
-canvas{
+ canvas{
   border:5px solid #730101;
 }
+
+ /*************** helper styling ***************/
+
+ .hidden{
+    display:none;
+ }
