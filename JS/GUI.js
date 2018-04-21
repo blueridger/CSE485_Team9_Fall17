@@ -87,20 +87,22 @@ function GUI(){
 	    //Display Win text
         if (!isEndGame)
         {
-          // Update Scores and level
-          document.getElementById("mr-gameScore").innerHTML = gameScore;
-          document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
-          document.getElementById("mr-levelNumber").innerHTML = levelNumber;
-          setTimeout(function () {
+            // Update Scores and level
+            document.getElementById("mr-gameScore").innerHTML = gameScore;
+            document.getElementById("mr-levelScore").innerHTML = acquiredLevelScore;
+            document.getElementById("mr-levelNumber").innerHTML = levelNumber;
+            setTimeout(function () {
               displaySimpleModal({
                   title: "Level " + (levelNumber - 1) + " Cleared!",
                   message: "Congratulations! Level Score: " + acquiredLevelScore + ".",
                   messageImg: robotImages.win
               });
-          }, 500);
+            }, 500);
         }
         else
         {
+            $(".btn").css("visibility", "hidden");
+            $("#mr-controls").css("visibility", "hidden");
             setTimeout(function () {
                 gameWonAnime(gameScore);
             }, 500);
