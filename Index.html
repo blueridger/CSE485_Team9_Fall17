@@ -84,13 +84,13 @@
 	
 		<nav id="mr-navigation">
 			<ul>
-				<li id="play_li"><button class="btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play();">Play</button></li>
-                <li id="pause_li" class="hidden"><button class="btn btn-primary" id="mr-pause" onclick="GAME_ENGINE.pause();">Pause</button></li>
-                <li id ="step_li"><button class="btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
-                <li id="range_li" class="hidden"><input class="btn" type="range" min="1" max="4" value="2" id="myRange" oninput='debug("Speed set to " + this.value); GAME_ENGINE.setPlaySpeed(this.value);'></li>
-				<li><button class="btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal" onclick="GAME_ENGINE.pause();">help</button></li>
-				<li><button class="btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal" onclick="GAME_ENGINE.pause()">Reset Level</button></li>
-				<li><button class="btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal" onclick="GAME_ENGINE.pause()">Reset Game</button></li>
+				<li id="play_li"><button class="game_btn btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play();">Play</button></li>
+                <li id="pause_li" class="hidden"><button class="game_btn btn btn-primary" id="mr-pause" onclick="GAME_ENGINE.pause();">Pause</button></li>
+                <li id ="step_li"><button class="game_btn btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();">Step</button></li>
+                <li id="range_li" class="hidden"><input class="game_btn btn" type="range" min="1" max="4" value="2" id="myRange" oninput='debug("Speed set to " + this.value); GAME_ENGINE.setPlaySpeed(this.value);'></li>
+				<li><button class="game_btn btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal" onclick="GAME_ENGINE.pause();">help</button></li>
+				<li><button class="game_btn btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal" onclick="GAME_ENGINE.pause()">Reset Level</button></li>
+				<li><button class="game_btn btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal" onclick="GAME_ENGINE.pause()">Reset Game</button></li>
 			</ul>
 		</nav>
         
