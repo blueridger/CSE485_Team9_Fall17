@@ -101,8 +101,17 @@ function GUI(){
         }
         else
         {
-            $(".btn").css("visibility", "hidden");
-            $("#mr-controls").css("visibility", "hidden");
+            gameArea.canvas.css("position","relative");
+            $("#overlay").click(function () {
+                displaySimpleModal({
+                    title: "You Beat The Game!",
+                    message: "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore,
+                    buttonMsg: "Reset Game",
+                    messageImg: robotImages.win
+                });
+            }).fadeIn(100);
+
+
             setTimeout(function () {
                 gameWonAnime(gameScore);
             }, 500);
