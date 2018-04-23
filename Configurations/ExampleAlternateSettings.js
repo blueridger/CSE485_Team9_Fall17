@@ -8,7 +8,8 @@ function InitializeGame() {
   blocklyCustomSettings = {
     enableWhile: false,
     enableDoWhile: false,
-    enableIfElse: false
+    enableIfElse: false,
+    maxLevelOfNesting: 2  // 1 means no nested if or loop structures.
   }
   return new GameEngine(gameSettings);
 }
