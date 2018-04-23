@@ -1,7 +1,55 @@
-/*.blocklyMainBackground{
+.blocklyMainBackground{
+    
+    /*Style for the blockly workspace
+    *DEFAULT VALUES
+    *
+    stroke-width: 1;
+    stroke: #c6c6c6;  /* Equates to #ddd due to border being off-pixel. 
     fill:#646363 !important;
-}*/
+    *
+    */
+}
 
-/*.blocklyToolboxDiv{
-    background-color:#888 !important;
-}*/
+.blocklyToolboxDiv {
+    
+    /*Style for the toolbox div
+    *DEFAULT
+    *
+    overflow-x: visible;
+    overflow-y: auto;
+    position: absolute;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    background-color:#888888;
+    z-index: 70;', /* so blocks go under toolbox when dragging 
+    -webkit-tap-highlight-color: transparent; /* issue #1345 
+    *
+    */
+  }
+
+.blocklySelected>.blocklyPath {
+  
+    /*Styling for the outline around selected blocks
+    *DEFAULT VALUES
+    *
+    stroke: #ffffff;
+    stroke-width: 3px;
+    *
+    */
+}
+
+.blocklyText {
+    
+    /*The styling for text on the blocks
+    *DEFAULT VALUES
+    *
+    cursor: default;
+    fill: #fff;
+    font-family: sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    *
+    */
+  }

@@ -3,7 +3,7 @@ function ChangeHandler(gameEng)
   var gameEngine = gameEng;
   var MAX_LEVEL_OF_NESTING = blocklyCustomSettings.maxLevelOfNesting;
   
-  if(MAX_LEVEL_OF_NESTING == null)
+  if(MAX_LEVEL_OF_NESTING == null || MAX_LEVEL_OF_NESTING < 1)
   {
     MAX_LEVEL_OF_NESTING = 2;
   }

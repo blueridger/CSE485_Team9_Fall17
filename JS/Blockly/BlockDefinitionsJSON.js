@@ -1,20 +1,7 @@
-var ASUmaroon = '#8c1d40'
-var ASUgold = '#ffc627'
-var ROBOmaroon = '#900101'
-var ROBOgold = '#eee70b'
 var gold = '#ffc627'
 var maroon = '#900101'
 
-Blockly.defineBlocksWithJsonArray([{
-  "type": "condition_to_check",
-  "message0": "checktrue",
-  "inputsInline": true,
-  "output": "Boolean",
-  "colour": 0,
-  "tooltip": "",
-  "helpUrl": "",
-  "enableContextMenu" : false
-},
+Blockly.defineBlocksWithJsonArray([
 {
   "type": "if",
   "message0": "If %1 Then %2",
@@ -39,7 +26,6 @@ Blockly.defineBlocksWithJsonArray([{
   ],
   "previousStatement": null,
   "nextStatement": null,
-  //"inputsInline": true,
   "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
@@ -86,7 +72,6 @@ Blockly.defineBlocksWithJsonArray([{
   ],
   "previousStatement": null,
   "nextStatement": null,
-  //"inputsInline": true,
   "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
@@ -115,7 +100,6 @@ Blockly.defineBlocksWithJsonArray([{
   ],
   "previousStatement": null,
   "nextStatement": null,
-  //"inputsInline": true,
   "colour": maroon,
   "tooltip": "",
   "helpUrl": ""
