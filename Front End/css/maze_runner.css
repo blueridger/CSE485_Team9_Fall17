@@ -109,7 +109,7 @@ header{
 /*************** Game styling ***************/
 
  canvas{
-  border:5px solid #730101;
+  /*border:5px solid #730101;*/
   z-index:101;
 }
 
