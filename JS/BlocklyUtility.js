@@ -60,7 +60,7 @@ toolbox += "</xml>";
   var workspaceBlocks = document.getElementById("workspaceBlocks"); 
 
   /* Load blocks to workspace. */
-  Blockly.Xml.domToWorkspace(workspaceBlocks , blocklyWorkspace);
+  if (GameEngine.debug) Blockly.Xml.domToWorkspace(workspaceBlocks , blocklyWorkspace);
   
   //Change listener for the workspace
   blocklyWorkspace.addChangeListener(function(event) 

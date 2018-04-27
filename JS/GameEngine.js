@@ -14,7 +14,6 @@ function GameEngine(settings) {
    */
   var thisEng = this;
   var map;
-  var maps = [];
   var mapSource = settings.mapSource;
   var gui;
   var interpreter = null;
@@ -40,22 +39,8 @@ function GameEngine(settings) {
   /*
    * START  Main
    */
-   
-  if (mapSource == null) {
-    numLevels = settings.numberOfLevels
-    for (var i = level; i <= numLevels; i++) maps.push(GenerateMap(2+i,1+i));
-    debug(maps);
-    getMap();
-    debug("Map Generated");
-    gui = new GUI();
-    debug("GUI object created");
-    gui.setup(map);
-    blocklyChangeHandler = new ChangeHandler(thisEng);
-    thisEng.blocklyChangeHandler = blocklyChangeHandler;
-    if (BlocklyUtility) BlocklyUtility();
-  } else {
-    loadMap(level);
-  }
+  
+  getMap();
   
   /*
    * END  Main
@@ -64,32 +49,30 @@ function GameEngine(settings) {
   /*
    * START  Private methods
    */
-  
-  
-  function loadMap(levelNum) {
-    debug("GameEng.loadMap called.");
-    if (levelNum > mapSource.length) {
-      numLevels = levelNum - 1;
-      getMap();
-      debug("Map Generated");
-      gui = new GUI();
-      debug("GUI object created");
-      gui.setup(map);
-      blocklyChangeHandler = new ChangeHandler(thisEng);
-      thisEng.blocklyChangeHandler = blocklyChangeHandler;
-      if (BlocklyUtility) BlocklyUtility();
-      return;
+   
+  function postMapSetup() {
+    debug("Map Generated");
+    gui = new GUI();
+    debug("GUI object created");
+    gui.setup(map);
+    blocklyChangeHandler = new ChangeHandler(thisEng);
+    thisEng.blocklyChangeHandler = blocklyChangeHandler;
+    if (BlocklyUtility) BlocklyUtility();
+  }
+   
+  async function getMap() {
+    map = null;
+    if (mapSource == null) {
+      numLevels = settings.numberOfLevels;
+      map = GenerateMap(2+level,1+level);
+      if (level === 1) postMapSetup();
     }
-    $.getJSON(mapSource[levelNum-1], function( data ) {
+    else map = $.getJSON(mapSource[levelNum-1], function( data ) {
       debug("Map " + mapSource[levelNum-1] + " loaded.");
       maps.push(new Map(data.width, data.height, data.verticalWalls, data.horizontalWalls,
         data.playerPosition, data.playerDirection, data.batteryPosition, data.batterySize));
-      loadMap(levelNum + 1);
+      if (level === 1) postMapSetup();
     });
-  }
-   
-  function getMap() {
-    map = maps[level-1];
   }
   
   
