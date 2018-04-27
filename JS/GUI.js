@@ -30,7 +30,7 @@ function GUI(){
 		height: 495,
 		robotStart: [0,0],
 		batteryStart : [0,0],
-        robotDirection: Map.EAST
+		robotDirection: Map.EAST
 	};
 	
 	
@@ -392,7 +392,12 @@ function GUI(){
         x: parent.x, y: parent.y,
         width: parent.width,
         height: parent.height,
-        fromCenter : false
+        fromCenter: false,
+        click: function (layer) {
+            $(this).animateLayer(layer, {
+                rotate: '+=360'
+            });
+        }
       });
     }
 
