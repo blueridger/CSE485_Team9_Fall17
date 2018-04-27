@@ -506,7 +506,7 @@ function GUI(){
 
         var paths = {
             strokeStyle : '#730101',
-            strokeWidth: 7,
+            strokeWidth: 4,
             rounded : true,
             layer :true,
             name: 'map'
@@ -626,7 +626,7 @@ function GUI(){
 
         var paths = {
             strokeStyle : '#878787',
-            strokeWidth: 1,
+            strokeWidth: .5,
             layer :true,
             name: 'grid'
         };
