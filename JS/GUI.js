@@ -315,6 +315,8 @@ function GUI(){
 
 	//Private methods
  
+    //The object that holds the game canvas as well as the intit (Start) function
+    //   The start draws the grid and map
 	gameArea = {
 		canvas : $("canvas"),
 		start : function() {
@@ -328,6 +330,7 @@ function GUI(){
 	}
 
 
+    //Displays the Game won Animation Fear the Fork
 	function gameWonAnime(gameScore) {
 	    gameArea.canvas.removeLayers().clearCanvas();
 
@@ -346,7 +349,7 @@ function GUI(){
 	    }
 	    
 	    gameArea.canvas.drawImage({
-	        source: "images/Fear_Fork.png",
+	        source: "images/Fear_Fork.png", 
 	        layer: true,
 	        name: 'fork',
 	        x: pX, y: pY,
@@ -365,6 +368,7 @@ function GUI(){
 	}
 	
 	
+    // This is the robot Componant
 	var robotComponent = function(width, height, x, y, facing){
 		this.width = width;
 		this.height = height;
@@ -469,6 +473,7 @@ function GUI(){
 		}
 	}
 
+    //The battery componant
 	var batteryComponent = function (width, height, x, y) {
 	    this.width = width;
 	    this.height = height;
@@ -486,7 +491,9 @@ function GUI(){
                 fromCenter :false,
                 layer : true,
                 name : 'battery',
-                click : function (layer) {
+                click: function (layer) {
+
+                    //Easter Egg Click Animation
                     $(this).animateLayer(layer, {
                         rotate: '+=180'
                     });
@@ -495,6 +502,7 @@ function GUI(){
 	    }
 	}
 	
+    //Calculates the dimensions of the game based on screen size
 	function getGameDimensions(elem) {
 	    var tmpWidth = elem.width();
         var controlHeight = $("#mr-scores").height() + $("#mr-scores").height() + $("#mr-navigation").height();
@@ -520,6 +528,7 @@ function GUI(){
 	}
 
 
+    //This parses out the initial values based on the provided map
 	function getInitialValues()
 	{
 	    settings.robotDirection = gameMap.getDirection()
@@ -546,7 +555,7 @@ function GUI(){
 	    }
 	}
 	
-
+    //Renders the map on the Canvas
 	function drawMap(){
 		var height = gameArea.canvas.height();
 		var width = gameArea.canvas.width();
@@ -629,43 +638,8 @@ function GUI(){
 	}
 
 
-	function displaySimpleModal(options)
-	{
-	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >';
-
-	    modalDiv += '  <div class="modal-dialog modal-dialog-centered" role="document">';
-	    modalDiv += '    <div class="modal-content">';
-	    modalDiv += '      <div class="modal-header">';
-	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">'+ options.title +'</h5>';
-	    modalDiv += '      </div>';
-	    modalDiv += '      <div class="modal-body">';
-	    if (typeof options.messageImg != "undefined")
-	    {
-	        modalDiv += "<img class='float-left' src='images/"+options.messageImg+"' width='100px' style='margin-right:1.25em;'/>";
-	    }
-	    modalDiv += options.message;
-	    modalDiv += '      </div>';
-	    modalDiv += '      <div class="modal-footer">';
-
-        //Next Level
-	    if (typeof options.buttonMsg === "undefined") {
-	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
-	    }
-            //Reset Game
-	    else if (options.buttonMsg == "Reset Game"){
-	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="location.reload();" data-dismiss="modal">' + options.buttonMsg + '</button>';
-	    }
-            //Reset Level
-	    else {
-	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel(true);" data-dismiss="modal">' + options.buttonMsg + '</button>';
-	    }
-	    modalDiv += '      </div>';
-	    modalDiv += '    </div>';
-	    modalDiv += '  </div>';
-	    modalDiv += '</div>';
-	    $(modalDiv).removeData().modal({ backdrop: 'static', keyboard: false });
-	}
 	
+	//Renders the Grid on the canvas
 	function drawGrid(){
 		var h = gameArea.canvas.height();
 		var w = gameArea.canvas.width();
@@ -697,5 +671,54 @@ function GUI(){
             };
 		}
         gameArea.canvas.drawPath(paths);
+	}
+
+
+    /*Used for the game modals
+    *   options = {
+    *       title: '',       required
+    *       message: '',     required
+    *       messageImg: '',  optional
+    *       buttonMsg: '',   optional
+    *   }
+    */
+	function displaySimpleModal(options) {
+
+	    var modalDiv = '<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >';
+
+	    modalDiv += '  <div class="modal-dialog modal-dialog-centered" role="document">';
+	    modalDiv += '    <div class="modal-content">';
+	    modalDiv += '      <div class="modal-header">';
+	    modalDiv += '        <h5 class="modal-title" id="exampleModalLabel">' + options.title + '</h5>';
+	    modalDiv += '      </div>';
+	    modalDiv += '      <div class="modal-body">';
+
+	    if (typeof options.messageImg != "undefined") {
+	        modalDiv += "<img class='float-left' src='images/" + options.messageImg + "' width='100px' style='margin-right:1.25em;'/>";
+
+	    }
+
+	    modalDiv += options.message;
+	    modalDiv += '      </div>';
+	    modalDiv += '      <div class="modal-footer">';
+
+	    //Next Level
+	    if (typeof options.buttonMsg === "undefined") {
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel();" data-dismiss="modal">Next Level</button>';
+	    }
+	        //Reset Game
+	    else if (options.buttonMsg == "Reset Game") {
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="location.reload();" data-dismiss="modal">' + options.buttonMsg + '</button>';
+	    }
+	        //Reset Level
+	    else {
+	        modalDiv += '        <button type="button" class="btn btn-secondary" onclick="GAME_ENGINE.resetLevel(true);" data-dismiss="modal">' + options.buttonMsg + '</button>';
+	    }
+
+	    modalDiv += '      </div>';
+	    modalDiv += '    </div>';
+	    modalDiv += '  </div>';
+	    modalDiv += '</div>';
+	    $(modalDiv).removeData().modal({ backdrop: 'static', keyboard: false });
 	}
 }
