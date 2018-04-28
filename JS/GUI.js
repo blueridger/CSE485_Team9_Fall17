@@ -1,4 +1,7 @@
 function GUI(){
+	//IMAGE VARS
+	var image3Dim = true; // set to true for original 3d images, false for new aerials
+	
 	//Private vars
     var robot = null;
     var battery = null;
@@ -8,11 +11,28 @@ function GUI(){
 	var gameLost = false;
 	var batteryDead = false;
 	
+	// 3D IMG VALUES
+	if (image3Dim === true)
+	{
+		var robotImages = {
+			north: "RobotBackwardN.png",
+			south: "RobotForwardN.png",
+			east: "RobotRightN.png",
+			west: "RobotLeftN.png",
+			northCrash: "RobotBackwardDaze.png",
+			southCrash: "RobotForwardDaze.png",
+			eastCrash: "RobotRightDaze.png",
+			westCrash: "RobotLeftDaze.png",
+			lose: "RobotLose.png",
+			win: "RobotWin.png"
+		};
+	}
+	else{	// AERIAL IMG VALUES
 	var robotImages = {
-		north: "RobotBackward.png",
-		south: "RobotForward.png",
-		east: "RobotRight.png",
-		west: "RobotLeft.png",
+		north: "RobotForward.png",
+		south: "RobotBackward.png",
+		east: "RobotLeft.png",
+		west: "RobotRight.png",
 		northCrash: "RobotBackwardDaze.png",
 		southCrash: "RobotForwardDaze.png",
 		eastCrash: "RobotRightDaze.png",
@@ -20,7 +40,7 @@ function GUI(){
 		lose: "RobotLose.png",
         win: "RobotWin.png"
 	};
-
+	}
 	
 	//defines defaults to use.
 	var settings = {
