@@ -30,9 +30,9 @@ function GUI(){
 	else{	// AERIAL IMG VALUES
 	var robotImages = {
 		north: "RobotForward.png",
-		south: "RobotBackward.png",
-		east: "RobotLeft.png",
-		west: "RobotRight.png",
+		south: "RobotForward.png",
+		east: "RobotForward.png",
+		west: "RobotForward.png",
 		northCrash: "RobotBackwardDaze.png",
 		southCrash: "RobotForwardDaze.png",
 		eastCrash: "RobotRightDaze.png",
@@ -208,7 +208,9 @@ function GUI(){
 	//If false, crash animation
 	this.moveForward = function(isSuccess){
 		var moveAmtX = settings.width/settings.columns;
-		var moveAmtY = settings.height/settings.rows;
+		var moveAmtY = settings.height / settings.rows;
+
+		robot.rotation = 0;
 
 		if (isSuccess) {
 		    switch (robot.facing) {
@@ -245,6 +247,7 @@ function GUI(){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height / settings.rows;
 
+		robot.rotation = 0;
 
 		if (isSuccess){
 		    switch (robot.facing) {
@@ -277,12 +280,13 @@ function GUI(){
     
 
     //Handles the turn left command
-	this.turnLeft = function(){
+	this.turnLeft = function () {
+	    robot.rotation = -90;
 		switch(robot.facing)
 		{
 		  //left
-		  case Map.WEST:
-			robot.facing = Map.SOUTH;
+		    case Map.WEST:
+			    robot.facing = Map.SOUTH;
 			break;
 
 		  //up
@@ -304,7 +308,8 @@ function GUI(){
 	}
 
     //Handles the turn right command
-	this.turnRight = function(){
+	this.turnRight = function () {
+	    robot.rotation = 90;
 		switch(robot.facing)
 		{
 		  //left
@@ -395,6 +400,7 @@ function GUI(){
 		this.x = x;
 		this.y = y;
 		this.facing = facing;
+		this.rotation = facing * 90;
 		this.row = y/height;
 		this.col = x / width;
 		this.img = new Image();
@@ -473,12 +479,13 @@ function GUI(){
             {
                 gameArea.canvas.removeLayer('battery');
                 gameArea.canvas.setLayer('robot', {
-                    source: getImage()
+                    source: getImage(),
+                    rotate: 0
                 }).drawLayers();
 
                 gameWon = false;
             }
-            else
+            else if(image3Dim)
             {
                 gameArea.canvas.setLayer('robot', {
                     source: getImage()
@@ -486,6 +493,15 @@ function GUI(){
                     x: parent.x, y: parent.y,
                     rotate: 0
                 },interval*0.5).drawLayers();
+            }
+            else
+            {
+                gameArea.canvas.setLayer('robot', {
+                    source: getImage()
+                }).animateLayer('robot', {
+                    x: parent.x, y: parent.y,
+                    rotate: "+=" + robot.rotation
+                }, interval * 0.5).drawLayers();
             }
       
 			gameLost = false;
