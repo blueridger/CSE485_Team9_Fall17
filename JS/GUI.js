@@ -384,7 +384,8 @@ function GUI(){
     }
 
     
-    this.init = function(){
+    this.init = function () {
+
       gameArea.canvas.drawImage({
         source: getImage(),
         layer: true,
@@ -401,7 +402,8 @@ function GUI(){
       });
     }
 
-    this.update = function(interval) {
+    this.update = function (interval) {
+        gameArea.canvas.stopLayer('robot', true);
       if(gameWon)
       {
         gameArea.canvas.removeLayer('battery');
@@ -416,7 +418,8 @@ function GUI(){
         gameArea.canvas.setLayer('robot', {
           source: getImage()
         }).animateLayer('robot', {
-          x: parent.x, y: parent.y
+            x: parent.x, y: parent.y,
+            rotate: 0
         },interval*0.5).drawLayers();
       }
       
@@ -452,8 +455,8 @@ function GUI(){
 	}
 	
 	function getGameDimensions(elem) {
-		var tmpWidth = elem.width();
-    
+	    var tmpWidth = elem.width();
+	    var controlHeight = $("#mr-scores").height() + $("#mr-scores").height() + $("#mr-navigation").height();
 		for(var i = tmpWidth; i > tmpWidth-settings.columns; i--)
 		{
 			if(i%settings.columns == 0)
@@ -465,7 +468,7 @@ function GUI(){
 		settings.width = tmpWidth;
 		settings.height = (tmpWidth / settings.columns) * settings.rows;
 
-		var maxHeight = window.innerHeight - 200;
+		var maxHeight = window.innerHeight - controlHeight*2;
 
 		if (settings.height > maxHeight)
 		{
@@ -506,7 +509,7 @@ function GUI(){
 
         var paths = {
             strokeStyle : '#730101',
-            strokeWidth: 4,
+            strokeWidth: 7,
             rounded : true,
             layer :true,
             name: 'map'
