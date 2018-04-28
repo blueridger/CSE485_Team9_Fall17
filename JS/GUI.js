@@ -1,6 +1,6 @@
 function GUI(){
 	//IMAGE VARS
-	var image3Dim = true; // set to true for original 3d images, false for new aerials
+	var image3Dim = false; // set to true for original 3d images, false for new aerials
 	
 	//Private vars
     var robot = null;
@@ -210,7 +210,6 @@ function GUI(){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height / settings.rows;
 
-		robot.rotation = 0;
 
 		if (isSuccess) {
 		    switch (robot.facing) {
@@ -247,7 +246,6 @@ function GUI(){
 		var moveAmtX = settings.width/settings.columns;
 		var moveAmtY = settings.height / settings.rows;
 
-		robot.rotation = 0;
 
 		if (isSuccess){
 		    switch (robot.facing) {
@@ -281,7 +279,7 @@ function GUI(){
 
     //Handles the turn left command
 	this.turnLeft = function () {
-	    robot.rotation = -90;
+	    robot.rotation -= 90;
 		switch(robot.facing)
 		{
 		  //left
@@ -309,7 +307,7 @@ function GUI(){
 
     //Handles the turn right command
 	this.turnRight = function () {
-	    robot.rotation = 90;
+	    robot.rotation += 90;
 		switch(robot.facing)
 		{
 		  //left
@@ -500,7 +498,7 @@ function GUI(){
                     source: getImage()
                 }).animateLayer('robot', {
                     x: parent.x, y: parent.y,
-                    rotate: "+=" + robot.rotation
+                    rotate: robot.rotation
                 }, interval * 0.5).drawLayers();
             }
       
