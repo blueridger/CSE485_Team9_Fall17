@@ -404,6 +404,7 @@ function GUI(){
 		this.img = new Image();
 		var parent = this;
 
+		
 		var row = y / (height / settings.rows);
 		var col = x / (width / settings.columns);
     
@@ -462,6 +463,7 @@ function GUI(){
                 width: parent.width,
                 height: parent.height,
                 fromCenter: false,
+                rotate: this.rotation,
                 click: function (layer) {
                     $(this).animateLayer(layer, {
                         rotate: '+=360'
