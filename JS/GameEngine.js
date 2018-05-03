@@ -67,12 +67,15 @@ function GameEngine(settings) {
       map = GenerateMap(2+level,1+level);
       if (level === 1) postMapSetup();
     }
-    else map = $.getJSON(mapSource[level-1], function( data ) {
-      debug("Map " + mapSource[level-1] + " loaded.");
-      map = new Map(data.width, data.height, data.verticalWalls, data.horizontalWalls,
-        data.playerPosition, data.playerDirection, data.batteryPosition, data.batterySize);
-      if (level === 1) postMapSetup();
-    });
+    else {
+      numLevels = mapSource.length;
+      map = $.getJSON(mapSource[level-1], function( data ) {
+        debug("Map " + mapSource[level-1] + " loaded.");
+        map = new Map(data.width, data.height, data.verticalWalls, data.horizontalWalls,
+          data.playerPosition, data.playerDirection, data.batteryPosition, data.batterySize);
+        if (level === 1) postMapSetup();
+      });
+    }
   }
   
   
@@ -86,7 +89,7 @@ function GameEngine(settings) {
       var isEndGame = level == numLevels;
       level++;
       setTimeout( function() {
-        gui.winLevel(levelScore, score, level, isEndGame);
+        gui.winLevel(levelScore, score, level, isEndGame, level - lastLevelModified);
         if (!isEndGame) {
           gui.setLevelScore(getLevelScore());
           getMap();

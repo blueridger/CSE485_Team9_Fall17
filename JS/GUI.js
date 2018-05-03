@@ -48,6 +48,7 @@ function GUI(){
 		rows: 3,
 		width: 500,
 		height: 495,
+    wallWidth: 7,
 		robotStart: [0,0],
 		batteryStart : [0,0],
 		robotDirection: Map.EAST,
@@ -111,7 +112,7 @@ function GUI(){
 	}
 
     //Called When the level is won
-	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame){
+	this.winLevel = function(acquiredLevelScore, gameScore, levelNumber, isEndGame, numUneditedLevels){
 	    gameWon = true;
 
 	    this.updateGame();
@@ -598,7 +599,7 @@ function GUI(){
 
         var paths = {
             strokeStyle : settings.wallColor,
-            strokeWidth: 7,
+            strokeWidth: settings.wallWidth,
             rounded : true,
             layer :true,
             name: 'map'
