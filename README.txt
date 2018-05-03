@@ -20,9 +20,9 @@ In the configuration file, you will notice you have the option to load Maps from
 File properties:
  - width: width of map (number of tiles)
  - height: height of map (number of tiles)
- - verticalWalls: a boolean array representing the vertical walls, not including the outside border walls, where true is a present wall. Vertical walls are read left to right, in rows top to bottom.
- - horizontalWalls: a boolean array representing the horizontal walls, not including the outside border walls, where true is a present wall. Horizontal walls are read top to bottom, in columns left to right.
+ - verticalWalls: a boolean array representing the vertical walls, not including the outside border walls, where true is a present wall. Walls are read left to right, in rows top to bottom.
+ - horizontalWalls: a boolean array representing the horizontal walls, not including the outside border walls, where true is a present wall. Walls are read left to right, in rows top to bottom.
  - playerPosition: array containing the initial x (horizontal) and y (vertical) position of the robot
  - playerDirection: initial direction of the player, where 0 is North, 1 is East, etc.
  - batteryPosition: initial position of the battery, stored like that of the player.
-batterySize: number of actions/checks allowed by the robot before the battery dies and the level is lost.
+ - batterySize: number of actions/checks allowed by the robot before the battery dies and the level is lost.

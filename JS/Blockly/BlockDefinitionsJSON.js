@@ -147,7 +147,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "open_left",
   "enableContextMenu" : false,
-  "message0": "Open Left",
+  "message0": "Left is Open",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -156,7 +156,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "open_right",
   "enableContextMenu" : false,
-  "message0": "Open Right",
+  "message0": "Right is Open",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -165,7 +165,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "open_front",
   "enableContextMenu" : false,
-  "message0": "Open Front",
+  "message0": "Front is Open",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -174,7 +174,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "open_back",
   "enableContextMenu" : false,
-  "message0": "Open Back",
+  "message0": "Back is Open",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -183,7 +183,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "wall_left",
   "enableContextMenu" : false,
-  "message0": "Wall Left",
+  "message0": "Left is Blocked",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -192,7 +192,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "wall_right",
   "enableContextMenu" : false,
-  "message0": "Wall Right",
+  "message0": "Right is Blocked",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -201,7 +201,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "wall_front",
   "enableContextMenu" : false,
-  "message0": "Wall Front",
+  "message0": "Front is Blocked",
   "output": null,
   "colour": maroon,
   "tooltip": "",
@@ -210,7 +210,7 @@ Blockly.defineBlocksWithJsonArray([
 {
   "type": "wall_back",
   "enableContextMenu" : false,
-  "message0": "Wall Back",
+  "message0": "Back is Blocked",
   "output": null,
   "colour": maroon,
   "tooltip": "",
