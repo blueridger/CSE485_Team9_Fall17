@@ -88,26 +88,28 @@ function Map(width, height, verticalWalls, horizontalWalls, playerPosition, play
       tileMap[i][j] = new Tile([i, j]);
     }
   }
-	
+  
+  for(var i = 0; i < maxY; i++) {
+    tileMap[i][0].setWall(3, true);
+	tileMap[i][maxX - 1].setWall(1, true);
+  }
+  
+  for(var i = 0; i < maxX; i++) {
+    tileMap[0][i].setWall(0, true);
+	tileMap[maxY - 1][i].setWall(2, true);
+  }
+  
   for(var i = 0; i < verticalWalls.length; i++) {
-    if(verticalWalls[i]) {
-      if(i%(maxX+1)>0) {
-        tileMap[parseInt((i-parseInt(i/(maxX+1), 10)-1)/maxX, 10)][(i-parseInt(i/(maxX+1), 10)-1)%maxX].setWall(1, true);
-      }
-      if((i+1)%(maxX+1)>0) {
-        tileMap[parseInt((i-parseInt(i/(maxX+1), 10))/maxX, 10)][(i-parseInt(i/(maxX+1), 10))%maxX].setWall(3, true);
-      }
+    if(verticalWalls[i]) { 
+      tileMap[parseInt(i / (maxX - 1), 10)][i % (maxX - 1)].setWall(1, true);
+      tileMap[parseInt(i / (maxX - 1), 10)][i % (maxX - 1) + 1].setWall(3, true);
     }
   }
 	
   for(var i = 0; i < horizontalWalls.length; i++) {
     if(horizontalWalls[i]) {
-      if(i%(maxY+1)>0) {
-        tileMap[parseInt((maxX*((i-parseInt(i/(maxY+1), 10)-1)%maxY)+parseInt((i-parseInt(i/(maxY+1), 10)-1)/maxY, 10))/maxX, 10)][(maxX*((i-parseInt(i/(maxY+1), 10)-1)%maxY)+parseInt((i-parseInt(i/(maxY+1), 10)-1)/maxY, 10))%maxX].setWall(2, true);
-      }
-      if((i+1)%(maxY+1)>0) {
-        tileMap[parseInt((maxX*((i-parseInt(i/(maxY+1), 10))%maxY)+parseInt((i-parseInt(i/(maxY+1), 10))/maxY, 10))/maxX, 10)][(maxX*((i-parseInt(i/(maxY+1), 10))%maxY)+parseInt((i-parseInt(i/(maxY+1), 10))/maxY, 10))%maxX].setWall(0, true);
-      }
+      tileMap[parseInt(i / maxX, 10)][i % maxX].setWall(2, true);
+      tileMap[parseInt(i / maxX, 10) + 1][i % maxX].setWall(0, true);
     }
   }
   
