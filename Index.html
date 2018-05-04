@@ -83,13 +83,13 @@
 	
 		<nav id="mr-navigation">
 			<ul>
-				<li id="play_li"><button class="game_btn btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play();" role="button" aria-label="Play" tabindex="0">Play</button></li>
+				<li id="play_li"><button class="game_btn btn btn-primary" id="mr-play" onclick="GAME_ENGINE.play();" role="button" aria-label="Play" tabindex="1">Play</button></li>
                 <li id="pause_li" class="hidden"><button class="game_btn btn btn-primary" id="mr-pause" onclick="GAME_ENGINE.pause();" role="button" aria-label="Pause" tabindex="1">Pause</button></li>
                 <li id ="step_li"><button class="game_btn btn btn-primary" id="mr-step" onclick="GAME_ENGINE.step();" role="button" aria-label="Step" tabindex="2">Step</button></li>
-                <li id="range_li" class="hidden"><input class="game_btn btn" type="range" min="1" max="4" value="2" id="myRange" oninput='debug("Speed set to " + this.value); GAME_ENGINE.setPlaySpeed(this.value);' role="slider" aria-label="speed" tabindex="3"></li>
-				<li><button class="game_btn btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal" onclick="GAME_ENGINE.pause();" role="button" aria-label="Help" tabindex="4">help</button></li>
-				<li><button class="game_btn btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal" onclick="GAME_ENGINE.pause()" role="button" aria-label="Reset Level" tabindex="5">Reset Level</button></li>
-				<li><button class="game_btn btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal" onclick="GAME_ENGINE.pause()" role="button" aria-label="Reset Game">Reset Game</button></li>
+                <li id="range_li" class="hidden"><input class="game_btn btn" type="range" min="1" max="4" value="2" id="myRange" oninput='debug("Speed set to " + this.value); GAME_ENGINE.setPlaySpeed(this.value);' role="slider" aria-label="speed" tabindex="2"></li>
+				<li><button class="game_btn btn btn-link" id="mr-help" data-toggle="modal" data-target="#mr-helpModal" onclick="GAME_ENGINE.pause();" role="button" aria-label="Help" tabindex="3">help</button></li>
+				<li><button class="game_btn btn btn-primary" id="mr-resetLevel" data-toggle="modal" data-target="#mr-resetLevelModal" onclick="GAME_ENGINE.pause()" role="button" aria-label="Reset Level" tabindex="4">Reset Level</button></li>
+				<li><button class="game_btn btn btn-primary" id="mr-resetGame" data-toggle="modal" data-target="#mr-resetGameModal" onclick="GAME_ENGINE.pause()" role="button" aria-label="Reset Game" tabindex="5">Reset Game</button></li>
 			</ul>
 		</nav>
         
@@ -104,8 +104,8 @@
                         Are you Sure?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.reload();">Reset Game</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" role="button" aria-label="Cancel" >Cancel</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.reload();" role="button" aria-label="Reset Game">Reset Game</button>
                     </div>
                 </div>
             </div>
@@ -122,8 +122,8 @@
                       Are you Sure?
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="GAME_ENGINE.resetLevel();">Reset Level</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" role="button" aria-label="Cancel">Cancel</button>
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="GAME_ENGINE.resetLevel();" role="button" aria-label="Reset Level">Reset Level</button>
                   </div>
               </div>
           </div>
@@ -145,7 +145,7 @@
                         <div class="mr-helpDiv clearfix">
                             <h5>Maze Runner Robot</h5>
                             <div class="clearfix">
-                                <img class="float-left" src="images/RobotForward.png" width="50px" alt="robot" />
+                                <img class="float-left" src="images/RobotForward.png" width="50px" alt="Maze Runner Robot" />
                                 <p>I'm the maze runner. Help me recharge my batteries.</p>
                             </div>
                             <hr />
@@ -153,7 +153,7 @@
                         <div class="mr-helpDiv clearfix">
                             <h5>Battery</h5>
                             <div class="clearfix">
-                                <img class="float-left" src="images/RobotBattery.png" width="50px" alt="robot" />
+                                <img class="float-left" src="images/RobotBattery.png" width="50px" alt="Maze Battery" />
                                 <p>Help The Maze Runner Robot find this battery by using the logic and statement operations.</p>
                             </div>
                             <hr />
@@ -161,26 +161,26 @@
                         <div class="mr-helpDiv clearfix">
                             <h5>Logic &amp; Statement Operations</h5>
                             <div class="clearfix">
-                                <img class="float-left" style="border: 1px solid #000" src="images/operations.png" width="250px" alt="robot" />
+                                <img class="float-left" style="border: 1px solid #000" src="images/operations.png" width="250px" alt="Operations" />
                                 <p>Use the logic and statement operations, by dragging them to the action area, to help the robot move and reach the battery. If you pick one to many just drag them to the trashcan on the lower right side.</p>
                             </div>
                             <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Step</h5>
-                            <img class="float-left" src="images/step_button.png" width="125px" alt="robot" />
+                            <img class="float-left" src="images/step_button.png" width="125px" alt="Step Button" />
                             <p>Go through each action step by step.</p>
                             <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Reset Level</h5>
-                            <img class="float-left" src="images/resetLevel.png" width="125px" alt="robot" />
+                            <img class="float-left" src="images/resetLevel.png" width="125px" alt="Reset Level Button" />
                             <p>Need to reset the level? No problem. Hit this button and the level will reset preserving your logic and statement operations.</p>
                             <hr />
                         </div>
                         <div class="mr-helpDiv clearfix">
                             <h5>Reset Game</h5>
-                            <img class="float-left" src="images/resetGame.png" width="125px" alt="robot" />
+                            <img class="float-left" src="images/resetGame.png" width="125px" alt="Reset Game Button" />
                             <p>Want to completely start over? This button will reset the game, but be careful! You will lose all progress.</p>
                             <hr />
                         </div>
@@ -190,7 +190,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" role="button" aria-label="Close">Close</button>
                     </div>
                 </div>
             </div>
