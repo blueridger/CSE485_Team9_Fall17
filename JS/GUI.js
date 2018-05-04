@@ -48,7 +48,8 @@ function GUI(){
 		rows: 3,
 		width: 500,
 		height: 495,
-		wallWidth: 10,
+		innerWallWidth: 5,
+		outerWallWidth: 15,
 		robotStart: [0,0],
 		batteryStart : [0,0],
 		robotDirection: Map.EAST,
@@ -639,16 +640,24 @@ function GUI(){
 		var height = gameArea.canvas.height();
 		var width = gameArea.canvas.width();
 
-        var paths = {
+        var innerPaths = {
             strokeStyle : settings.wallColor,
-            strokeWidth: settings.wallWidth,
+            strokeWidth: settings.innerWallWidth,
             rounded : true,
             layer :true,
             name: 'map'
         };
+
+        var borderPaths = {
+            strokeStyle: settings.wallColor,
+            strokeWidth: settings.outerWallWidth,
+            rounded: true,
+            layer: true,
+            name: 'mapBorder'
+        };
     
         var pathCount = 0;
-
+        var borderPathCount = 0;
         
         for (var col = 0; col < settings.columns; col++) {
             for (var row = 0; row < settings.rows; row++) {
@@ -659,24 +668,44 @@ function GUI(){
                 var x = col * (width / settings.columns);
 
                 //north
-                if (walls[0]) {
+                if (walls[0] && row !=0 ) {
                     var yLineTo = (y + height / settings.rows);
                     var xLineTo = (x + width / settings.columns);
                     pathCount++;
-                    paths["p" + pathCount] = {
+                    innerPaths["p" + pathCount] = {
+                        type: 'line',
+                        x1: x, y1: y,
+                        x2: xLineTo, y2: y
+                    };
+                } else if (walls[0] && row == 0){
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+                    borderPathCount++;
+                    borderPaths["p" + borderPathCount] = {
                         type: 'line',
                         x1: x, y1: y,
                         x2: xLineTo, y2: y
                     };
                 }
 
+
                 //east
-                if (walls[1]) {
+                if (walls[1] && col != settings.columns-1) {
                     var yLineTo = (y + height / settings.rows);
                     var xLineTo = (x + width / settings.columns);
 
                     pathCount++;
-                    paths["p" + pathCount] = {
+                    innerPaths["p" + pathCount] = {
+                        type: 'line',
+                        x1: xLineTo, y1: y,
+                        x2: xLineTo, y2: yLineTo
+                    };
+                } else if (walls[1] && col == settings.columns - 1) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+
+                    borderPathCount++;
+                    borderPaths["p" + borderPathCount] = {
                         type: 'line',
                         x1: xLineTo, y1: y,
                         x2: xLineTo, y2: yLineTo
@@ -684,12 +713,22 @@ function GUI(){
                 }
 
                 //south
-                if (walls[2]) {
+                if (walls[2] && row != settings.rows-1) {
                     var yLineTo = (y + height / settings.rows);
                     var xLineTo = (x + width / settings.columns);
 
                     pathCount++;
-                    paths["p" + pathCount] = {
+                    innerPaths["p" + pathCount] = {
+                        type: 'line',
+                        x1: x, y1: yLineTo,
+                        x2: xLineTo, y2: yLineTo
+                    };
+                } else if (walls[2] && row == settings.rows - 1) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+
+                    borderPathCount++;
+                    borderPaths["p" + borderPathCount] = {
                         type: 'line',
                         x1: x, y1: yLineTo,
                         x2: xLineTo, y2: yLineTo
@@ -697,23 +736,34 @@ function GUI(){
                 }
 
                 //west
-                if (walls[3]) {
+                if (walls[3] && col != 0) {
                     var yLineTo = (y + height / settings.rows);
                     var xLineTo = (x + width / settings.columns);
 
                     pathCount++;
-                    paths["p" + pathCount] = {
+                    innerPaths["p" + pathCount] = {
                         type: 'line',
                         x1: x, y1: y,
                         x2: x, y2: yLineTo
                     };
 
+                } else if (walls[3] && col == 0) {
+                    var yLineTo = (y + height / settings.rows);
+                    var xLineTo = (x + width / settings.columns);
+
+                    borderPathCount++;
+                    borderPaths["p" + borderPathCount] = {
+                        type: 'line',
+                        x1: x, y1: y,
+                        x2: x, y2: yLineTo
+                    };
                 }
                 
             }
         }
 
-		gameArea.canvas.drawPath(paths);
+        gameArea.canvas.drawPath(innerPaths);
+        gameArea.canvas.drawPath(borderPaths);
 	}
 
 
