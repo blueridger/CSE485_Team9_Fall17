@@ -58,8 +58,8 @@ def render(type, r, l, t, sX, sY):
 
 	return output[type]
 
-x_cells = 2
-y_cells = 2
+x_cells = 7
+y_cells = 7
 
 battery = [x_cells-1, y_cells-1]
 robot = [0,0]
@@ -73,11 +73,12 @@ SQUARE_FILL_COL = "#e2e2e2"
 ROBOT_FILL_COL = "#f28e24"
 BATTERY_FILL_COL = "#1d84e5"
 
+menuHeight = 70
 r = 10
 l = 100
 t = 10
-sX = 10
-sY = 10
+sX = 11 + menuHeight
+sY = 12 
 
 
 
@@ -90,9 +91,10 @@ horizBorderBottom = (sX, sY, sX+t, sY-r, sX+l-t, sY-r, sX+l, sY)
 vertBorderRight = (sX, sY, sX-r, sY+t, sX-r, sY+l-t, sX, sY+l)
 horizBorderTop = (sX, sY, sX+t, sY+r, sX+l-t, sY+r, sX+l, sY)
 
+windowSize = [x_cells*l+r+r+menuHeight, y_cells*l+r+r]
 
 root = Tk()
-canv = Canvas(root, width=x_cells*l, height=y_cells*l, background="#ededed")
+canv = Canvas(root, width=windowSize[0], height=windowSize[1], background=SQUARE_FILL_COL)
 
 items = {}
 itemsIndexes = {}
