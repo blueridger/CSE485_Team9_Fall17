@@ -48,7 +48,7 @@ function GUI(){
 		rows: 3,
 		width: 500,
 		height: 495,
-    wallWidth: 7,
+		wallWidth: 10,
 		robotStart: [0,0],
 		batteryStart : [0,0],
 		robotDirection: Map.EAST,
