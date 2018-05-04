@@ -130,7 +130,7 @@ function GUI(){
             setTimeout(function () {
                 displaySimpleModal({
                     title: "Level " + (levelNumber - 1) + " Cleared!",
-                    message: "Congratulations! Level Score: " + acquiredLevelScore + ".",
+                    message: "Congratulations! You beat the level!<br/>Level Score: " + acquiredLevelScore + ".",
                     messageImg: robotImages.win
                 });
             }, 500);
@@ -237,8 +237,8 @@ function GUI(){
 		            break;
 		    }
 
-		    robot.row = robot.y / moveAmtY;
-		    robot.col = robot.x / moveAmtX;
+		    robot.row = Math.round(robot.y / moveAmtY);
+		    robot.col = Math.round(robot.x / moveAmtX);
 		    this.updateGame();
 		}
 	}
@@ -272,8 +272,8 @@ function GUI(){
 		            break;
 		    }
 
-		    robot.row = robot.y / moveAmtY;
-		    robot.col = robot.x / moveAmtX;
+		    robot.row = Math.round(robot.y / moveAmtY);
+		    robot.col = Math.round(robot.x / moveAmtX);
 
 		    this.updateGame();
 		}
@@ -357,20 +357,22 @@ function GUI(){
 
 		updateAria: function () {
 		    //Provide a text desciption of what is on the canvas
-		    var direction = ["north", "east", "south", "west"];
+
+		    /*var direction = ["north", "east", "south", "west"];
 
 		    
 
-                var robotInfo = $("<p></p>");
-                robotInfo.append("The Robot is in row " + (+robot.row + 1) + " column " + (robot.col + 1) + " facing " + direction[robot.facing] + ".");
+            var robotInfo = $("<p></p>");
+            robotInfo.append("The Robot is in row " + (+robot.row + 1) + " column " + (robot.col + 1) + " facing " + direction[robot.facing] + ".");
 
+            debug(robot.row + " " + robot.col);
 		    var walls = gameMap.getTile([robot.row, robot.col]).getWalls();
 
 		    var isFirst = true;
 
 		    var wallText = "There are walls ";
 
-		    for (var i = 0; i < 4; i++) {
+		    for (var i = 0; i < 4; i++) { 
 		        if (walls[i]) {
 		            if (!isFirst) {
 		                wallText += ",";
@@ -389,7 +391,7 @@ function GUI(){
 		    gameArea.canvas.append("<h2>Map Size</h2>")
                 .append("<p>The map is " + settings.rows + " rows by " + settings.columns + " columns</p>")
                 .append("<h2>Game Play</h2>")
-                .append(robotInfo);
+                .append(robotInfo);*/
 
 		}
 	}
@@ -441,8 +443,8 @@ function GUI(){
 		this.y = y;
 		this.facing = facing;
 		this.rotation = facing * 90;
-		this.row = y/height;
-		this.col = x / width;
+		this.row = settings.robotStart[0];
+		this.col = settings.robotStart[1];
 		this.img = new Image();
 		var parent = this;
 
@@ -621,8 +623,7 @@ function GUI(){
 	            
 	            var tile = gameMap.getTile([row, col]);
 
-	            if(tile.containsPlayer())
-	            {
+	            if(tile.containsPlayer()){
 	                settings.robotStart = [row,col];
 	            }
 	            
