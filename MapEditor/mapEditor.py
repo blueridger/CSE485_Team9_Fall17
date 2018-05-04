@@ -17,8 +17,14 @@ def onLeftDoubleClick(event):
 	item = event.widget.find_closest(event.x, event.y)[0]
 	print (item)
 	print (itemsIndexes[item])
+
 	previousRobotItem = items[(robot[0],robot[1],'s')]
-	canv.itemconfig(previousRobotItem, fill=SQUARE_FILL_COL)
+	if robot == battery:
+		previousFill = BATTERY_FILL_COL
+	else:
+		previousFill = SQUARE_FILL_COL
+
+	canv.itemconfig(previousRobotItem, fill=previousFill)
 	canv.itemconfig(item, fill=ROBOT_FILL_COL)
 	robot[0] = itemsIndexes[item][0]
 	robot[1] = itemsIndexes[item][1]
@@ -29,7 +35,13 @@ def onRightDoubleClick(event):
 	print (item, "eke")
 	print (itemsIndexes[item])
 	previousBatteryItem = items[(battery[0],battery[1],'s')]
-	canv.itemconfig(previousBatteryItem, fill=SQUARE_FILL_COL)
+
+	if robot == battery:
+		previousFill = ROBOT_FILL_COL
+	else:
+		previousFill = SQUARE_FILL_COL
+
+	canv.itemconfig(previousBatteryItem, fill=previousFill)
 	canv.itemconfig(item, fill=BATTERY_FILL_COL)
 	battery[0] = itemsIndexes[item][0]
 	battery[1] = itemsIndexes[item][1]
@@ -46,8 +58,8 @@ def render(type, r, l, t, sX, sY):
 
 	return output[type]
 
-x_cells = 4
-y_cells = 3
+x_cells = 2
+y_cells = 2
 
 battery = [x_cells-1, y_cells-1]
 robot = [0,0]
@@ -127,20 +139,22 @@ sY_temp = sY + r
 for y in range(0, y_cells):
 	sX_temp = sX + r
 	for x in range(0, x_cells):
-		if (x, y) == battery:
+		if [x, y] == battery:
 			print("uhhhhhhh")
 			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=BATTERY_FILL_COL, outline='')
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
 			
-		elif (x, y) == robot:
+		elif [x, y] == robot:
 			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=ROBOT_FILL_COL, outline='')
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
 
 		else:
+			print battery
+			print (x,y)
 			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=SQUARE_FILL_COL, outline='')
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
@@ -148,6 +162,9 @@ for y in range(0, y_cells):
 		
 		sX_temp += l
 	sY_temp += l
+
+
+# call 
 
 
 #photo = PhotoImage(file = './pl-robot-animate.gif')
