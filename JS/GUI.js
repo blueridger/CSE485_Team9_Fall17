@@ -357,7 +357,40 @@ function GUI(){
 
 		updateAria: function () {
 		    //Provide a text desciption of what is on the canvas
-		    gameArea.canvas.html();
+		    var direction = ["north", "east", "south", "west"];
+
+		    
+
+                var robotInfo = $("<p></p>");
+                robotInfo.append("The Robot is in row " + (+robot.row + 1) + " column " + (robot.col + 1) + " facing " + direction[robot.facing] + ".");
+
+		    var walls = gameMap.getTile([robot.row, robot.col]).getWalls();
+
+		    var isFirst = true;
+
+		    var wallText = "There are walls ";
+
+		    for (var i = 0; i < 4; i++) {
+		        if (walls[i]) {
+		            if (!isFirst) {
+		                wallText += ",";
+		            }
+		            wallText += " " + direction[i];
+
+		            isFirst = false;
+		        }
+		    }
+
+		    robotInfo.append(wallText + ".");
+
+            //Clear Curren info
+		    gameArea.canvas.html("");
+
+		    gameArea.canvas.append("<h2>Map Size</h2>")
+                .append("<p>The map is " + settings.rows + " rows by " + settings.columns + " columns</p>")
+                .append("<h2>Game Play</h2>")
+                .append(robotInfo);
+
 		}
 	}
 
