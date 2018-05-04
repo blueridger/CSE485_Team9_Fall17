@@ -109,6 +109,8 @@ function GUI(){
 	    if (typeof GAME_ENGINE != 'undefined') {
 	        robot.update(GAME_ENGINE.getPlayInterval());
 	    }
+
+	    gameArea.updateAria();
 	}
 
     //Called When the level is won
@@ -339,6 +341,7 @@ function GUI(){
 
 	//Private methods
  
+
     //The object that holds the game canvas as well as the intit (Start) function
     //   The start draws the grid and map
 	gameArea = {
@@ -350,6 +353,11 @@ function GUI(){
             gameArea.canvas.clearCanvas();
             drawGrid();
             drawMap();
+		},
+
+		updateAria: function () {
+            //Provide a text desciption of what is on the canvas
+		    gameArea.canvas.html();
 		}
 	}
 
