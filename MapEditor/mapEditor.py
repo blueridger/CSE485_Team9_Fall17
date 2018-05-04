@@ -131,19 +131,19 @@ for y in range(0, y_cells):
 			print("uhhhhhhh")
 			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=BATTERY_FILL_COL, outline='')
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
-			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-2>', onRightDoubleClick)
+			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
 			
 		elif (x, y) == robot:
 			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=ROBOT_FILL_COL, outline='')
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
-			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-2>', onRightDoubleClick)
+			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
 
 		else:
 			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=SQUARE_FILL_COL, outline='')
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
-			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-2>', onRightDoubleClick)
+			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
 		
 		sX_temp += l
