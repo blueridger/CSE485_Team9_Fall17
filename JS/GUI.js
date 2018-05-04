@@ -356,7 +356,7 @@ function GUI(){
 		},
 
 		updateAria: function () {
-            //Provide a text desciption of what is on the canvas
+		    //Provide a text desciption of what is on the canvas
 		    gameArea.canvas.html();
 		}
 	}
