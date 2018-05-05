@@ -22,7 +22,7 @@ File properties:
  - height: height of map (number of tiles)
  - verticalWalls: a boolean array representing the vertical walls, not including the outside border walls, where true is a present wall. Walls are read left to right, in rows top to bottom.
  - horizontalWalls: a boolean array representing the horizontal walls, not including the outside border walls, where true is a present wall. Walls are read left to right, in rows top to bottom.
- - playerPosition: array containing the initial x (horizontal) and y (vertical) position of the robot
+ - playerPosition: array containing the initial x (horizontal, left to right) and y (vertical, top to bottom) position of the robot, where [0,0] is the top left corner of the map.
  - playerDirection: initial direction of the player, where 0 is North, 1 is East, etc.
  - batteryPosition: initial position of the battery, stored like that of the player.
  - batterySize: number of actions/checks allowed by the robot before the battery dies and the level is lost.
