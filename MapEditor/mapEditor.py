@@ -1,4 +1,5 @@
 from Tkinter import * 
+from PIL import ImageTk, Image
 from time import sleep
 
 def onMouseClick(event):
@@ -18,6 +19,8 @@ def onLeftDoubleClick(event):
 	print (item)
 	print (itemsIndexes[item])
 
+	prevRobotCoords = (robot[0],robot[1])
+	
 	previousRobotItem = items[(robot[0],robot[1],'s')]
 	if robot == battery:
 		previousFill = BATTERY_FILL_COL
@@ -29,11 +32,17 @@ def onLeftDoubleClick(event):
 	robot[0] = itemsIndexes[item][0]
 	robot[1] = itemsIndexes[item][1]
 
+	robotImageTranslation = l*(robot[0]-prevRobotCoords[0]), l*(robot[1]-prevRobotCoords[1])
+	canv.move('robotImage', robotImageTranslation[0], robotImageTranslation[1])
+
 
 def onRightDoubleClick(event):
 	item = event.widget.find_closest(event.x, event.y)[0]
 	print (item, "eke")
 	print (itemsIndexes[item])
+
+	prevBatteryCoords = (battery[0],battery[1])
+
 	previousBatteryItem = items[(battery[0],battery[1],'s')]
 
 	if robot == battery:
@@ -45,6 +54,9 @@ def onRightDoubleClick(event):
 	canv.itemconfig(item, fill=BATTERY_FILL_COL)
 	battery[0] = itemsIndexes[item][0]
 	battery[1] = itemsIndexes[item][1]
+
+	batteryImageTranslation = l*(battery[0]-prevBatteryCoords[0]), l*(battery[1]-prevBatteryCoords[1])
+	canv.move('batteryImage', batteryImageTranslation[0], batteryImageTranslation[1])
 
 
 
@@ -62,12 +74,12 @@ x_cells = 7
 y_cells = 7
 
 battery = [x_cells-1, y_cells-1]
-robot = [0,0]
+robot = [1,1]
 
 
 BORD_FILL_COL = "#5e5e5e"
 BORD_LINE_COL = "#383838"
-WALL_OFF_COL = "#a4adc1"
+WALL_OFF_COL = "#e2e2e2"
 WALL_ON_COL = "#1b4263"
 SQUARE_FILL_COL = "#e2e2e2"
 ROBOT_FILL_COL = "#f28e24"
@@ -128,7 +140,7 @@ for y in range(0, y_cells):
 		elif x == x_cells:
 			canv.create_polygon(render("vBordR",r,l,t,sX_temp,sY_temp), fill=BORD_FILL_COL, outline=BORD_LINE_COL)
 		else:
-			items[(x,y,'v')] = canv.create_polygon(render("vAct",r,l,t,sX_temp,sY_temp), fill=WALL_OFF_COL)
+			items[(x,y,'v')] = canv.create_polygon(render("vAct",r,l,t,sX_temp,sY_temp), fill=WALL_OFF_COL, outline=BORD_LINE_COL)
 			itemsIndexes[ items[(x,y,'v')] ] = [x,y,'v',False]
 			canv.tag_bind( items[(x,y,'v')] , '<Button-1>', onMouseClick)
 
@@ -142,14 +154,13 @@ for y in range(0, y_cells):
 	sX_temp = sX + r
 	for x in range(0, x_cells):
 		if [x, y] == battery:
-			print("uhhhhhhh")
-			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=BATTERY_FILL_COL, outline='')
+			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=BATTERY_FILL_COL, outline=BORD_LINE_COL)
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
 			
 		elif [x, y] == robot:
-			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=ROBOT_FILL_COL, outline='')
+			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=ROBOT_FILL_COL, outline=BORD_LINE_COL)
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
@@ -157,7 +168,7 @@ for y in range(0, y_cells):
 		else:
 			print battery
 			print (x,y)
-			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=SQUARE_FILL_COL, outline='')
+			items[(x,y,'s')] = canv.create_rectangle(sX_temp, sY_temp, sX_temp+l-r-r, sY_temp+l-r-r, fill=SQUARE_FILL_COL, outline=BORD_LINE_COL)
 			itemsIndexes[ items[(x,y,'s')] ] = [x,y,'s']
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-3>', onRightDoubleClick)
 			canv.tag_bind( items[(x,y,'s')] , '<Double-Button-1>', onLeftDoubleClick)
@@ -166,17 +177,20 @@ for y in range(0, y_cells):
 	sY_temp += l
 
 
-# call 
+# place robot image
+robotImageCoords = sX + l*robot[0]+16, sY + l*robot[1]+16
+robotImage = Image.open('small-robot.png')
+robotImage = robotImage.resize( (70,70), Image.ANTIALIAS)
+robotImage = ImageTk.PhotoImage(robotImage)
+canv.create_image(robotImageCoords, image=robotImage, anchor=NW, tags='robotImage')
+
+# place robot image
+batteryImageCoords = sX + l*battery[0]+21, sY + l*battery[1]+20
+batteryImage = Image.open('battery.png')
+batteryImage = batteryImage.resize( (60,60), Image.ANTIALIAS)
+batteryImage = ImageTk.PhotoImage(batteryImage)
+canv.create_image(batteryImageCoords, image=batteryImage, anchor=NW, tags='batteryImage')
 
 
-#photo = PhotoImage(file = './pl-robot-animate.gif')
-
-#canv.create_image(0,0, image=photo)
-
-
-#canv.create_polygon(vertActive, fill="blue")
-#canv.create_polygon(horizBorderTop, fill="blue")
-
-#canv.tag_bind('obj2Tag', '<ButtonPress-1>', onObjectClick)   
 canv.pack()
 root.mainloop()
