@@ -21,7 +21,8 @@ function GameEngine(settings) {
   var isPlaying = false;
   var playInterval;
   var userSelectedPlayInterval;
-  var MILLISECOND_INTERVAL = [ 2000, 1000, 500, 150 ]
+  var MILLISECOND_INTERVAL = [ 2000, 1000, 500, 150 ];
+  var buttonsEnabled = true;
   
   var score = 0;
   var level = 1;
@@ -82,21 +83,23 @@ function GameEngine(settings) {
   function checkGameState() {
     debug("GameEng.checkGameState called.");
     if (map.isWin()) {
+      buttonsEnabled = false;
       debug("Level won.");
-      pause();
       var levelScore = getLevelScore();
       score += levelScore;
       var isEndGame = level == numLevels;
       level++;
-      setTimeout( function() {
-        gui.winLevel(levelScore, score, level, isEndGame, level - lastLevelModified);
+      setTimeout(function() {
+        gui.winLevel(levelScore, score, level, isEndGame, level - lastLevelModified - 1);
         if (!isEndGame) {
           gui.setLevelScore(getLevelScore());
           getMap();
         }
-      }, playInterval * 1.3);
+      }, playInterval);
+      pause();
       return true;
     } else if (map.isDead()) {
+      buttonsEnabled = false;
       debug("Battery DEAD.");
       pause();
       gui.loseLevel(true);
@@ -159,11 +162,13 @@ function GameEngine(settings) {
     }
   }
   this.step = function() {
+    if (!buttonsEnabled) return;
     debug("GameEng.step() called publicly.");
     step();
   }
   
   this.play = function() {
+    if (!buttonsEnabled) return;
     debug("GameEng.play() called.");
     if (!isPlaying) {
       arrangeButtons(false); //defined in index.html
@@ -181,7 +186,9 @@ function GameEngine(settings) {
     arrangeButtons(true); //defined in index.html
     playInterval = MILLISECOND_INTERVAL[MILLISECOND_INTERVAL.length - 1];
   }
-  this.pause = pause;
+  this.pause = function() {
+    if (buttonsEnabled) pause();
+  };
 
   function resetLevel(isReset) {
     debug("GameEng.resetLevel() called.");
@@ -189,6 +196,7 @@ function GameEngine(settings) {
     map.resetLevel();
     gui.setup(map,isReset);
     removeInterpreter();
+    buttonsEnabled = true;
   }
   this.resetLevel = resetLevel;
   

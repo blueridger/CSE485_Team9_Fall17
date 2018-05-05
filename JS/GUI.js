@@ -129,9 +129,14 @@ function GUI(){
         if (!isEndGame)
         {
             setTimeout(function () {
+              var modifier = Math.pow(2, numUneditedLevels);
+              var message = "Congratulations!<br/> " + acquiredLevelScore + " points earned this level.<br/><br/>Your total score is now: " + gameScore + ". Nice work!";
+              if (modifier > 1) message = "Congratulations!<br/> " + acquiredLevelScore/modifier + " base points earned this level.<br/>x"
+              + modifier + " multiplier for going " + numUneditedLevels + " level" + (numUneditedLevels > 1 ? "s" : "") + " without editing your solution.<br/>=" + acquiredLevelScore
+              + " total points earned this level!<br/><br/>Your total score is now: " + gameScore + ". Nice work!";
                 displaySimpleModal({
-                    title: "Level " + (levelNumber - 1) + " Cleared!",
-                    message: "Congratulations! You beat the level!<br/>Level Score: " + acquiredLevelScore + ".",
+                    title: "Level " + (levelNumber - 1) + " cleared!",
+                    message: message,
                     messageImg: robotImages.win
                 });
             }, 500);
@@ -142,11 +147,11 @@ function GUI(){
             gameArea.canvas.css("position", "relative");
 
 
-            //Adds click events to the overlay and the canvas element for the "CLick Anywhere"
+            //Adds click events to the overlay and the canvas element for the "Click Anywhere"
             gameArea.canvas.click(function () {
                 displaySimpleModal({
                     title: "You Beat The Game!",
-                    message: "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore,
+                    message: "Congratulations! You are a master Maze Runner! </b> Your final score is " + gameScore,
                     buttonMsg: "Reset Game",
                     messageImg: robotImages.win
                 });
@@ -155,7 +160,7 @@ function GUI(){
             $("#overlay").click(function () {
                 displaySimpleModal({
                     title: "You Beat The Game!",
-                    message: "Congratulations! You are a master Maze Runner! </b> Your High Score is " + gameScore,
+                    message: "Congratulations! You are a master Maze Runner! </b> Your final score is " + gameScore,
                     buttonMsg: "Reset Game",
                     messageImg: robotImages.win
                 });
