@@ -7,7 +7,7 @@ function InitializeGame() {
     //mapSource expects array of string relative paths to use for map loading, will randomly generate map if null.
     //mapSource: ["Maps/TestSet/ExampleMap.json"],
     mapSource: null, 
-    numberOfLevels: 6 //only used if mapSource is null
+    numberOfLevels: 3 //only used if mapSource is null
   }
   blocklyCustomSettings = {
     enableWhile: false,
