@@ -1,4 +1,5 @@
-from Tkinter import * 
+from Tkinter import *
+import Tkinter, Tkconstants, tkFileDialog
 from PIL import ImageTk, Image
 from time import sleep
 import json
@@ -10,9 +11,9 @@ def onMouseClick(event):
 	if (itemsIndexes[item])[3] == False:
 		canv.itemconfig(item, fill=WALL_ON_COL)
 		itemsIndexes[item][3] = True
-   	else:
-   		canv.itemconfig(item, fill=WALL_OFF_COL)
-   		itemsIndexes[item][3] = False
+	else:
+		canv.itemconfig(item, fill=WALL_OFF_COL)
+		itemsIndexes[item][3] = False
 
 
 def onLeftDoubleClick(event):
@@ -60,12 +61,35 @@ def onRightDoubleClick(event):
 	canv.move('batteryImage', batteryImageTranslation[0], batteryImageTranslation[1])
 
 
+def graphicFormula(type, r, l, t, sX, sY):
+	output = {"vAct" : (sX, sY, sX+r, sY+t, sX+r, sY+l-t, sX, sY+l, sX-r, sY+l-t, sX-r, sY+t),
+				"hAct" : (sX, sY, sX+t, sY-r, sX+l-t, sY-r, sX+l, sY, sX+l-t, sY+r, sX+t, sY+r),
+				"vBordL" : (sX, sY, sX+r, sY+t, sX+r, sY+l-t, sX, sY+l), 
+				"hBordB" : (sX, sY, sX+t, sY-r, sX+l-t, sY-r, sX+l, sY), 
+				"vBordR" : (sX, sY, sX-r, sY+t, sX-r, sY+l-t, sX, sY+l),
+				"hBordT" : (sX, sY, sX+t, sY+r, sX+l-t, sY+r, sX+l, sY)}
+
+	return output[type]
+
+
 def onLoadButtonClick(event):
 	items.clear()
 	itemsIndexes.clear()
 	canv.delete("all")
 
-	loadFromFile()
+	root.filename = None
+	while root.filename is None:
+		try:
+			# connect
+			root.filename = tkFileDialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("JSON files","*.json"),("all files","*.*")))
+			loadFromFile(root.filename)
+		except:
+			root.filename = None
+			pass
+
+
+
+	
 	beet = mapData[0]["width"]
 	yeet = mapData[0]["height"]
 	print mapData[0]["playerPosition"][0]
@@ -78,19 +102,8 @@ def onLoadButtonClick(event):
 	renderBoard(canv, beet, yeet)
 
 
-def graphicFormula(type, r, l, t, sX, sY):
-	output = {"vAct" : (sX, sY, sX+r, sY+t, sX+r, sY+l-t, sX, sY+l, sX-r, sY+l-t, sX-r, sY+t),
-				"hAct" : (sX, sY, sX+t, sY-r, sX+l-t, sY-r, sX+l, sY, sX+l-t, sY+r, sX+t, sY+r),
-				"vBordL" : (sX, sY, sX+r, sY+t, sX+r, sY+l-t, sX, sY+l), 
-				"hBordB" : (sX, sY, sX+t, sY-r, sX+l-t, sY-r, sX+l, sY), 
-				"vBordR" : (sX, sY, sX-r, sY+t, sX-r, sY+l-t, sX, sY+l),
-				"hBordT" : (sX, sY, sX+t, sY+r, sX+l-t, sY+r, sX+l, sY)}
-
-	return output[type]
-
-
-def loadFromFile():
-	with open('ExampleMap.json') as f:
+def loadFromFile(path):
+	with open(path) as f:
 		mapData[0] = json.load(f)
 
 
